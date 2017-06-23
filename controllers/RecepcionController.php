@@ -1,0 +1,269 @@
+<?php
+
+  Session::logged();
+
+  class RecepcionController {
+  	
+	public function __construct() {
+  		$this->name= "recepcion";
+  		$this->title ="Recepción";
+  		$this->subtitle= "Bitácora";      
+  		$this->model=[  
+        'empresa'=> new Empresa(),
+        'planta' => new Planta(),        
+        'usuario'=> new Usuario(),
+        'acreditacion'=> new Acreditacion(),
+        'tipocalibracion'=> new Tipocalibracion(),
+        'po'=> new PO(),
+        'hojaentradaaux'=> new HojaEntradaAux(),
+        'hojaentrada'=> new HojaEntrada(),
+        'informes'=> new Informes(),
+        'equipo'=> new Equipo(),
+  		 'sucursal' => new Sucursal(),
+      ];
+      $this->ext=$this->model['sucursal']->extension();  
+	}
+
+	public function index (){
+    //?c=recepcion&a=index&p=2  
+    if (isset($_GET['p'])) {
+      $id=$_GET['p'];
+      $view_informes="view_informes". $this->ext;      
+       $data['get']=$this->model['informes']->get_recepcion($id, $view_informes); 
+      $data['planta']= $this->model['planta']->find_by(['empresas_id'=>$data['get'][0]['empresas_id']]);      
+      // var_dump($data['get']);  
+      // exit;        
+    }
+    else{   
+    $data ['get']=array(array(
+      'id' => '', 'idequipo' => '', 'alias' => '', 'empresas_id' => '', 'plantas_id' => '', 'periodo_calibracion' => '', 'acreditaciones_id' => '',
+      'usuarios_calibracion_id' => '', 'calibraciones_id' => '', 'prioridad' => '', 'comentarios' => '', 'po_id' => '', 'cantidad' => '',
+      'hojas_entrada_id' => '', 'usuarios_id' => '', 'fecha' => '', 'proceso' => '',
+      ));     
+    }
+    $sucursal=strtolower(Session::get('sucursal'));
+
+      $data['empresa']=$this->model['empresa']->all();   
+      
+      //se hara la modificación para hermosillo y para guaymas que todos los tecnicos puedan estar en hoja de entrada
+      if($sucursal != 'nogales'){
+        $data['tecnico']= $this->model['usuario']->find_by(['plantas_id'=>Session::get('plantas_id'),'activo'=>'1']); 
+        $data['registradopor']= $this->model['usuario']->find_by(['activo'=>'1','plantas_id'=>Session::get('plantas_id')]);
+      }
+      else{
+        $data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'plantas_id'=>Session::get('plantas_id'),'activo'=>'1']); 
+        $data['registradopor']= $this->model['usuario']->find_by(['activo'=>'1','roles_id'=>'10006','plantas_id'=>Session::get('plantas_id')]);
+      }      
+      $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']);
+      $data['tipocalibracion']=$this->model['tipocalibracion']->all(); 
+      //usuarios predefinidos para la hoja de entrada dependiendo la sucursal
+      if( $sucursal == 'nogales'){ $data['get'][0]['usuarios_id']='113';}
+      if( $sucursal == 'hermosillo'){ $data['get'][0]['usuarios_id']='845';}
+      if( $sucursal == 'guaymas'){ $data['get'][0]['usuarios_id']='857';}
+      
+  	include view($this->name.'.read');
+	}
+
+	public function volumen() {  		
+  		include view($this->name.'.volumen');
+	}
+ //Update la bitacora 
+
+  public function store() {
+ //existe esta variables auxiliar que es un radio y esta en la tabla de historial, pero tomo el valor del número de informe del campo informe, entonces cuando hay datos en la tabla y tambien en el campo informe, no me sirve el id_aux.
+  if (isset($_POST['id_aux'])) {unset($_POST['id_aux']);}
+        $data = validate($_POST, [
+            'id' => 'required|toInt',
+            'equipos_id' => 'required|toInt',
+            'plantas_id' => 'required|toInt',          
+            'periodo_calibracion' => 'required|toInt',
+            'acreditaciones_id' => 'required|toInt',
+            'usuarios_calibracion_id' => 'required|toInt',
+            'calibraciones_id' => 'required|toInt',
+            'po_id' =>'required|trimlower',
+            'cantidad' =>'required|toInt',
+            'hojas_entrada_id' =>'required',
+            'usuarios_id' =>'required|toInt',
+            'fecha' =>'fecha',
+            'prioridad' => 'required|toInt',                          
+            'comentarios' => 'trimlower',
+            'proceso' => 'toInt',
+        ]);
+        if ($data['proceso'] === 0) {
+          $data['proceso'] = intval('1');
+        }
+
+        $hoy = date("Y-m-d H:i:s");
+        $data['fecha_inicio'] = $hoy;
+        //$data['usuarios_captura0_id'] = intval(Session::get('id')); 
+       
+        $hojaentrada_sucursal="view_hojas_entrada_aux".$this->ext;        
+
+        $po_id = $data['po_id']; unset($data['po_id']);        
+        $cantidad = $data['cantidad']; unset($data['cantidad']);
+        //existe p.o
+         if ($this->model['po']->find_by(['id' => $po_id])) {
+           //si existe - update                 
+            if($this->model['po']->update(['id'=> $po_id ,'cantidad'=>$cantidad])) {                
+                $data['po_id']=$po_id;                            
+            } else {              
+              Flash::error(setError('002'));
+            }
+         }         
+         //si no ; insert y asignar id de po
+         else {
+            if ($this->model['po']->store(['id'=> $po_id,'cantidad'=>$cantidad])) {                 
+                  $data['po_id']=$po_id; 
+                  Logs::this("Agregar", "Se agrego el PO".$data['po_id']);
+                } else {                  
+                  Flash::error(setError('002'));
+                }
+          }  
+
+
+        $hojas_entrada_id = $data['hojas_entrada_id']; unset($data['hojas_entrada_id']);
+        $usuarios_id = $data['usuarios_id']; unset($data['usuarios_id']);
+        $fecha = $data['fecha']; unset($data['fecha']);       
+        //existe hoja entrada auxiliar
+         if ($this->model['hojaentradaaux']->find_by(['numero_hoja' => $hojas_entrada_id,'usuarios_id'=> $usuarios_id,'fecha'=>$fecha],$hojaentrada_sucursal)) {          
+               $id_hoja_entrada = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $hojas_entrada_id,'usuarios_id'=> $usuarios_id,'fecha'=>$fecha],$hojaentrada_sucursal);
+
+               $id_hoja_aux= $id_hoja_entrada[0]['id']; 
+
+              //si existe update 
+              if ($this->model['hojaentradaaux']->update(['id'=> $id_hoja_aux,'hojas_entrada_id'=>$id_hoja_entrada[0]['hojas_entrada_id'], 'usuarios_id' =>$usuarios_id,'fecha'=>$fecha])) {                                  
+                   $data['hojas_entrada_aux_id']=intval($id_hoja_aux);
+                  } else {                   
+                     Flash::error(setError('002'));
+                  }
+          }
+          // no  existe en la tabla auxiliar
+          else {
+            // Pregunta si existe el numero de hoja de entrada, si existe se inserta a la tabla auxiliar, si no se agregara todo desde cero. 
+            if ($this->model['hojaentrada']->find_by(['numero' => $hojas_entrada_id])) {
+               $id_hoja_entrada =$this->model['hojaentrada']->find_by(['numero' => $hojas_entrada_id]);              
+                    //insertar hoja_auxiliar y select id hoja entrada aux
+                    if($this->model['hojaentradaaux']->store(['hojas_entrada_id'=>$id_hoja_entrada[0]['id'], 'usuarios_id' =>$usuarios_id,'fecha'=>$fecha])){
+                      $id_hoja_entrada_aux = $this->model['hojaentradaaux']->find_by(['hojas_entrada_id' => $id_hoja_entrada[0]['id']],$hojaentrada_sucursal);
+                      $id_hoja_aux= $id_hoja_entrada_aux[0]['id'];                       
+                     $data['hojas_entrada_aux_id']=intval($id_hoja_aux);
+                     Logs::this("Agregar", "Se agrego la hoja de entrada". $id_hoja_aux);                    
+                    }
+                    else {
+                      Flash::error(setError('002'));
+                    }
+            }
+            //No se encontro en la tabla hoja de entrada, se insertara en hoja de entrada y se asignara en la tabla auxiliar.
+            else{
+                if ($this->model['hojaentrada']->store(['numero'=>$hojas_entrada_id])) {
+                    $id_hoja_entrada =$this->model['hojaentrada']->find_by(['numero' => $hojas_entrada_id]);
+                    //insertar hoja_auxiliar y select id hoja entrada aux
+                    if($this->model['hojaentradaaux']->store(['hojas_entrada_id'=>$id_hoja_entrada[0]['id'], 'usuarios_id' =>$usuarios_id,'fecha'=>$fecha])){
+                      $id_hoja_entrada_aux = $this->model['hojaentradaaux']->find_by(['hojas_entrada_id' => $id_hoja_entrada[0]['id']],$hojaentrada_sucursal);
+                      $id_hoja_aux= $id_hoja_entrada_aux[0]['id'];                      
+                      $data['hojas_entrada_aux_id']=intval($id_hoja_aux);
+                       Logs::this("Agregar", "Se agrego la hoja de entrada". $id_hoja_aux);
+                    }
+                    else {
+                      Flash::error(setError('002'));
+                    }
+                }            
+                else {
+                 Flash::error(setError('002'));
+                }
+            }            
+          }          
+                  
+          if (strlen($data['hojas_entrada_aux_id'])> 0 && strlen($data['po_id'])>0) {
+             //si se agrego correctamente hoja de entrada y PO entonces se hara update sobre la tabla informes de los datos pendientes.                
+             if ($this->model['informes']->update($data))  {
+            // direccionarlo al siguiente proceso                                     
+              if ($data['proceso'] == 1) {
+                Logs::this("Captura datos de recepción", "Recepción del equipo, cliente y datos de calibración del informe: ".$data['id']); 
+                redirect('?c=recepcion');
+               // redirect('?c=calibracion&a=index&p='.$data['id']);
+              }
+              else if($data['proceso'] == 2) {
+              Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de salida. Informe: ".$data['id']);              
+                redirect('?c=salida&a=index&p='.$data['id']);
+              }
+              else if ($data['proceso'] == 3) {
+                Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de facturación. Informe:".$data['id']);
+                redirect('?c=factura&a=index&p='.$data['id']);
+                } 
+              else if ($data['proceso'] == 4) {
+                redirect('?c=recepcion');
+                Logs::this("Actualización en recepción", "Actualización en recepción, ya se encontraba el informe terminado. Informe:".$data['id']); 
+                } 
+              else{
+                redirect('?c=informes&a=proceso');
+              }
+                   
+            }
+            else {               
+               Flash::error(setError('002'));
+            }  
+          }
+          else{
+            Flash::error(setError('002'));           
+          }           
+  }
+
+  public function ajax_load_generar_informe() {        
+      $hoy = date("Y-m-d H:i:s");
+       $numero= "";      
+      $data=[
+        'fecha_inicio'=> $hoy,        
+        'proceso'=> '0',
+      ];   
+      if ($this->model['informes']->store($data)) {        
+           $numero =$this->model['informes']->numero_informe();  
+          Logs::this("Generar", "Se generó el número de informe: ".json_encode($numero));          
+        } else {
+           $numero ='Erro BD';
+        }
+        echo json_encode($numero);
+    }
+
+  public function ajax_load_ultimo_informe() {                                                
+        echo json_encode($numero=$this->model['informes']->numero_informe());
+  }
+
+
+  public function cookies() {                                                
+        echo json_encode(Session::get('planta'));
+  }
+  
+
+  public function ajax_load_historial() {         
+    $idequipo = $_POST['idequipo']; 
+    $view_informes="view_informes". $this->ext;
+    $data = json_encode($data['informes'] = $this->model['informes']->find_by(['alias' => $idequipo],$view_informes));
+    echo $data;
+    }
+
+    public function ajax_load_equipo() {         
+        $idequipo = $_POST['idequipo'];                    
+         $data = json_encode($data['equipo'] = $this->model['equipo']->find_by(['alias' => $idequipo],'view_equipos'));
+        echo $data;
+    }
+
+    public function ajax_load_plantas() {
+        $idempresa = $_POST['idempresa'];
+        $data = json_encode($data['planta'] = $this->model['planta']->find_by([ 'empresas_id' => $idempresa]));
+        echo $data;
+    }
+
+    public function ajax_load_po() {         
+        $idpo = $_POST['po_id'];       
+        $data = json_encode($data['po'] = $this->model['po']->find_by([ 'id' => $idpo]));
+        echo $data;
+    }
+
+    public function ajax_load_hoja_entrada() {         
+        $numero_hoja = $_POST['hojas_entrada_id'];
+        $view_hojas_entrada="view_hojas_entrada_aux". $this->ext;         
+        $data = json_encode($data['hojaentradaaux'] = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $numero_hoja],$view_hojas_entrada)); 
+        echo $data;
+    }
+ }
