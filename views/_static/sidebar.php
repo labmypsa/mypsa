@@ -32,6 +32,7 @@
                             echo "         
                                 <li><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                 
                                 <li><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Registrar equipo</a></li>
+                                <li><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>
                                 <li><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
                            ";
                         }
