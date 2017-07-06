@@ -29,12 +29,15 @@ class FacturaController {
                 $data['get'][0]['precio']= $data['reget'][0]['precio'];
                 $data['get'][0]['precio_extra']= $data['reget'][0]['precio_extra'];
                 $data['get'][0]['monedas_id']= $data['reget'][0]['monedas_id'];         
-                if ($data['get'][0]['proceso']> 2) {
+                /*Se quito la validación de entrar al modulo, para que funcione la opción agregar factura previa, pero solo va 
+                a ingresar cuando no haya P.O Pendiente*/
+
+                //if ($data['get'][0]['proceso']> 2) {                
                   $data['get'][0]['precio']='0';
                   $data['get'][0]['precio_extra']= '0';
                   include view($this->name.'.read');                  
-                }
-                else{ redirect('?c=informes&a=proceso');}
+                //}
+                //else{ redirect('?c=informes&a=proceso');}
               }    
       }
       else{   

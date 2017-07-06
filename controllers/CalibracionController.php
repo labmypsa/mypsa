@@ -78,7 +78,8 @@ class CalibracionController {
                if ($data['proceso'] === 2) {
                 Logs::this("Captura en calibración", "Se capturo los datos de calibración el informe".$data['id']);
                 $i= substr(Session::get('roles_id'),-1,1); 
-                if($i==6) {redirect('?c=informes&a=calibrar');}
+                //Esta función sirve para denegar el seguimiento a las personas no autorizadas (Técnicos)
+                if($i==3) {redirect('?c=informes&a=calibrar');} // Regreso al técnico a su historial de equipos,
                 else{redirect('?c=salida&a=index&p='.$data['id']); }
                 }
                 else if ($data['proceso'] === 3) {

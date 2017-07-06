@@ -186,7 +186,22 @@ class SSP {
         //     FROM   `$table`".
         //     $extraWhere                                
         // ); 
-        // $recordsTotal = $resTotalLength[0][0];        
+        // $recordsTotal = $resTotalLength[0][0];
+        //Probando codigo otoniel
+        // Data set length after filtering
+        // $resFilterLength = SSP::sql_exec( $db, $bindings,
+        //     "SELECT COUNT(`{$primaryKey}`)
+        //      FROM   `$table`
+        //      $where"
+        // );
+        // $recordsFiltered = $resFilterLength[0][0];
+        // // Total data set length
+        // $resTotalLength = SSP::sql_exec( $db,
+        //     "SELECT COUNT(`{$primaryKey}`)
+        //      FROM   `$table`"
+        // );
+        // $recordsTotal = $resTotalLength[0][0];
+
         /*
          * Output
          */

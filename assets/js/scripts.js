@@ -97,36 +97,36 @@
 /*  */
 /* Buscar plantas de la empresa  */
     var empresa_ajax_r = function() {
-    $.ajax({
-        url: "?c=recepcion&a=ajax_load_plantas",
-        dataType: "json",
-        method: "POST",
-        data: "idempresa=" + $(".select2").val()
-    }).done(function(data) {
-        var datos = data;
-        var select = $('#idplanta_ajax_r');
-        select.empty();
-        select.append($("<option />").val('').text('Seleccione una opción'));
-        $.each(datos, function() {
-            select.append($("<option />").val(this.id).text(this.nombre));
-        });
-        if (planta_temp.length > 0) {
-            $('#idplanta_ajax_r').val(planta_temp).change();
-            planta_temp = "";
-        } else {
-            $('#idplanta_ajax_r').val('').change();
-        }
+        $.ajax({
+            url: "?c=recepcion&a=ajax_load_plantas",
+            dataType: "json",
+            method: "POST",
+            data: "idempresa=" + $(".select2").val()
+        }).done(function(data) {
+            var datos = data;
+            var select = $('#idplanta_ajax_r');
+            select.empty();
+            select.append($("<option />").val('').text('Seleccione una opción'));
+            $.each(datos, function() {
+                select.append($("<option />").val(this.id).text(this.nombre));
+            });
+            if (planta_temp.length > 0) {
+                $('#idplanta_ajax_r').val(planta_temp).change();
+                planta_temp = "";
+            } else {
+                $('#idplanta_ajax_r').val('').change();
+            }
 
-    }).fail(function(data) {}).always(function(data) {
-        // console.log(data);
-    });
+        }).fail(function(data) {}).always(function(data) {
+            // console.log(data);
+        });
     }
 /* Buscar equipo */
     var buscar_idequipo_historial = function () {    
         count_check_equipo=0;
         $('#overlay').addClass('overlay');
-        $('#refresh').addClass('fa fa-refresh fa-spin');
-       if (validar_text($("#idequipo").val().trim())== true) {              
+        $('#refresh').addClass('fa fa-refresh fa-spin');        
+        if (validar_text($("#idequipo").val().trim())== true) {              
             $.ajax({
                 url: "?c=recepcion&a=ajax_load_historial",
                 dataType: "json",
@@ -136,18 +136,20 @@
             var datos = data;   
             //console.log(datos);              
                 if (datos.length > 0) {                     
-                $('#historial_informes tbody').remove();
-                $('#table_equipo tbody').remove();                                                 
+                $('#historial_informes tbody').remove();                
+                $('#historial_informes').last().addClass( "table-scroll" );                  
+                //$('#table_equipo tbody').remove();                                                 
                   alertas_tipo_valor('alerta_idequipo','correcto','');                   
                   var filas= datos.length;
                   var color=['','red','yellow','blue','green'];
                   var color_row=['','danger','warning','info','success'];
                   for (var i =  0; i < filas; i++) {                                    
                   historial[i] = {equipos_id:datos[i].idequipo, alias: datos[i].alias, descripcion: datos[i].descripcion,
-                    marca: datos[i].marca, modelo: datos[i].modelo, serie: datos[i].serie, empresas_id:datos[i].empresas_id,
-                    plantas_id:datos[i].plantas_id, vigencia: datos[i].periodo_calibracion, acreditacion: datos[i].acreditaciones_id};
+                    marca: datos[i].marca, modelo: datos[i].modelo, serie: datos[i].serie, empresas_id:datos[i].empresas_id, 
+                    plantas_id:datos[i].plantas_id, vigencia: datos[i].periodo_calibracion, acreditacion: datos[i].acreditaciones_id,
+                    tipo_cal: datos[i].calibraciones_id, tecnico_cal: datos[i].usuarios_calibracion_id };
                         var radiocheck= '';
-                        if(datos.length == 1) {radiocheck='checked'; asignar_equipo_cliente(i);}
+                        if(datos.length == 1) {radiocheck='checked'; asignar_equipo_cliente(i);  $('#historial_informes').removeClass( "table-scroll" );} //Esta condición se ejecuta cuando se halla un solo registro en historial.
                         var nuevafila= "<tr class='bg-"+color_row[parseInt(datos[i].proceso)]+"'>"+
                            "<td> <label> <input type='radio' name='id_aux' class='flat-red' onClick='asignar_equipo_cliente("+i+")' "+radiocheck +"></label></td>"+
                            "<td>"+datos[i].id +"</td>"+
@@ -163,9 +165,9 @@
                            "<td> <span class='badge bg-"+ color[parseInt(datos[i].proceso)]+"'>"+ (parseInt(datos[i].proceso)*100)/4+"%</span></td>"+                                                     
                         +"</tr>"
                         $("#historial_informes") .append(nuevafila);                        
-                  } 
-                  //Historial lleno pero buscar equipos, esto es cuando hay muchos id similares 
-                  buscar_idequipo(1);                                                   
+                  }                   
+                  //Historial lleno, pero buscar equipos, esto es cuando hay muchos id similares 
+                    buscar_idequipo(1);                                                   
                 }
                 else{
                     //Cuando historial esta vacio
@@ -195,11 +197,12 @@
                 data: "idequipo=" + $("#idequipo").val().trim()
             }).done(function(data) {
                 var datos = data;
-                //console.log(datos); 
-                         
+                //console.log(datos);                          
                 if (datos.length > 0) {
-                    if(estado_hist=0){$('#historial_informes tbody').remove();}
-                    $('#table_equipo tbody').remove();                                        
+                    if(estado_hist=0){$('#historial_informes tbody').remove(); $('#table_equipo').removeClass( "table-scroll" );}
+                    $('#table_equipo tbody').remove();                    
+                    $('#table_equipo').last().addClass( "table-scroll" );
+                    if(datos.length==1){$('#table_equipo').removeClass( "table-scroll" );}  //Se elimina la clase cuando hay un fila en la tabla.                                                        
                     alertas_tipo_valor('alerta_idequipo', 'correcto', '');
                     var bitacora = datos;
                     var radiocheck = '';                   
@@ -253,12 +256,13 @@
     }
     /* asignar_equipo_cliente */
     var asignar_equipo_cliente = function(index) {
-        count_check_equipo++;
-        if (count_check_equipo < 2) {
-            $('#table_equipo tbody').remove();
+        //count_check_equipo++;
+        //if (count_check_equipo < 2) {
+            $('#table_equipo').removeClass( "table-scroll" );
+            $('#table_equipo tbody').remove();            
             planta_temp = "";
             //console.log( historial);                
-            var bitacora = historial[index];
+            var bitacora = historial[index];            
             planta_temp = bitacora.plantas_id;
 
             var nuevafila = "<tr>" +
@@ -272,11 +276,12 @@
                 +"</tr>"
             $("#table_equipo").append(nuevafila);
 
-
             $('#empresa_ajax_r').val(bitacora.empresas_id).change();
             $('#periodo_calibracion').val(bitacora.vigencia)
             $('#acreditaciones_id').val(bitacora.acreditacion).change();
-        }
+            $('#calibraciones_id').val(bitacora.tipo_cal).change();
+            $('#usuarios_calibracion_id').val(bitacora.tecnico_cal).change();
+        //}
     }
 
 /* Buscar Hoja de entrada */
@@ -346,74 +351,76 @@
     }
     return bool;
     }
+
 /* Lista de errores nombre de la alerta, tipo de alerta, y texto */
     function alertas_tipo_valor(alerta, tipo, valor) {
-    $("[name='alertas']").remove();
-    if (tipo == 'correcto') {
-        $("#" + alerta + "").before(
-            "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4>" + "Resultados correctos." + "</div>" + "</div>" + "</div>");
-    }
-    if (tipo == 'vacio') {
-        $("#" + alerta + "").before(
-            "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4>" + "No se ha encontrado resultados, verifique su información." + valor + "</div>" + "</div>" + "</div>");
-    }
-    if (tipo == 'requerido') {
-        $("#" + alerta + "").before(
-            "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo vacío, favor de ingresar " + valor + ". Intente una vez más." + "</div>" + "</div>" + "</div>");
-    }
-    }
-
-    function opciones_calibraciones(sucursal_temp) {
-    var activo_local = [0, 0, 0];
-    var sucursales = "";
-    $('#calibraciones_id option:selected').each(function() {
-        var $this = $(this);
-        if ($this.length) {
-            sucursales = $this.text().toLowerCase().trim();
+        $("[name='alertas']").remove();
+        if (tipo == 'correcto') {
+            $("#" + alerta + "").before(
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4>" + "Resultados correctos." + "</div>" + "</div>" + "</div>");
         }
-    });
-
-    if (sucursal_temp == sucursales) {
-        opciones_po('no_registrar');
-        opciones_hoja_entrada('registrar');
-        if (sucursales == "nogales") { activo_local[0] = 1 }
-        if (sucursales == "hermosillo") { activo_local[1] = 1 }
-        if (sucursales == "guaymas") { activo_local[2] = 1 }
-    } else if (activo_local[0] == 0 && sucursales == "nogales") {
-        opciones_po('no_registrar');
-        opciones_hoja_entrada('no_registrar');
-    } else if (activo_local[1] == 0 && sucursales == "hermosillo") {
-        opciones_po('no_registrar');
-        opciones_hoja_entrada('no_registrar');
-    } else if (activo_local[2] == 0 && sucursales == "guaymas") {
-        opciones_po('no_registrar');
-        opciones_hoja_entrada('no_registrar');
-    } else if (sucursales == "externa") {
-        opciones_po('registrar');
-        opciones_hoja_entrada('no_registrar');
-    } else if (sucursales == "ventas") {
-        opciones_po('no_registrar');
-        opciones_hoja_entrada('registrar');
-    } else {
-        opciones_po('registrar');
-        opciones_hoja_entrada('registrar');
+        if (tipo == 'vacio') {
+            $("#" + alerta + "").before(
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4>" + "No se ha encontrado resultados, verifique su información." + valor + "</div>" + "</div>" + "</div>");
+        }
+        if (tipo == 'requerido') {
+            $("#" + alerta + "").before(
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo vacío, favor de ingresar " + valor + ". Intente una vez más." + "</div>" + "</div>" + "</div>");
+        }
     }
+
+/* Segun las opciones de calibracion asigna de las demas opciones de datos de P.O, Hoja de entrada */
+    function opciones_calibraciones(sucursal_temp) {
+        var activo_local = [0, 0, 0];
+        var sucursales = "";
+        $('#calibraciones_id option:selected').each(function() {
+            var $this = $(this);
+            if ($this.length) {
+                sucursales = $this.text().toLowerCase().trim();
+            }
+        });
+
+        if (sucursal_temp == sucursales) {
+            opciones_po('no_registrar');
+            opciones_hoja_entrada('registrar');
+            if (sucursales == "nogales") { activo_local[0] = 1 }
+            if (sucursales == "hermosillo") { activo_local[1] = 1 }
+            if (sucursales == "guaymas") { activo_local[2] = 1 }
+        } else if (activo_local[0] == 0 && sucursales == "nogales") {
+            opciones_po('no_registrar');
+            opciones_hoja_entrada('no_registrar');
+        } else if (activo_local[1] == 0 && sucursales == "hermosillo") {
+            opciones_po('no_registrar');
+            opciones_hoja_entrada('no_registrar');
+        } else if (activo_local[2] == 0 && sucursales == "guaymas") {
+            opciones_po('no_registrar');
+            opciones_hoja_entrada('no_registrar');
+        } else if (sucursales == "externa") {
+            opciones_po('registrar');
+            opciones_hoja_entrada('no_registrar');
+        } else if (sucursales == "ventas") {
+            opciones_po('no_registrar');
+            opciones_hoja_entrada('registrar');
+        } else {
+            opciones_po('registrar');
+            opciones_hoja_entrada('registrar');
+        }
     }
 
     function retorna_session_planta() {
-    $.ajax({
-        url: "?c=recepcion&a=cookies",
-        dataType: "json",
-        data: ""
-    }).done(function(data) {
-        var datos = data;
-        opciones_calibraciones(datos.toLowerCase().trim());
-    }).fail(function(data) {}).always(function(data) {
-        //console.log(data);
-    });
+        $.ajax({
+            url: "?c=recepcion&a=cookies",
+            dataType: "json",
+            data: ""
+        }).done(function(data) {
+            var datos = data;
+            opciones_calibraciones(datos.toLowerCase().trim());
+        }).fail(function(data) {}).always(function(data) {
+            //console.log(data);
+        });
     }
 
-     function opciones_po(opciones){
+    function opciones_po(opciones){
 
         var op=['no_registrar','pendiente','registrar'];
         $( "#btn_registrar_po" ).prop( "disabled", false );
@@ -484,6 +491,13 @@
         }
     }
 
+    var factura_previa = function() {    
+        var informe= $("#numero_informe").val();            
+        var url = "?c=factura&a=index&p="+informe;
+        //console.log(url);
+        window.open(url, '_blank');
+    }
+
     /* ## Fin de funciones de recepción ## */
 
     //Events
@@ -515,7 +529,13 @@
         });
             
     });
-    $(document).ready(function() {
+    $(document).ready(function() { 
+        //$('#historial_informes').last().addClass( "table-fixed" );     
+        $("#factura_previa").click(function(e){           
+            factura_previa();
+            e.preventDefault();
+        });
+
         //Busqueda
         $('#search').on('keyup', function(e) {
             if (e.which == 13) {
@@ -635,7 +655,7 @@
         $('.datepicker_aux').datepicker({
             autoclose: true,
             format: 'yyyy-mm-dd'
-        });
+        });    
 
         $('#daterange-text').daterangepicker(
             {
@@ -680,8 +700,6 @@
 
     function espacio_blanco(value){                      
          return value.trim();
-    }
-
-
+    }   
 
     // $("#numero_informe").val();

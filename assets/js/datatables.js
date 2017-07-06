@@ -101,6 +101,7 @@ $(document).ready(function () {
         
         var table_informes = $('#table_informes').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
+            "deferRender": true,
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
@@ -225,6 +226,7 @@ $(document).ready(function () {
 
         var table_proceso = $('#table_proceso').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
+            "deferRender": true,
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
@@ -305,6 +307,7 @@ $(document).ready(function () {
 
         var table_calibrar = $('#table_calibrar').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
+            "deferRender": true,
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
