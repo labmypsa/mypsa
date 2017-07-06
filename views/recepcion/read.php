@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <?php importView('_static.head'); ?>   
+        <?php importView('_static.head'); ?>
+        <style type="text/css">                        
+        </style>   
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
        <!--  <body class="hold-transition skin-blue sidebar-mini"> -->
@@ -123,9 +125,9 @@
                                   <div class="box-header">                                    
                                     <h3 class="box-title"> Historial </h3>                                    
                                   </div>
-                                  <div class="box-body table-responsive">
-                                    <table id="historial_informes" class="table table-bordered table-striped table-hover"  role="grid" style="height:300px; overflow:auto;">
-                                    <thead >
+                                  <div class="box-body table-responsive" style="overflow-y: scroll; height: 150px">
+                                    <table id="historial_informes" class="table table-bordered table-striped table-hover" role="grid">
+                                    <thead>
                                         <tr role="row">
                                           <th>ok</th>
                                           <th># Informe</th>
@@ -138,10 +140,10 @@
                                           <th>Planta</th>
                                           <th>Vigencia</th>
                                           <th>Acreditación</th>
-                                          <th>Proceso</th>                                                                                  
+                                          <th>Proceso</th> 
                                         </tr>
                                         </thead>
-                                         <tbody>                                                                          
+                                         <tbody>
                                         </tbody>
                                     </table>    
                                   </div> 
@@ -157,11 +159,11 @@
                                     <div class="box-tools">                                       
                                     </div>
                                   </div>                                  
-                                  <div class="box-body table-responsive">                                 
-                                    <table id="table_equipo"  class="table table-bordered table-striped table-hover dataTable" style="display:block; height:100px; overflow:auto;"> 
+                                  <div class="box-body table-responsive" style="overflow-y: scroll; height: 120px"> 
+                                  <table id="table_equipo"  class="table table-bordered table-striped table-hover dataTable" >
                                     <thead>
                                             <tr>
-                                            <th style="width: 10px">*</th>
+                                            <th>*</th>
                                             <th>Id</th>
                                             <th>Descripción</th>
                                             <th>Marca</th>
@@ -175,13 +177,13 @@
 
                                          if(strlen($data['get'][0]['idequipo'])> 0){
                                           echo '<tr>';  
-                                          echo '<td><label> <input type="radio" name="equipos_id" value="'.$data['get'][0]['idequipo'] .'" checked></label></td>'; 
-                                          echo '<td>'.$data['get'][0]['equipos_id'] .'</td>';
-                                          echo '<td>'.$data['get'][0]['descripcion'] .'</td>';
-                                          echo '<td>'.$data['get'][0]['marca'] .'</td>';
-                                          echo '<td>'.$data['get'][0]['modelo'] .'</td>';
-                                          echo '<td>'.$data['get'][0]['serie'] .'</td>';                                               
-                                          echo '<td> <a class="btn btn-block btn-warning btn-sm" target="_blank" href="?c=equipos&a=edit&p='.$data['get'][0]['idequipo'].'"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>';
+                                          echo '<td ><label> <input type="radio" name="equipos_id" value="'.$data['get'][0]['idequipo'] .'" checked></label></td>'; 
+                                          echo '<td >'.$data['get'][0]['equipos_id'] .'</td>';
+                                          echo '<td >'.$data['get'][0]['descripcion'] .'</td>';
+                                          echo '<td >'.$data['get'][0]['marca'] .'</td>';
+                                          echo '<td >'.$data['get'][0]['modelo'] .'</td>';
+                                          echo '<td >'.$data['get'][0]['serie'] .'</td>';                                               
+                                          echo '<td > <a class="btn btn-block btn-warning btn-sm" target="_blank" href="?c=equipos&a=edit&p='.$data['get'][0]['idequipo'].'"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>';
                                           echo '</tr>';
                                           }
                                          ?>
@@ -252,7 +254,7 @@
                                             echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" min="0" placeholder="0" value="'.$data['get'][0]['periodo_calibracion'].'" required="">';
                                           }
                                           else{
-                                            echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" min="0" placeholder="0">';
+                                            echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" min="0" placeholder="0" required="">';
                                           }
                                           ?>
                                           </div>
@@ -260,7 +262,7 @@
                                         <div class="form-group">
                                           <label for="acreditaciones_id" class="col-sm-3 control-label">Acreditación :</label> 
                                           <div class="col-sm-9">
-                                                <select name="acreditaciones_id" id="acreditaciones_id" class="form-control select2" style="width: 100%;">
+                                                <select name="acreditaciones_id" id="acreditaciones_id" class="form-control select2" style="width: 100%;" required="">
                                                  <option value="">Seleccione una opción</option> 
                                                  <?php
                                                   foreach ($data['acreditacion'] as $acreditacion) {
@@ -276,7 +278,7 @@
                                         <div class="form-group">
                                           <label for="usuarios_calibracion_id" class="col-sm-3 control-label">Técnico a calibrar :</label>
                                           <div class="col-sm-9"> 
-                                            <select id="usuarios_calibracion_id" class="form-control select2" style="width: 100%;" name="usuarios_calibracion_id">
+                                            <select id="usuarios_calibracion_id" class="form-control select2" style="width: 100%;" name="usuarios_calibracion_id" required="">
                                                   <option value="">Seleccione una opción</option> 
                                                   <?php
                                                   foreach ($data['tecnico'] as $tecnico) {
@@ -292,7 +294,7 @@
                                         <div class="form-group">
                                           <label for="calibraciones_id" class="col-sm-3 control-label">Tipo de calibración :</label>
                                           <div class="col-sm-9"> 
-                                                <select id="calibraciones_id" class="form-control select2" style="width: 100%;" name="calibraciones_id">
+                                                <select id="calibraciones_id" class="form-control select2" style="width: 100%;" name="calibraciones_id" required="">
                                                   <option value="">Seleccione una opción</option> 
                                                   <?php
                                                   foreach ($data['tipocalibracion'] as $tipocalibracion) {
@@ -343,7 +345,7 @@
                                    <div class="box-tools">
                                         <button onclick="opciones_po('registrar')" class="btn btn-success btn-xs pull-right" id="btn_registrar_po">Registrar</button> 
                                         <button onclick="opciones_po('pendiente')" class="btn btn-warning btn-xs pull-right" id="btn_pendiente_po">Pendiente</button> 
-                                        <button onclick="opciones_po('no_registrar')" class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_po">No registrar</button> 
+                                        <button onclick="opciones_po('no_registrar')" class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_po">No registrar</button>                                        
                                     </div>
                                   </div>
                                   <div class="box-body form-horizontal">                                 
@@ -364,6 +366,14 @@
                                         <input type="number" class="form-control" id="cantidad" name="cantidad" min="0" placeholder="0" value="<?php echo isset($data['get'][0]['cantidad']) ? $data['get'][0]['cantidad'] : ''; ?>">
                                       </div>
                                     </div>
+                                     <div class="form-group">
+                                     <div class="col-sm-3"></div>
+                                     <div class="col-sm-9">
+                                     <button type="button" class="btn btn-box-tool" id="factura_previa"><i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp; Agregar factura previa</button>                                     
+                                     <!-- id del campo = numero_informe -->
+                                     </div>
+                                     </div>
+                                    
                                   </div>                                  
                             </div>  
                             <div class="box box-default">
@@ -389,7 +399,7 @@
                                     <div class="form-group">
                                       <label for="usuarios_id" class="col-sm-3 control-label">Registrado por:</label>
                                       <div class="col-sm-9">                                                                                        
-                                        <select  class="form-control select2" style="width: 100%;" name="usuarios_id" id="usuarios_id">
+                                        <select  class="form-control select2" style="width: 100%;" name="usuarios_id" id="usuarios_id" required="">
                                           <option value="">Seleccione una opción</option> 
                                           <?php
                                           var_dump($data['get'][0]['usuarios_id']);                                                                        
@@ -408,9 +418,9 @@
                                       <div class="col-sm-9">
                                       <?php                                                                                    
                                         if (strlen($data['get'][0]['fecha']) > 0) {
-                                         echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha'].'">';
+                                         echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha'].'" required="">';
                                         }
-                                        else{echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker" >';} ?>
+                                        else{echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker" required="">';} ?>
                                       </div>
                                     </div>
                                   </div>   
