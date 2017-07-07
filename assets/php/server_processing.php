@@ -106,6 +106,8 @@ $sql_details = array(
  */
  
 require( "ssp.class.php" );
+//var_dump( $_GET['iDisplayStart']);
+//exit;
 echo json_encode(
-    SSP::simple( $_GET, $sql_details, $table, $primary_key, $columns,$condicion)    
+    SSP::simple($_GET, $sql_details, $table, $primary_key, $columns,$condicion)    
 );

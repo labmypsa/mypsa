@@ -492,10 +492,17 @@
     }
 
     var factura_previa = function() {    
-        var informe= $("#numero_informe").val();            
-        var url = "?c=factura&a=index&p="+informe;
-        //console.log(url);
-        window.open(url, '_blank');
+        var informe= $("#numero_informe").val(); 
+        if(informe=="" || informe== undefined || informe== null)
+        {
+            alert("No hay número de informe, generar número informe porfavor.");          
+        }  
+        else {
+              var url = "?c=factura&a=index&p="+informe;
+            //console.log(url);
+            window.open(url, '_blank');
+        }         
+        
     }
 
     /* ## Fin de funciones de recepción ## */

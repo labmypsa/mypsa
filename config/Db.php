@@ -98,7 +98,8 @@ abstract class Db {
             } else if(gettype($value) == "NULL"){
                 $query .= $value . "NULL,";
             }else {
-                $query .= "'" . $value . "',";
+                 //funcion UFIRST EN MYSQL COnvierte a mayusculas las primeras letras despues de un espacio.
+                $query .= "UFIRST('" . $value . "'),";
             }
         }
         $query = substr($query, 0, - 1);
@@ -117,7 +118,7 @@ abstract class Db {
             } else if(gettype($value) == "NULL"){
                 $query .= $key . "=" . $value . "NULL,";
             } else {
-                $query .= $key . "='" . $value . "',";
+                $query .= $key . "=UFIRST('" . $value . "'),";
             }
         }
         $query = substr($query, 0, - 1);

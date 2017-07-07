@@ -125,7 +125,7 @@
                                   <div class="box-header">                                    
                                     <h3 class="box-title"> Historial </h3>                                    
                                   </div>
-                                  <div class="box-body table-responsive" style="overflow-y: scroll; height: 150px">
+                                  <div class="box-body table-responsive" style="overflow-y: scroll; height: 200px">
                                     <table id="historial_informes" class="table table-bordered table-striped table-hover" role="grid">
                                     <thead>
                                         <tr role="row">
@@ -159,7 +159,7 @@
                                     <div class="box-tools">                                       
                                     </div>
                                   </div>                                  
-                                  <div class="box-body table-responsive" style="overflow-y: scroll; height: 120px"> 
+                                  <div class="box-body table-responsive" style="overflow-y: scroll; height: 130px"> 
                                   <table id="table_equipo"  class="table table-bordered table-striped table-hover dataTable" >
                                     <thead>
                                             <tr>
