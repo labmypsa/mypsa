@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    if (typeof controller != 'undefined') {
+    if (typeof controller != 'undefined') {       
+
         var table = $('#table').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,            
             "processing": true,
@@ -222,8 +223,9 @@ $(document).ready(function () {
                 "searchable": false,
                 }],
             "language": { "url": "assets/json/datatables.spanish.json" }
-        });     
-
+        }); 
+    
+        
         var table_proceso = $('#table_proceso').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
             "deferRender": true,
@@ -303,8 +305,20 @@ $(document).ready(function () {
                 "searchable": false,
                 }],
             "language": { "url": "assets/json/datatables.spanish.json" }
-        });     
+        }); 
 
+         // Apply the search
+            table_proceso.columns().every( function () {
+                var that = this;     
+                $( 'input', this.footer() ).on( 'keyup change', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+            
         var table_calibrar = $('#table_calibrar').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
             "deferRender": true,

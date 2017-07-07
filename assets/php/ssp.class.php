@@ -169,8 +169,7 @@ class SSP {
         //Extra where
         if ($extraWhere) {    
             $extraWhere=($where) ? ' AND '.$extraWhere : ' WHERE '.$extraWhere;
-        }  
-        echo $limit;            
+        }                  
         // Main query to actually get the data
         $data = SSP::sql_exec($db, $bindings, "SELECT SQL_CALC_FOUND_ROWS `" . implode("`, `", SSP::pluck($columns, 'db')) . "`
              FROM `$table`
@@ -248,8 +247,7 @@ class SSP {
      * @param  string   $sql SQL query to execute.
      * @return array         Result from the query (all rows)
      */
-    static function sql_exec($db, $bindings, $sql = null) {  
-    echo $sql;         
+    static function sql_exec($db, $bindings, $sql = null) {          
         // Argument shifting
         if ($sql === null) {
             $sql = $bindings;

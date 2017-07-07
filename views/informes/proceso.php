@@ -117,8 +117,18 @@
             new $.fn.dataTable.FixedColumns( table_proceso ,{
                 leftColumns:1,
                 rightColumns:2
-            });
-        });
+            }); 
+            // Setup - add a text input to each footer cell
+            $('#table_proceso tfoot th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+            } );
+                // $('#table_proceso thead th').each( function () {
+                //         var title = $('#table_proceso tfoot th').eq( $(this).index() ).text();
+                //         $(this).html( '&amp;lt;input type=&amp;quot;text&amp;quot; placeholder=&amp;quot;Search '+title+'&amp;quot; /&amp;gt;' );
+                //     } );
+                    
+        } );         
         </script>    
     </body>
 </html>
