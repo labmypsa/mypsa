@@ -42,7 +42,7 @@ class CiudadesController {
     public function store() {
         $data = validate($_POST, [
             'estados_id' => 'required|number|exists:estados:id',
-            'nombre' => 'required|trimlower',
+            'nombre' => 'required|ucname',
         ]);
         if ($this->model['ciudad']->store($data)) {
             redirect('?c=' . $this->name);
@@ -55,7 +55,7 @@ class CiudadesController {
         $data = validate($_POST, [
             'id' => 'required|number|exists:ciudades',
             'estados_id' => 'required|number|exists:estados:id',
-            'nombre' => 'required|trimlower',
+            'nombre' => 'required|ucname',
         ]);
         if ($this->model['ciudad']->update($data)) {
             redirect('?c=' . $this->name);

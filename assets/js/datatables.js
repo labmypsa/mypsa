@@ -306,19 +306,8 @@ $(document).ready(function () {
                 }],
             "language": { "url": "assets/json/datatables.spanish.json" }
         }); 
+    
 
-         // Apply the search
-            table_proceso.columns().every( function () {
-                var that = this;     
-                $( 'input', this.footer() ).on( 'keyup change', function () {
-                    if ( that.search() !== this.value ) {
-                        that
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
-            } );
-            
         var table_calibrar = $('#table_calibrar').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
             "deferRender": true,

@@ -38,7 +38,7 @@ class Equipos_modelosController {
 
     public function store() {
         $data = validate($_POST, [
-            'nombre' => 'required|trimlower|unique:equipos_modelos',
+            'nombre' => 'required|ucname|unique:equipos_modelos',
         ]);
         if ($this->model['equipos_modelos']->store($data)) {
             redirect('?c=' . $this->name);
@@ -50,7 +50,7 @@ class Equipos_modelosController {
     public function update() {
         $data = validate($_POST, [
             'id' => 'required|number|exists:equipos_modelos',
-            'nombre' => 'required|trimlower|except:equipos_modelos:id',
+            'nombre' => 'required|ucname|except:equipos_modelos:id',
         ]);
         if ($this->model['equipos_modelos']->update($data)) {
             redirect('?c=' . $this->name);

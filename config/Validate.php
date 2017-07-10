@@ -93,7 +93,6 @@ function validate($data, $rules) {
                             $result->close();
                             break;
                         }
-
                     case 'required':
                         if ($data[$key] == '') {
                             array_push($errors, [
@@ -124,6 +123,23 @@ function validate($data, $rules) {
                     case 'toInt':
                         $data[$key] = intval($data[$key]);
                         break;
+                    /*Validaciones textos agregados*/
+                    case 'ucwords': //Convierte a mayúsculas el primer caracter de cada palabra de una cadena
+                        $data[$key] = ucwords($data[$key]);
+                        break;
+                    case 'strtoupper': //Convierte una cadena a minúsculas
+                        $data[$key] = strtoupper($data[$key]);
+                        break;
+                    case 'ucname': //Convierte a mayusculas las primeras letras, conciderando un array de posibles delimitadores
+                        $string =ucwords(trim($data[$key]));
+                        foreach (array('-', '\'','.','(',')','´',) as $delimiter) {
+                          if (strpos($string, $delimiter)!==false) {
+                            $string =implode($delimiter, array_map('ucfirst', explode($delimiter, $string)));
+                          }
+                        }
+                        $data[$key] = $string;                                            
+                        break;
+                    /*End*/
                     case 'trim':
                         $data[$key] = trim($data[$key]);
                         break;
@@ -172,7 +188,7 @@ function validate($data, $rules) {
                                     'msg' => 'El campo ' . $key . ' debe de tener un maximo de ' . $singleValue[1] . ' caracteres'
                                 ]);
                             }
-                        } break;
+                        } break;                        
                 }
             }
         }

@@ -53,10 +53,13 @@ class PlantasController {
 
     public function store() {
         $data = validate($_POST, [
-            'nombre' => 'required|trimlower',
+            'nombre' => 'required|ucname',
             'empresas_id' => 'required|number|exists:empresas:id',
             'ciudades_id' => 'required|number|exists:ciudades:id',
             'sucursales_id' => 'required|number|exists:sucursales:id',
+            'rfc'=> 'ucname',
+            'razon_social'=> 'ucname',
+            'direccion'=> 'required|ucname',           
         ]);
         if ($this->model['planta']->store($data)) {
             redirect('?c=' . $this->name);
@@ -68,10 +71,13 @@ class PlantasController {
     public function update() {
         $data = validate($_POST, [
             'id' => 'required|number|exists:plantas',
-            'nombre' => 'required|trimlower',
+            'nombre' => 'required|ucname',
             'empresas_id' => 'required|number|exists:empresas:id',
             'ciudades_id' => 'required|number|exists:ciudades:id',
             'sucursales_id' => 'required|number|exists:sucursales:id',
+            'rfc'=> 'ucname',
+            'razon_social'=> 'ucname',
+            'direccion'=> 'required|ucname',
         ]);
         if ($this->model['planta']->update($data)) {
             redirect('?c=' . $this->name);

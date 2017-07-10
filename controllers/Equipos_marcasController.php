@@ -37,7 +37,7 @@ class Equipos_marcasController {
 
     public function store() {
         $data = validate($_POST, [
-            'nombre' => 'required|trimlower|unique:equipos_marcas',
+            'nombre' => 'required|ucname|unique:equipos_marcas',
         ]);
         if ($this->model['equipos_marcas']->store($data)) {
             redirect('?c=' . $this->name);
@@ -49,7 +49,7 @@ class Equipos_marcasController {
     public function update() {
         $data = validate($_POST, [
             'id' => 'required|number|exists:equipos_marcas',
-            'nombre' => 'required|trimlower|except:equipos_marcas:id',
+            'nombre' => 'required|ucname|except:equipos_marcas:id',
         ]);
         if ($this->model['equipos_marcas']->update($data)) {
             redirect('?c=' . $this->name);

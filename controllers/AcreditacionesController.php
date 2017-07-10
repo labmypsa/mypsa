@@ -42,7 +42,7 @@ class AcreditacionesController {
     public function store() {
         $data = validate($_POST, [
             'sucursales_id' => 'required|number|exists:sucursales:id',
-            'nombre' => 'required|trimlower',
+            'nombre' => 'required|ucname',
             'activo' => 'required|toInt',
         ]);
         if ($this->models['acreditacion']->store($data)) {
@@ -56,7 +56,7 @@ class AcreditacionesController {
         $data = validate($_POST, [
             'id' => 'required|number|exists:acreditaciones',
             'sucursales_id' => 'required|number|exists:sucursales:id',
-            'nombre' => 'required|trimlower',
+            'nombre' => 'required|ucname',
             'activo' => 'required|toInt',
         ]);
         if ($this->models['acreditacion']->update($data)) {

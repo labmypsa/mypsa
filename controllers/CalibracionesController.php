@@ -43,7 +43,7 @@ class CalibracionesController {
     public function store() {
         $data = validate($_POST, [
             'sucursales_id' => 'required|number:exists:sucursales:id',
-            'nombre' => 'required|trimlower',
+            'nombre' => 'required|ucname',
         ]);
         if ($this->model['calibracion']->store($data)) {
             redirect('?c=' . $this->name);
@@ -56,7 +56,7 @@ class CalibracionesController {
         $data = validate($_POST, [
             'id' => 'required|number|exists:calibraciones',
             'sucursales_id' => 'required|number:exists:sucursales:id',
-            'nombre' => 'required|trimlower',
+            'nombre' => 'required|ucname',
         ]);
         if ($this->model['calibracion']->update($data)) {
             redirect('?c=' . $this->name);
