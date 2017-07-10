@@ -52,9 +52,9 @@ class FacturaController {
     'proceso' => 'toInt',
     'precio' => 'required',
     'precio_extra' => 'required',
-    'factura' => 'trimlower|required',
+    'factura' => 'required|trimlower',
     'monedas_id' => 'required|toInt',
-    'comentarios' => 'trimlower',    
+    'comentarios' => 'ucname',    
     ]);
     if ($data['proceso'] == 3) {
         $data['proceso'] = intval('4');

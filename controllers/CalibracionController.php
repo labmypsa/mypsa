@@ -41,7 +41,7 @@ class CalibracionController {
          $data = validate($_POST, [
           'id' => 'toInt',
           'proceso' => 'toInt',
-          'comentarios' => 'trimlower',
+          'comentarios' => 'ucname',
           'calibrado' => 'toInt',
           'acreditaciones_id' => 'toInt',
           ]);
@@ -60,7 +60,7 @@ class CalibracionController {
               'fecha_calibracion' => 'required',
               'acreditaciones_id' => 'required|toInt',             
               'periodo_calibracion' => 'required|toInt',
-              'comentarios' => 'trimlower',
+              'comentarios' => 'ucname',
             ]);
           $fechacal= $data['fecha_calibracion'];
           $periodo= $data['periodo_calibracion'];

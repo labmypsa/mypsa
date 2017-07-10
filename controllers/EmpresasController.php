@@ -37,7 +37,7 @@ class EmpresasController {
 
     public function store() {
         $data = validate($_POST, [
-            'nombre' => 'required|trimlower|unique:empresas',
+            'nombre' => 'required|ucname|unique:empresas',
         ]);
         if ($this->model['empresa']->store($data)) {
             redirect('?c=' . $this->name);
@@ -49,7 +49,7 @@ class EmpresasController {
     public function update() {
         $data = validate($_POST, [
             'id' => 'required|number|exists:empresas',
-            'nombre' => 'required|trimlower|except:empresas:id',
+            'nombre' => 'required|ucname|except:empresas:id',
         ]);
         if ($this->model['empresa']->update($data)) {
             redirect('?c=' . $this->name);

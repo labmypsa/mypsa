@@ -9,13 +9,7 @@ abstract class Db {
     protected $query, $table, $table_aux, $primary_key;
     protected $rows = array();
     private $conn;
-    
-    function validateDate($date, $format = 'Y-m-d')
-    {
-        $d = DateTime::createFromFormat($format, $date);
-        return $d && $d->format($format) == $date;
-    }
-
+       
     public function read_single($id, $view = null) {
         if ($view == null) {
             $this->query = "SELECT * FROM " . $this->table . " WHERE " . $this->primary_key . " = '" . $id . "'";
@@ -103,18 +97,16 @@ abstract class Db {
                 $query .= $value . ",";
             } else if(gettype($value) == "NULL"){
                 $query .= $value . "NULL,";
-            }
-            else if($this->validateDate($value) == true){
-                $query .= $key . "='" . $value . "',";
-            } else {
-                //funcion UFIRST EN MYSQL COnvierte a mayusculas las primeras letras despues de un espacio.
-                $query .= "UFIRST('" . $value . "'),";
-                //$query .= "'" . $value . "',";
-            }
+            }                        
+            else{
+               $query .= "'" . $value . "',";
+            } 
         }
         $query = substr($query, 0, - 1);
         $query .= ");";
         $this->query = $query;
+        //var_dump($query);
+        //exit;
         return $this->execute_single_query();
     }
 
@@ -126,17 +118,16 @@ abstract class Db {
                 $query .= $key . "=" . $value . ",";
             } else if(gettype($value) == "NULL"){
                 $query .= $key . "=" . $value . "NULL,";
-            } 
-            else if($this->validateDate($value) == true){
-                $query .= $key . "='" . $value . "',";
-            }                  
-            else {
-                $query .= $key . "=UFIRST('" . $value . "'),";
-            }
+            }            
+            else{
+                 $query .= $key . "='" . $value . "',";  
+            }            
         }
         $query = substr($query, 0, - 1);
         $query .= " WHERE " . $this->primary_key . "='" . $data[$this->primary_key] . "';";  
-        $this->query = $query;        
+        $this->query = $query;
+        //var_dump($query);
+        //exit;        
         return $this->execute_single_query();
     }
 
