@@ -565,7 +565,98 @@
             //
         });
 
+        // Selects 2
         $(".select2").select2();
+
+        $('.select2Modelo').select2({
+            language: "es",
+            placeholder: 'Seleccione una opción',
+            ajax: {
+                url: 'api/EquiposModelos.php',
+                dataType: 'json',
+                delay: 450,
+                data: function(params) {
+                    return {
+                        q: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    console.log(params);
+                    params.page = params.page || 1;
+                    return {
+                        results: data,
+                        pagination: {
+                            more: (params.page * 30) <= data[0].total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function(markup) {
+                return markup; },
+            minimumInputLength: 2
+        });
+
+        $('.select2Marca').select2({
+            language: "es",
+
+            placeholder: 'Seleccione una opción',
+            ajax: {
+                url: 'api/EquiposMarca.php',
+                dataType: 'json',
+                delay: 450,
+                data: function(params) {
+                    return {
+                        q: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data,
+                        pagination: {
+                            more: (params.page * 30) <= data[0].total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function(markup) {
+                return markup; },
+            minimumInputLength: 2
+        });
+
+        $('.select2Descripcion').select2({
+            language: "es",
+
+            placeholder: 'Seleccione una opción',
+            ajax: {
+                url: 'api/EquiposDescripciones.php',
+                dataType: 'json',
+                delay: 450,
+                data: function(params) {
+                    return {
+                        q: params.term,
+                        page: params.page
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data,
+                        pagination: {
+                            more: (params.page * 30) <= data[0].total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function(markup) {
+                return markup; },
+            minimumInputLength: 2
+        });
 
         $("#empresa_ajax").on('change', empresa_ajax);
         // # Home Recepción   

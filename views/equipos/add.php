@@ -42,35 +42,20 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="descripciones_id">Descripción</label>
-                                                <select class="form-control select2" name="descripciones_id" id="descripciones_id"  required="">
+                                                <select class="form-control select2Descripcion" name="descripciones_id" id="descripciones_id"  required="" style="width: 100%;">
                                                     <option value="">Seleccione una opción</option>
-                                                <?php
-                                                    foreach ($data['equipos_descripciones'] as $descripcion) {
-                                                        echo '<option value="'.$descripcion['id'].'">'.$descripcion['nombre'].'</option>';
-                                                    }
-                                                ?>
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="marcas_id">Marca</label>
-                                                <select class="form-control select2" name="marcas_id" id="marcas_id" required="">
+                                                <select class="form-control select2Marca" name="marcas_id" id="marcas_id" required="" style="width: 100%;">
                                                     <option value="">Seleccione una opción</option>
-                                                <?php
-                                                    foreach ($data['equipos_marcas'] as $marca) {
-                                                        echo '<option value="'.$marca['id'].'">'.$marca['nombre'].'</option>';
-                                                    }
-                                                ?>
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="modelos_id">Modelo</label>
-                                                <select class="form-control select2" name="modelos_id" id="modelos_id" required="">
+                                                <select class="form-control select2Modelo" name="modelos_id" id="modelos_id" required="" style="width: 100%;">
                                                     <option value="">Seleccione una opción</option>
-                                                <?php
-                                                    foreach ($data['equipos_modelos'] as $modelo) {
-                                                        echo '<option value="'.$modelo['id'].'">'.$modelo['nombre'].'</option>';
-                                                    }
-                                                ?>
                                                 </select>
                                             </div>
                                             <div class="form-group">

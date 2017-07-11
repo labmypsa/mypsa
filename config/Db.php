@@ -25,6 +25,18 @@ abstract class Db {
             
         }
     }
+    public function select2($view, $string, $page){
+        $total_rows = 30;
+        $fin = $page * $total_rows;
+        $inicio = $fin - $total_rows;
+        $field = "nombre";
+        $query = "SELECT * FROM $view ";
+        $query .= "WHERE ".$field." LIKE '%".$string."%' ORDER BY nombre ASC LIMIT ".$inicio.", ".$fin."";
+        $this->query = $query;
+        // echo $query;
+        $this->get_results_from_query();
+        return $this->rows;
+    }
     public function like($str, $columns, $view = null) {
          if ($view == null) {
             $query = "SELECT * FROM " . $this->table . " WHERE (";

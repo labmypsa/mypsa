@@ -8,6 +8,7 @@
         <!-- FastClick -->
         <script src="assets/plugins/fastclick/fastclick.js"></script>
         <script src="assets/plugins/select2/select2.full.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/es.js"></script>
         <script src="assets/plugins/datepicker/bootstrap-datepicker.js"></script>
         <!-- date-range-picker -->
         <script src="assets/plugins/daterangepicker/moment.min.js"></script>

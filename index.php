@@ -2,9 +2,6 @@
 date_default_timezone_set('America/Phoenix');
 session_start();
 
-$production_mode = true;
-$logs = true;
-
 require 'config/App.php';
 require 'config/Views.php';
 require 'config/Imports.php';

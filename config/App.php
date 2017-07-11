@@ -11,21 +11,9 @@ define("APP_INIT_YEAR", "2014");
 
 
 //Production mode
-if ($production_mode) {
-    define("APP_SERVER",    "192.232.243.186");
-    define("APP_USER",      "mypsa_app");
-    define("APP_PASS",      "kvkk4bn995");
-    define("APP_DB",        "mypsa_bitacoramyp");
-    error_reporting(0);
-    ini_set('display_errors', 0);
-} else {
-    define("APP_SERVER",    "localhost");
-    define("APP_USER",      "root");
-    define("APP_PASS",      "");
-    define("APP_DB",        "mypsa_bitacoramyp");
-}
-if($logs){
-    define("LOGS", true);
-} else{
-    define("LOGS", false);
-}
+define("APP_SERVER",    "192.232.243.186");
+define("APP_USER",      "mypsa_app");
+define("APP_PASS",      "kvkk4bn995");
+define("APP_DB",        "mypsa_bitacoramyp");
+error_reporting(0);
+ini_set('display_errors', 0);
