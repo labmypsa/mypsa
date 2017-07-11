@@ -515,19 +515,17 @@
             dataType: "json",
             method: "GET",
             }).done(function(data) {
-            //console.log(data);
             var count = data.length;
             if(count >0){$('#notification_number').text(count);}
-            
             $.each(data, function(i, item) {
-                var color;
-                if(item.prioridad == '0'){
+                var color;            
+                if(item.prioridad == '0' || item.prioridad == null){
                     color = 'blue'
                 } else{
                     color = 'red';
                 }
                 $('#notification_header').text('Tienes '+count+' equipos a calibrar');
-                $('#notification_menu').append('<li><a href="?c=calibracion&a=index&p='+item.id+'"><i class="fa fa-file-text text-'+color+'"></i> #' + item.id + ' - ' + item.descripcion + '</a></li>');
+                $('#notification_menu').append('<li><a href="?c=calibracion&a=index&p='+item.id+'" title="'+item.descripcion+'"><i class="fa fa-file-text text-'+color+'"></i> #' + item.id + ' - ' + item.descripcion + '</a></li>');
             });
 
             }).fail(function(data) {

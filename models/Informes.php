@@ -10,14 +10,14 @@ class Informes extends Model {
     }
 
     public function equipos_calibrar_notification(){
-        $this->query= "SELECT id, CONCAT(UFIRST(descripcion), ' - ',  UFIRST(marca)) descripcion, prioridad FROM view_".$this->table." WHERE usuarios_calibracion_id = '".Session::get('id')."' AND proceso = 1;";        
+        $this->query= "SELECT id, CONCAT(descripcion, ' - ', marca) descripcion, prioridad FROM view_".$this->table." WHERE usuarios_calibracion_id = '".Session::get('id')."' AND proceso = 1;";
         $this->get_results_from_query();
         return $this->rows;
     }
 
     public function numero_informe(){      
         $this->query="SELECT MAX(id) as id FROM ".$this->table."";
-        $this->get_results_from_query();       
+        $this->get_results_from_query();
         return $this->rows;
     }
 
