@@ -15,6 +15,12 @@ class Informes extends Model {
         return $this->rows;
     }
 
+    public function datos_equipo($id){
+        $this->query= "SELECT alias, marca, modelo, descripcion FROM view_".$this->table." where id=".$id."";
+        $this->get_results_from_query();
+        return $this->rows;
+    }
+
     public function numero_informe(){      
         $this->query="SELECT MAX(id) as id FROM ".$this->table."";
         $this->get_results_from_query();

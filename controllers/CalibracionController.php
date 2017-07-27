@@ -21,7 +21,8 @@ class CalibracionController {
       if (isset($_GET['p'])) {
         $id=$_GET['p'];
         $view_informes="view_informes". $this->ext;       
-        $data['get']=$this->model['informes']->get_calibracion($id, $view_informes);             
+        $data['get']=$this->model['informes']->get_calibracion($id, $view_informes);
+        $data['equipo'] = $this->model['informes']->datos_equipo($id);
        if ($data['get'][0]['proceso']> 0) {
         $data['tecnico']= $this->model['usuario']->find_by(['plantas_id'=>Session::get('plantas_id'),'activo'=>'1']);
         $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']); 

@@ -165,6 +165,41 @@
                                 </div>
                               </div>
                         </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="box box-default">                                 
+                              <div class="box-header">
+                                <h3 class="box-title"> Datos del equipo</h3>
+                              </div>
+                              <div class="box-body"> 
+                                <div class="box-body form-horizontal">
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Id:</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['alias']; ?>">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Marca:</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['marca']; ?>">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Modelo:</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['modelo']; ?>">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Descripción:</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['descripcion']; ?>">
+                                        </div>
+                                      </div>
+                                </div>
+                              </div>
+                        </div>
                     </div>                                                                                                    
                   </div>
                 </form>
