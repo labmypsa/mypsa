@@ -171,6 +171,7 @@
                 }
                 else{
                     //Cuando historial esta vacio
+                    $('#historial_informes tbody').remove();  
                     buscar_idequipo(0);
                 } 
                 //reload_radiobutton();
@@ -222,6 +223,7 @@
                     }
 
                 } else {
+                    $('#table_equipo tbody').remove();
                     alertas_tipo_valor('alerta_idequipo', 'vacio', "<p><a href='?c=equipos&a=add' target='_blank' class='btn btn-primary' style='text-decoration:none;'><i class='fa fa-plus-circle'></i> &nbsp; Agregar equipo</a></li></p>");
                 }
             }).fail(function(data) {}).always(function(data) {

@@ -119,10 +119,10 @@
                 rightColumns:2
             }); 
             // Setup - add a text input to each footer cell
-            $('#table_proceso tfoot th').each( function () {
-                var title = $(this).text();
-                $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-            } );                
+            // $('#table_proceso tfoot th').each( function () {
+            //     var title = $(this).text();
+            //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+            // } );                
                     
         } );         
         </script>    
