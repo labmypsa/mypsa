@@ -109,7 +109,7 @@
             <?php importView('_static.footer'); ?>
         </div>
         <script>
-        var controller = "<?php echo $this->name.' '.$this->ext.' '.'3'; ?>";                        
+        var controller = "<?php echo $this->name.' '.$this->ext.' '.'3 '.$usuario.' '.$rol.''; ?>";                            
         </script>
         <?php importView('_static.scripts'); ?>    
         <script type="text/javascript">

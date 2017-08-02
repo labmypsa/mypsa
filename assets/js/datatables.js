@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    if (typeof controller != 'undefined') {       
+    if (typeof controller != 'undefined') {                   
+        var _arrayCtrl=controller.split(" "); 
 
         var table = $('#table').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,            
@@ -214,9 +215,17 @@ $(document).ready(function () {
                     ["","","",""]
                     ];
                     var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion' data-toggle='tooltip' class='btn btn-social-icon badge bg-red"+ enable[data][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
-                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion' data-toggle='tooltip' class='btn btn-social-icon badge bg-yellow "+ enable[data][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>"+                 
-                    "<a href='?c=salida&a=index&p="+row[0]+"'  target='_black' id='btn_salida' data-toggle='tooltip' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                    "<a href='?c=factura&a=index&p="+row[0]+"' id='btn_factura' data-toggle='tooltip' class='btn btn-social-icon badge bg-navy "+ enable[data][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";                
+                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion' data-toggle='tooltip' class='btn btn-social-icon badge bg-yellow "+ enable[data][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";                                
+
+                    if(_arrayCtrl[4] == '00' || _arrayCtrl[4] == '02'|| _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){
+                    menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' data-toggle='tooltip' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                    "<a href='?c=factura&a=index&p="+row[0]+"' target='_black' id='btn_factura' data-toggle='tooltip' class='btn btn-social-icon badge bg-navy "+ enable[data][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
+                    }
+                    else
+                    {
+                    menu +="<a href='#' id='btn_salida' data-toggle='tooltip' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                    "<a href='#' id='btn_factura' data-toggle='tooltip' class='btn btn-social-icon badge bg-navy "+ enable[data][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
+                    }
                         return  menu;                     
                     },
                 "orderable" : false,
@@ -224,8 +233,7 @@ $(document).ready(function () {
                 }],
             "language": { "url": "assets/json/datatables.spanish.json" }
         }); 
-    
-        
+            
         var table_proceso = $('#table_proceso').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
             "deferRender": true,
@@ -293,12 +301,21 @@ $(document).ready(function () {
                     ["","","",""],                    
                     ];
                     var disabledf="";
-                    if(row[22]=='pendiente'){disabledf=enable[2][3];} else {disabledf=enable[data][3];}
-                                  
+                    if(row[22]=='pendiente'){disabledf=enable[2][3];} 
+                    else {disabledf=enable[data][3];}
+                    //opciones del menu que siempre estaran habilitados
                     var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_blank' id='btn_recepcion' data-toggle='tooltip' class='btn btn-social-icon badge bg-red"+ enable[data][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
-                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_blank' id='btn_calibracion' data-toggle='tooltip' class='btn btn-social-icon badge bg-yellow "+ enable[data][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>"+                 
-                    "<a href='?c=salida&a=index&p="+row[0]+"'  target='_blank' id='btn_salida' data-toggle='tooltip' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_blank' id='btn_calibracion' data-toggle='tooltip' class='btn btn-social-icon badge bg-yellow "+ enable[data][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";
+
+                    if(_arrayCtrl[4] == '00' || _arrayCtrl[4] == '02'|| _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){
+                    menu +="<a href='?c=salida&a=index&p="+row[0]+"'  target='_blank' id='btn_salida' data-toggle='tooltip' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
                     "<a href='?c=factura&a=index&p="+row[0]+"'  target='_blank' id='btn_factura' data-toggle='tooltip' class='btn btn-social-icon badge bg-navy "+ disabledf  +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";                
+                    } 
+                    else{
+                    menu +="<a href='#' id='btn_salida' data-toggle='tooltip' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                    "<a href='#' id='btn_factura' data-toggle='tooltip' class='btn btn-social-icon badge bg-navy "+ disabledf  +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";                
+                    }        
+                    
                     return  menu;
                     },                   
                 "orderable" : false,
