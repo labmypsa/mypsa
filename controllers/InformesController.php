@@ -21,9 +21,13 @@ class InformesController
 	}
 
 	public function index(){
+		$usuario =Session::get('id');		
+		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100-00
 		include view($this->name.'.read');
 	}
 	public function proceso(){
+		$usuario =Session::get('id');		
+		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100-00
 		include view($this->name.'.proceso');
 	}
 	public function calibrar(){		
