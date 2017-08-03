@@ -284,9 +284,11 @@ $(document).ready(function () {
                  "targets": -2,
                  "render": function(data,type, row){                     
                     var color=['danger','warning','info','primary'];
+                    var proceso=['Inicio','Calibración','Salida','Facturación'];
                     var menu="<div class='progress progress-striped active'>"+
-                    "<div class='progress-bar progress-bar-"+ color[row[30]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[30])*100)/4+"%'> "+(parseInt(row[30])*100)/4+"% </div>"+
-                    "</div>";
+                    "<div class='progress-bar progress-bar-"+ color[row[30]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[30])*100)/4+"%'> "+(parseInt(row[30])*100)/4+"% </div>"+                    
+                    "</div>"+
+                    "<div><p>"+ proceso[parseInt(row[30])]+"</p></div>";
                     return  menu;
                 }
                 },                            
