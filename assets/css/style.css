@@ -64,3 +64,9 @@ input:focus:invalid,  textarea:focus:invalid {
     text-overflow: ellipsis;
 
 }
+.table-striped>tbody>tr:nth-of-type(odd){
+	background-color: #dde7ed;
+}
+.table-hover>tbody>tr:hover{
+	background-color: #96c0d9;
+}
