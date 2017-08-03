@@ -127,7 +127,7 @@ function validate($data, $rules) {
                     case 'ucwords': //Convierte a mayúsculas el primer caracter de cada palabra de una cadena
                         $data[$key] = ucwords($data[$key]);
                         break;
-                    case 'strtoupper': //Convierte una cadena a minúsculas
+                    case 'strtoupper': //Convierte una cadena a mayusculas
                         $data[$key] = strtoupper($data[$key]);
                         break;
                     case 'ucname': //Convierte a mayusculas las primeras letras, conciderando un array de posibles delimitadores
@@ -146,7 +146,7 @@ function validate($data, $rules) {
                     case 'strtolower':
                         $data[$key] = strtolower($data[$key]);
                         break;
-                    case 'trimlower':
+                    case 'trimlower'://Convierte una cadena a minusculas
                         $data[$key] = strtolower(trim($data[$key]));
                         break;
                     case 'min':
