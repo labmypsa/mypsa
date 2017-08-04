@@ -49,7 +49,7 @@ $condicion="";
 
     $query='';
     if($tipo=="recalibrar"){
-        $query="periodo_calibracion> 0 and plantas_id=". $usuario." and  fecha_vencimiento between (curdate()) and (date_add(curdate(), interval 1 month))";
+        $query="periodo_calibracion> 0 and plantas_id=". $usuario." and  fecha_vencimiento between (curdate()) and (date_add(curdate(), interval 1 month)) and month(fecha_vencimiento)= month(curdate())";
         $condicion=$query;        
     }
     if($tipo=="vencidos"){
