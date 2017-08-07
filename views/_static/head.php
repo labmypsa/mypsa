@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/plugins/datatables/dataTables.bootstrap.css">
 	    <link rel="stylesheet" href="assets/plugins/datatables/buttons.bootstrap.min.css">
+        <link rel="stylesheet" href="assets/plugins/datatables/fixedHeader.dataTables.min.css">
         <link rel="stylesheet" href="assets/plugins/lightbox2/css/lightbox.min.css">        
         <link rel="stylesheet" type="text/css" href="assets/plugins/datatables/extensions/fixedColumns/css/dataTables.fixedColumns.css">
 

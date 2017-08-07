@@ -67,7 +67,12 @@
         </script>
         <?php importView('_static.scripts'); ?>
         <script>
+            $('#table_users tfoot th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
+            } );
            var table = $('#table_users').DataTable({
+            "colReorder": true,
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
@@ -105,6 +110,17 @@
                 }
             }
         });
+        table.columns().every( function () {
+                var that = this;
+         
+                $( 'input', this.footer() ).on( 'keyup change', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
 
            $('#table_users tbody').on('click', 'a', function () {
                var data = table.row($(this).parents('tr')).data();

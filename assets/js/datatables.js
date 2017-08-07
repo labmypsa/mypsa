@@ -2,6 +2,11 @@ $(document).ready(function () {
     if (typeof controller != 'undefined') {                   
         var _arrayCtrl=controller.split(" "); 
 
+$('#table tfoot th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
+            } );
+
         var table = $('#table').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,            
             "processing": true,
@@ -92,6 +97,19 @@ $(document).ready(function () {
             "language": { "url": "assets/json/datatables.spanish.json" }
         });
 
+        table.columns().every( function () {
+                    var that = this;
+             
+                    $( 'input', this.footer() ).on( 'keyup change', function () {
+                        if ( that.search() !== this.value ) {
+                            that
+                                .search( this.value )
+                                .draw();
+                        }
+                    } );
+                } );
+
+
         $('#table tbody').on('click', 'a', function () {
             var data = table.row($(this).parents('tr')).data();
             if ($(this).data("type") == "edit") {
@@ -100,7 +118,11 @@ $(document).ready(function () {
                 window.location.replace("?c=" + controller + "&a=delete&p=" + data[0]);
             }
         });
-        
+         $('#table_informes tfoot th').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
+        } );
+
         var table_informes = $('#table_informes').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
             "deferRender": true,
@@ -231,9 +253,51 @@ $(document).ready(function () {
                 "orderable" : false,
                 "searchable": false,
                 }],
-            "language": { "url": "assets/json/datatables.spanish.json" }
+            // "language": { "url": "assets/json/datatables.spanish.json" }
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         }); 
-            
+
+
+        table_informes.columns().every( function () {
+            var that = this;
+            $( 'input', this.footer() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                    }
+                });
+            });
+
+
+         $('#table_proceso tfoot th').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
+        } );
+
         var table_proceso = $('#table_proceso').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
             "deferRender": true,
@@ -319,12 +383,99 @@ $(document).ready(function () {
                     }        
                     
                     return  menu;
-                    },                   
-                "orderable" : false,
-                "searchable": false,
+                    }
+                // "orderable" : false,
+                // "searchable": false,
                 }],
-            "language": { "url": "assets/json/datatables.spanish.json" }
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         }); 
+        
+        // var table_proceso = $('#table_proceso').DataTable({
+        //     "colReorder": true,
+        //     "processing": true,
+        //     "serverSide": true,
+        //     "dataType": "jsonp",
+        //     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        //      "autoWidth": false,
+        //      "scrollX": true,
+        //     dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
+        //     buttons: [
+        //          {
+        //             extend: 'excel',
+        //             text: 'Excel',
+        //             exportOptions: {
+        //                 columns: [':not(:last-child)' ]
+        //             },
+        //         }                
+        //     ], 
+        //     "ajax": "assets/php/server_processing.php?controller=" + controller,
+        //     "columnDefs": [{
+        //             "targets": -1,
+        //             "data": null,
+        //             "defaultContent": "<a href='#' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='#' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a> <a href='#' data-type='password' class='btn btn-xs btn-warning btn-flat' title='Restablecer contraseña'><i class='fa fa-key' aria-hidden='true'></i></a> <a href='#' data-type='turn_off' class='btn btn-xs btn-default btn-flat' title='Suspender usuario'><i class='fa fa-power-off' aria-hidden='true'></i></a>"
+        //         }],
+        //     "language": {
+        //         "sProcessing": "Procesando...",
+        //         "sLengthMenu": "Mostrar _MENU_ registros",
+        //         "sZeroRecords": "No se encontraron resultados",
+        //         "sEmptyTable": "Ningún dato disponible en esta tabla",
+        //         "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
+        //         "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        //         "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        //         "sInfoPostFix": "",
+        //         "sSearch": "Buscar:",
+        //         "sUrl": "",
+        //         "sInfoThousands": ",",
+        //         "sLoadingRecords": "Cargando...",
+        //         "oPaginate": {
+        //             "sFirst": "Primero",
+        //             "sLast": "Último",
+        //             "sNext": "Siguiente",
+        //             "sPrevious": "Anterior"
+        //         },
+        //         "oAria": {
+        //             "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+        //             "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        //         }
+        //     }
+        // });
+
+
+
+        table_proceso.columns().every( function () {
+            var that = this;
+            $( 'input', this.footer() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                    }
+                });
+            });
+
     
 
         var table_calibrar = $('#table_calibrar').DataTable({

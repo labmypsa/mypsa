@@ -23,9 +23,11 @@
         <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="assets/plugins/datatables/extensions/FixedColumns/js/dataTables.fixedColumns.js"></script>
         <script src="assets/plugins/datatables/dataTables.bootstrap.min.js"></script>
-	<script src="assets/plugins/datatables/dataTables.buttons.min.js"></script>
-	<script src="assets/plugins/datatables/buttons.html5.min.js"></script>
+        <script src="assets/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="assets/plugins/datatables/dataTables.colReorder.min.js"></script>
+        <script src="assets/plugins/datatables/buttons.html5.min.js"></script>
         <script src="assets/plugins/datatables/buttons.colVis.min.js"></script>
+        <script src="assets/plugins/datatables/dataTables.fixedHeader.min.js"></script>
 	<script src="assets/plugins/jszip/jszip.min.js"></script>
 	<script src="assets/plugins/pdfmake/pdfmake.min.js"></script>
 	<script src="assets/plugins/pdfmake/vfs_fonts.js"></script>

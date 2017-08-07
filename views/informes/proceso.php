@@ -113,16 +113,17 @@
         </script>
         <?php importView('_static.scripts'); ?>    
         <script type="text/javascript">
+
+            
+
+
+
        $(window).load(function() {
             new $.fn.dataTable.FixedColumns( table_proceso ,{
                 leftColumns:1,
                 rightColumns:2
             }); 
-            // Setup - add a text input to each footer cell
-            // $('#table_proceso tfoot th').each( function () {
-            //     var title = $(this).text();
-            //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-            // } );                
+
                     
         } );         
         </script>    
