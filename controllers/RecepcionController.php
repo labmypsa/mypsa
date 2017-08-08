@@ -46,12 +46,11 @@
       $data['empresa']=$this->model['empresa']->all();   
       
       //se hara la modificación para hermosillo y para guaymas que todos los tecnicos puedan estar en hoja de entrada
-      if($sucursal != 'nogales'){
-        $data['tecnico']= $this->model['usuario']->find_by(['plantas_id'=>Session::get('plantas_id'),'activo'=>'1']); 
+      $data['tecnico']= $this->model['usuario']->find_by(['plantas_id'=>Session::get('plantas_id'),'activo'=>'1']); 
+      if($sucursal != 'nogales'){        
         $data['registradopor']= $this->model['usuario']->find_by(['activo'=>'1','plantas_id'=>Session::get('plantas_id')]);
       }
-      else{
-        $data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'plantas_id'=>Session::get('plantas_id'),'activo'=>'1']); 
+      else{        
         $data['registradopor']= $this->model['usuario']->find_by(['activo'=>'1','roles_id'=>'10006','plantas_id'=>Session::get('plantas_id')]);
       }      
       $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']);
@@ -70,8 +69,8 @@
  //Update la bitacora 
 
   public function store() {
- //existe esta variables auxiliar que es un radio y esta en la tabla de historial, pero tomo el valor del número de informe del campo informe, entonces cuando hay datos en la tabla y tambien en el campo informe, no me sirve el id_aux.
-  if (isset($_POST['id_aux'])) {unset($_POST['id_aux']);}
+    //existe esta variables auxiliar que es un radio y esta en la tabla de historial, pero tomo el valor del número de informe del campo informe, entonces cuando hay datos en la tabla y tambien en el campo informe, no me sirve el id_aux.
+    if (isset($_POST['id_aux'])) {unset($_POST['id_aux']);}
         $data = validate($_POST, [
             'id' => 'required|toInt',
             'equipos_id' => 'required|toInt',
