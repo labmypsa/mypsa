@@ -84,6 +84,8 @@ class UsuariosController {
             'roles_id' => 'required|trimlower|exists:roles:id',
             'activo' => 'required|toInt',
         ]);
+        $data["nombre"] = ucfirst($data["nombre"]);
+        $data["apellido"] = ucfirst($data["apellido"]);
         $data["password"] = Crypt::encrypt($data["password"]);
         if($_FILES['avatar']['size'] > 0){
             if($avatar = Storage::validate($_FILES['avatar'], [
@@ -122,6 +124,8 @@ class UsuariosController {
             'roles_id' => 'required|trimlower|exists:roles:id',
             'activo' => 'required|toInt',
         ]);
+        $data["nombre"] = ucfirst($data["nombre"]);
+        $data["apellido"] = ucfirst($data["apellido"]);
         if($_FILES['avatar']['size'] > 0){
             if($avatar = Storage::validate($_FILES['avatar'], [
                 'max-size' => 4096,
