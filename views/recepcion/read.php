@@ -280,12 +280,14 @@
                                           <div class="col-sm-9"> 
                                             <select id="usuarios_calibracion_id" class="form-control select2" style="width: 100%;" name="usuarios_calibracion_id" required="">
                                                   <option value="">Seleccione una opción</option> 
-                                                  <?php
+                                                  <?php                                                  
                                                   foreach ($data['tecnico'] as $tecnico) {
-                                                    if ($data['get'][0]['usuarios_calibracion_id'] === $tecnico['id']) {
-                                                      echo '<option value="'.$tecnico['id'].'" selected="selected">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
-                                                    }
-                                                    else{echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>'; }
+                                                      if($tecnico['roles_id']== '10003' || $tecnico['roles_id']== '10002' || $tecnico['roles_id']== '10004'){
+                                                        if ($data['get'][0]['usuarios_calibracion_id'] === $tecnico['id']) {
+                                                          echo '<option value="'.$tecnico['id'].'" selected="selected">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
+                                                        }
+                                                        else{echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>'; }
+                                                      }
                                                   }
                                                  ?> 
                                               </select>                                           
