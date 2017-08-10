@@ -94,7 +94,30 @@ $('#table tfoot th').each( function () {
                     "data": null,
                     "defaultContent": "<a href='#' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='#' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a>"
                 }],
-            "language": { "url": "assets/json/datatables.spanish.json" }
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         });
 
         table.columns().every( function () {
@@ -118,9 +141,10 @@ $('#table tfoot th').each( function () {
                 window.location.replace("?c=" + controller + "&a=delete&p=" + data[0]);
             }
         });
-         $('#table_informes tfoot th').each( function () {
+
+         $('#table_informes thead th').each( function () {
             var title = $(this).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
+            $(this).append( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
         } );
 
         var table_informes = $('#table_informes').DataTable({
@@ -132,7 +156,7 @@ $('#table tfoot th').each( function () {
             "lengthMenu": [[15, 20, 50, -1], [15, 20, 50, "All"]],
             "autoWidth": true,
             "scrollX": true,           
-            dom: '<"pull-left"l>fr<"dt-buttons"B>tip',            
+            dom: '<"pull-left"l>fr<"dt-buttons"B>Ztip',            
             buttons: [
                  {
                     extend: 'excel',
@@ -340,7 +364,7 @@ $('#table tfoot th').each( function () {
                     if(planta== "planta1" || planta== "planta 1" || planta== "Planta1" || planta== "Planta 1"){
                         planta="";
                     }
-                     return data+planta;                     
+                     return data+planta; 
                     }
                 },  
                 {"targets":[24,25,26,27], "visible":false},

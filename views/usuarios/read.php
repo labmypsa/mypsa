@@ -72,6 +72,7 @@
                 $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
             } );
            var table = $('#table_users').DataTable({
+            "dom": 'Zlfrtip',
             "colReorder": true,
             "processing": true,
             "serverSide": true,
