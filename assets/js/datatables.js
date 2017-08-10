@@ -142,7 +142,7 @@ $('#table tfoot th').each( function () {
             }
         });
 
-         $('#table_informes thead th').each( function () {
+         $('#table_informes tfoot th').each( function () {
             var title = $(this).text();
             $(this).append( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
         } );
