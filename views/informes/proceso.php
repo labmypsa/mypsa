@@ -36,7 +36,7 @@
                                                 <th>Modelo</th>
                                                 <th>Serie</th>
                                                 <th>Cliente</th>
-                                                <th>planta</th>
+                                                <th>Planta</th>
                                                 <th>Dirección</th>
                                                 <th>Tipo/calibración</th>
                                                 <th># Hoja de Entrada</th>
