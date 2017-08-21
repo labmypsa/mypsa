@@ -118,6 +118,7 @@ $('#table tfoot th').each( function () {
                 window.location.replace("?c=" + controller + "&a=delete&p=" + data[0]);
             }
         });
+
          $('#table_informes tfoot th').each( function () {
             var title = $(this).text();
             $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
@@ -199,16 +200,16 @@ $('#table tfoot th').each( function () {
                     }}
             ],            
             "columnDefs": [
-                { "targets":[7], "visible":false}, 
+                { "targets":[7], "visible":true}, 
                 {
-                    "width": "150px",
-                   "targets": 6,
+                    //"width": "150px",
+                   "targets": 7,
                    "render": function(data,type, row){
-                    var planta=row[7].toLowerCase();
-                    if(planta== "planta1" || planta== "planta 1"){
+                    var planta=row[7];
+                    if(planta== "planta1" || planta== "planta 1" || planta== "Planta1" || planta== "Planta 1"){
                         planta="";
                     }
-                     return data+planta;                     
+                     return planta;                                                             
                     }
                 },                            
                 {   
@@ -331,16 +332,16 @@ $('#table tfoot th').each( function () {
                   }
               },
             "columnDefs": [
-                { "targets":[7], "visible":false}, 
+                { "targets":[7], "visible":true}, 
                 {
-                    "width": "150px",
-                   "targets": 6,
+                    //"width": "150px",
+                   "targets": 7,
                    "render": function(data,type, row){
                     var planta=row[7];
                     if(planta== "planta1" || planta== "planta 1" || planta== "Planta1" || planta== "Planta 1"){
                         planta="";
                     }
-                     return data+planta;                     
+                     return planta;                     
                     }
                 },  
                 {"targets":[24,25,26,27], "visible":false},
@@ -508,7 +509,7 @@ $('#table tfoot th').each( function () {
                   }
               },
             "columnDefs": [
-                { "targets":[7], "visible":false}, 
+                { "targets":[7], "visible":true}, 
                 {
                    "width": "150px",
                    "targets": 6,
