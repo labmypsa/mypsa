@@ -254,7 +254,7 @@
                                             echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" min="0" placeholder="0" value="'.$data['get'][0]['periodo_calibracion'].'" required="">';
                                           }
                                           else{
-                                            echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" min="0" placeholder="0" required="">';
+                                            echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" min="0" placeholder="0" required="" value="12">';
                                           }
                                           ?>
                                           </div>
@@ -265,13 +265,30 @@
                                                 <select name="acreditaciones_id" id="acreditaciones_id" class="form-control select2" style="width: 100%;" required="">
                                                  <option value="">Seleccione una opción</option> 
                                                  <?php
-                                                  foreach ($data['acreditacion'] as $acreditacion) {
+                                                 $encontro = false;
+                                                 foreach ($data['acreditacion'] as $acreditacion) {
+                                                  if ($data['get'][0]['acreditaciones_id'] === $acreditacion['id']) {
+                                                    $encontro = true;
+                                                  }
+                                                 }
+                                                 if ($encontro){
+                                                   foreach ($data['acreditacion'] as $acreditacion) {
                                                     if ($data['get'][0]['acreditaciones_id'] === $acreditacion['id']) {
                                                       echo '<option value="'. $acreditacion['id'] .'" selected="selected">'.$acreditacion['nombre'].'</option>';
                                                     }
-                                                    else{echo '<option value="'. $acreditacion['id'] .'">'.$acreditacion['nombre'].'</option>'; }
-                                                  }
-                                                 ?>                                           
+                                                    else{
+                                                      echo '<option value="'. $acreditacion['id'] .'">'.$acreditacion['nombre'].'</option>'; }
+                                                    }
+                                                 } else{
+                                                   foreach ($data['acreditacion'] as $acreditacion) {
+                                                    if (14 == $acreditacion['id']) {
+                                                      echo '<option value="'. $acreditacion['id'] .'" selected="selected">'.$acreditacion['nombre'].'</option>';
+                                                    }
+                                                    else{
+                                                      echo '<option value="'. $acreditacion['id'] .'">'.$acreditacion['nombre'].'</option>'; }
+                                                    }
+                                                 }
+                                                  ?>                                           
                                                 </select>                                           
                                           </div>
                                         </div>
