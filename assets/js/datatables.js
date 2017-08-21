@@ -534,14 +534,14 @@ $('#table tfoot th').each( function () {
             "columnDefs": [
                 { "targets":[7], "visible":true}, 
                 {
-                   "width": "150px",
-                   "targets": 6,
+                   //"width": "150px",
+                   "targets": 7,
                    "render": function(data,type, row){
-                    var planta=row[7].toLowerCase();
-                    if(planta== "planta1" || planta== "planta 1"){
+                    var planta=row[7];
+                    if(planta== "planta1" || planta== "planta 1" || planta== "Planta1" || planta== "Planta 1"){
                         planta="";
                     }
-                     return data+planta;                     
+                     return planta;                                                             
                     }
                 },  
                 {"targets":[13,15,17,19,20,21,22,23,24,25,26,27,28], "visible":false},
