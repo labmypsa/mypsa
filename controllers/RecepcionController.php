@@ -39,7 +39,11 @@
       'id' => '', 'idequipo' => '', 'alias' => '', 'empresas_id' => '', 'plantas_id' => '', 'periodo_calibracion' => '', 'acreditaciones_id' => '',
       'usuarios_calibracion_id' => '', 'calibraciones_id' => '', 'prioridad' => '', 'comentarios' => '', 'po_id' => '', 'cantidad' => '',
       'hojas_entrada_id' => '', 'usuarios_id' => '', 'fecha' => '', 'proceso' => '',
-      ));     
+      )); 
+      //usuarios predefinidos para la hoja de entrada dependiendo la sucursal
+      if( $sucursal == 'nogales'){ $data['get'][0]['usuarios_id']='113';}
+      if( $sucursal == 'hermosillo'){ $data['get'][0]['usuarios_id']='845';}
+      if( $sucursal == 'guaymas'){ $data['get'][0]['usuarios_id']='857';}
     }
     $sucursal=strtolower(Session::get('sucursal'));
 
@@ -54,12 +58,7 @@
         $data['registradopor']= $this->model['usuario']->find_by(['activo'=>'1','roles_id'=>'10006','plantas_id'=>Session::get('plantas_id')]);
       }      
       $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']);
-      $data['tipocalibracion']=$this->model['tipocalibracion']->all(); 
-      //usuarios predefinidos para la hoja de entrada dependiendo la sucursal
-      if( $sucursal == 'nogales'){ $data['get'][0]['usuarios_id']='113';}
-      if( $sucursal == 'hermosillo'){ $data['get'][0]['usuarios_id']='845';}
-      if( $sucursal == 'guaymas'){ $data['get'][0]['usuarios_id']='857';}
-      
+      $data['tipocalibracion']=$this->model['tipocalibracion']->all();             
   	include view($this->name.'.read');
 	}
 

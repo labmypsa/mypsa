@@ -65,7 +65,7 @@
                             echo '<li><a href="?c=clienteinformes&a=continental"><i class="fa fa-circle-o"></i>Historial informes</a></li>';
                         }   
                         else{echo '<li><a href="?c=clienteinformes"><i class="fa fa-circle-o"></i>Historial informes</a></li>';} 
-                        if(Session::get('plantas_id')=='758'){
+                        if(Session::get('plantas_id')=='758' and Session::has('rol',['Administrador'])){
                         echo '<li><a href="?c=clienteinformes&a=continental"><i class="fa fa-circle-o"></i>Historial informes conti</a></li>'; 
                         }
                          echo '<li><a href="?c=clienteinformes&a=recalibrar"><i class="fa fa-circle-o"></i>Equipos a vencer</a></li>';
@@ -83,7 +83,7 @@
                         </a>
                         <ul class='treeview-menu'>                
                             <li><a href='?c=reportes'><i class='fa fa-circle-o'></i>Productividad</a></li>               
-                            <li><a href='#'><i class='fa fa-circle-o'></i>Clientes</a></li>                    
+                            <li><a href='?c=reportes&a=cliente'><i class='fa fa-circle-o'></i>Clientes</a></li>                    
                         </ul>
                         </li>";
                 }
