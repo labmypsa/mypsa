@@ -77,7 +77,7 @@ class CalibracionController {
               if ($this->model['informes']->update($data))  {
               // direccionarlo al siguiente proceso                     
                if ($data['proceso'] === 2) {
-                Logs::this("Captura en calibración", "Se capturo los datos de calibración el informe".$data['id']);
+                Logs::this("Captura en calibración", "Se capturo los datos de calibración el informe: ".$data['id']);
                 $i= substr(Session::get('roles_id'),-1,1);                         
                 //Esta función sirve para denegar el seguimiento a las personas no autorizadas (Técnicos)
                 if($i==3) {redirect('?c=informes&a=calibrar');} // Regreso al técnico a su historial de equipos,

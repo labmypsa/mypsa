@@ -46,7 +46,7 @@ class LoginController {
                     if (isset($data['remember'])) {
                         Session::store($user['id'], true);
                         if(Session::get('activo') == 'si'){
-                            Logs::this('login','cookie');
+                            Logs::this('Inicio sesión','Se usó opción de “Recordar”');
                             $_SESSION['log'] = true;
                             redirect('index.php');
                         } else{
@@ -57,7 +57,7 @@ class LoginController {
                     } else {
                         Session::store($user['id'], false);
                         if(Session::get('activo') == 'si'){
-                            Logs::this('login');
+                            Logs::this('Inicio sesión');
                             $_SESSION['log'] = true;
                             redirect('index.php');
                         } else{
@@ -79,6 +79,6 @@ class LoginController {
 
     public function logout() {        
         Session::destroy();
-        Logs::this('logout','Session terminada exitosamente');
+        Logs::this('Cerro sesión','El usuario cerro sesión');
     }
 }

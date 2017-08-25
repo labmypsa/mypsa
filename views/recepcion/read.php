@@ -58,7 +58,7 @@
                                   <label for="idequipo" class="col-sm-3 control-label">Equipo :</label>
                                   <div class="col-sm-9">                                       
                                     <div class="input-group">                                  
-                                        <input type="text" id="idequipo" class="form-control" placeholder="id" required="">
+                                        <input type="text" id="idequipo" class="form-control" placeholder="id" required="" autofocus="">
                                         <div class="input-group-btn">
                                         <button type="button" class="btn btn-default" id="buscar_idequipo"> <i class="fa fa-search"></i> &nbsp; Buscar</button>
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">

@@ -88,7 +88,7 @@ class EquiposController {
             'id' => 'required|number|exists:equipos',
         ]);
         if ($this->model['equipo']->destroy($data)) {
-            Logs::this('Delete','Se elimino el equipo '.json_encode($data));
+            Logs::this('Elimino','Se elimino el equipo '. $data['id']);
             redirect('?c=' . $this->name);
         } else {
             Flash::error(setError('002'));

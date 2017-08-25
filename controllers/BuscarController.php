@@ -12,7 +12,6 @@ class BuscarController {
             'usuario' => new Usuario(),
             'informe' => new Informes(),
         ];
-       
     }
     public function index($str) {
         if(strlen($str)>=0){

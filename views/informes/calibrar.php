@@ -16,7 +16,7 @@
                         <div class="col-xs-12">
                             <div class="box box-default">
                                 <div class="box-header">
-                                    <h3 class="box-title">Bitácora de informes en proceso</h3>                                                                    
+                                    <h3 class="box-title">Equipos a calibrar</h3>                                                                    
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">

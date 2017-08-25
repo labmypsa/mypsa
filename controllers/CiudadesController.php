@@ -17,7 +17,9 @@ class CiudadesController {
     public function index() {
         include view($this->name . '.read');
     }
-
+    public function test(){
+        include view($this->name . '.index');
+    }
     public function add() {
         $data['estado'] = $this->model['estado']->all();
         include view($this->name . '.add');
