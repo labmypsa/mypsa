@@ -55,7 +55,8 @@ class SalidaController {
               'comentarios' => 'trimlower',
             ]);
         if($fecha_entrega != null) {unset($data['fecha_entrega']);}                      
-        //$data['usuarios_captura2_id'] = intval(Session::get('id'));                    
+        //$data['usuarios_captura2_id'] = intval(Session::get('id'));
+        $proceso_temp = $data['proceso'];                    
       if ($data['proceso'] == 2) {$data['proceso'] = intval('3');}
 
       if ($this->model['informes']->find_by(['id' => $data['id']])){
@@ -99,13 +100,18 @@ class SalidaController {
               if ($this->model['informes']->update($data)) {
                  // direccionarlo al siguiente proceso                
                 $po= $numero=$this->model['po']->po_pendiente($data['id']);
-                if ($data['proceso'] === 3 && $po !="pendiente") {
+                if ($proceso_temp === 2 && $po !="pendiente") {
                   Logs::this("Captura en salida", "Se capturo los datos de salida. Informe: ".$data['id']);
-                    redirect('?c=factura&a=index&p='.$data['id']);               
+                    redirect('?c=factura&a=index&p='.$data['id']);
+                    $this->model['informes']->_redirec($roles_id, $data['proceso'] ,$data['id']);              
                   }
-                else if ($data['proceso'] === 4) {
+                else if ($proceso_temp === 3 && $po !="pendiente") {
+                  Logs::this("Captura en salida", "Actualización datos de salida. Informe: ".$data['id']);
+                    $this->model['informes']->_redirec($roles_id, $data['proceso'] ,$data['id']);               
+                  }
+                else if ($proceso_temp === 4) {
                 Logs::this("Actualización en salida", "Actualización en salida, ya se encontraba el informe terminado. Informe: ".$data['id']); 
-                redirect('?c=informes');
+                $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
                 } 
                 else{
                 redirect('?c=informes&a=proceso');

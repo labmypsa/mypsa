@@ -92,6 +92,7 @@
             'comentarios' => 'trimlower',
             'proceso' => 'toInt',
         ]);
+        $proceso_temp = $data['proceso'];
         if ($data['proceso'] === 0) {
           $data['proceso'] = intval('1');
         }
@@ -180,23 +181,27 @@
           if (strlen($data['hojas_entrada_aux_id'])> 0 && strlen($data['po_id'])>0) {
              //si se agrego correctamente hoja de entrada y PO entonces se hara update sobre la tabla informes de los datos pendientes.                
              if ($this->model['informes']->update($data))  {
-            // direccionarlo al siguiente proceso                                     
-              if ($data['proceso'] == 1) {
+            // direccionarlo al siguiente proceso 
+            $roles_id= substr(Session::get('roles_id'),-1,1);                                      
+              if ($proceso_temp == 0) {
                 Logs::this("Captura datos de recepción", "Recepción del equipo, cliente y datos de calibración del informe: ".$data['id']); 
-                redirect('?c=recepcion');
-               // redirect('?c=calibracion&a=index&p='.$data['id']);
+              $this->model['informes']->_redirec($roles_id, $data['proceso'],$data['id']);
               }
-              else if($data['proceso'] == 2) {
-              Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de salida. Informe: ".$data['id']);              
-                redirect('?c=salida&a=index&p='.$data['id']);
+              else if($proceso_temp == 1) {
+              Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de recepción. Informe: ".$data['id']);              
+              $this->model['informes']->_redirec($roles_id, $data['proceso'],$data['id']);
+              }              
+              else if($proceso_temp == 2) {
+              Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de salida. Informe: ".$data['id']);  
+              $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);                                     
               }
-              else if ($data['proceso'] == 3) {
-                Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de facturación. Informe:".$data['id']);
-                redirect('?c=factura&a=index&p='.$data['id']);
+              else if ($proceso_temp == 3) {
+                Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de facturación. Informe:".$data['id']);                
+                $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
                 } 
-              else if ($data['proceso'] == 4) {
-                redirect('?c=recepcion');
+              else if ($proceso_temp == 4) {                
                 Logs::this("Actualización en recepción", "Actualización en recepción, ya se encontraba el informe terminado. Informe:".$data['id']); 
+                $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
                 } 
               else{
                 redirect('?c=informes&a=proceso');

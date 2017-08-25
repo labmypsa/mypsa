@@ -56,6 +56,7 @@ class FacturaController {
     'monedas_id' => 'required|toInt',
     'comentarios' => 'ucname',    
     ]);
+    $proceso_temp = $data['proceso'];
     if ($data['proceso'] == 3) {
         $data['proceso'] = intval('4');
       }
@@ -66,9 +67,14 @@ class FacturaController {
 
           if ($this->model['informes']->update($data))  {
               // direccionarlo al siguiente proceso
-              Logs::this("Captura en factura", "Se capturo los datos de facturación, factura: ".$data['factura'].". Informe: ".$data['id']);                                       
-              if ($data['proceso'] == 4) {                
-                redirect('?c=recepcion');
+            if ($proceso_temp == 3) {
+                Logs::this("Captura en factura", "Se capturo los datos de facturación, factura: ".$data['factura'].". Informe: ".$data['id']);   
+              $this->model['informes']->_redirec($roles_id, $data['proceso'],$data['id']);
+              }
+                                                   
+              if ($proceso_temp == 4) {
+              Logs::this("Actualización en factura", "Actualización en factura, ya se encontraba el informe terminado. Informe:".$data['id']);                               
+                 $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
               } 
               else{
                 redirect('?c=informes&a=proceso');
