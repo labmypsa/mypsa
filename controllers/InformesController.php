@@ -42,7 +42,7 @@ class InformesController
 	public function verinforme(){				
 		 $usuario =Session::get('id');		 
 		 $rol =Session::get('roles_id');		 
-		 if (isset($_GET['p']) && ($rol !='10001' || $rol !='10004')) {
+		if (isset($_GET['p']) && ($rol !='10001' || $rol !='10004')) {
 		 	$numinforme=$_GET['p'];	
 		  	$temp = json_encode($data['informe'] = $this->model['informe']->get_comparar_cliente($numinforme),true);		
 		  	$cliente= json_decode($temp, true);
@@ -61,9 +61,7 @@ class InformesController
 				 	}
 			 } else {
 		   		redirect('?c=error&a=error_412');
-		  	}	
-	 			
-				
+		  	}		 					
 		}
 		else{
 			redirect('?c=error&a=error_412');

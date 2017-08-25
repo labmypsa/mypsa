@@ -128,7 +128,7 @@
                                             <div class="col-sm-3"> </div>
                                             <div class="col-sm-9">                                          
                                               <?php
-                                                if ($data['get'][0]['proceso'] > 3) {
+                                                if ($data['get'][0]['proceso'] != 3) {
                                                   echo '<button type="submit" class="btn btn-info btn-block pull-right">Actualizar</button>';
                                                 }
                                                 else{echo '<button type="submit" class="btn btn-info btn-block pull-right">Guardar</button>';}
