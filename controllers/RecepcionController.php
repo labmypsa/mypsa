@@ -50,10 +50,10 @@
       //se hara la modificación para hermosillo y para guaymas que todos los tecnicos puedan estar en hoja de entrada
       $data['tecnico']= $this->model['usuario']->find_by(['plantas_id'=>Session::get('plantas_id'),'activo'=>'1']); 
       if($sucursal != 'nogales'){        
-        $data['registradopor']= $this->model['usuario']->find_by(['activo'=>'1','plantas_id'=>Session::get('plantas_id')]);
+        $data['registradopor']= $this->model['usuario']->find_by(['plantas_id'=>Session::get('plantas_id')]);
       }
       else{        
-        $data['registradopor']= $this->model['usuario']->find_by(['activo'=>'1','roles_id'=>'10006','plantas_id'=>Session::get('plantas_id')]);
+        $data['registradopor']= $this->model['usuario']->find_by(['roles_id'=>'10006','plantas_id'=>Session::get('plantas_id')]);
       }
 
       if (!isset($_GET['p'])) {
@@ -61,6 +61,7 @@
       if( $sucursal == 'hermosillo'){ $data['get'][0]['usuarios_id']='845';}
       if( $sucursal == 'guaymas'){ $data['get'][0]['usuarios_id']='857';}
       }
+
       $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']);
       $data['tipocalibracion']=$this->model['tipocalibracion']->all();             
   	include view($this->name.'.read');

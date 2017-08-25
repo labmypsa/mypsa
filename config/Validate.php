@@ -124,6 +124,9 @@ function validate($data, $rules) {
                         $data[$key] = intval($data[$key]);
                         break;
                     /*Validaciones textos agregados*/
+                    case 'ucfirst': //Devuelve una cadena con el primer caracter str en máyusculas, si el caracter es alfabético.
+                        $data[$key] = ucfirst($data[$key]);
+                        break;                    
                     case 'ucwords': //Convierte a mayúsculas el primer caracter de cada palabra de una cadena
                         $data[$key] = ucwords($data[$key]);
                         break;
