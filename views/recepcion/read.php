@@ -445,7 +445,7 @@
                                   </div>   
                                   <div class="box-footer">
                                     <?php
-                                      if ($data['get'][0]['proceso'] > 0) {
+                                      if ($data['get'][0]['proceso'] != 0) {
                                         echo '<button type="submit" class="btn btn-info btn-block pull-right">Actualizar</button>';
                                       }
                                       else{echo '<button type="submit" class="btn btn-info btn-block pull-right">Registrar</button>';}

@@ -68,7 +68,8 @@ class CalibracionController {
           $data['fecha_vencimiento'] = date('Y-m-d', strtotime($fechacal . "+".$periodo." month"));           
           $data['calibrado']= intval('1');
 
-      }      
+      }   
+      $proceso_temp = $data['proceso'];  
       if ($data['proceso'] === 1) {
         $data['proceso'] = intval('2');
         }
@@ -76,20 +77,21 @@ class CalibracionController {
          if ($this->model['informes']->find_by(['id' => $data['id']])){              
               if ($this->model['informes']->update($data))  {
               // direccionarlo al siguiente proceso                     
-               if ($data['proceso'] === 2) {
-                Logs::this("Captura en calibración", "Se capturo los datos de calibración el informe: ".$data['id']);
-                $i= substr(Session::get('roles_id'),-1,1);                         
-                //Esta función sirve para denegar el seguimiento a las personas no autorizadas (Técnicos)
-                if($i==3) {redirect('?c=informes&a=calibrar');} // Regreso al técnico a su historial de equipos,
-                else{redirect('?c=salida&a=index&p='.$data['id']); }
+               if ($proceso_temp === 1) {
+                Logs::this("Captura en calibración", "Se capturo los datos de calibración el informe ".$data['id']);
+                $this->model['informes']->_redirec($roles_id, $data['proceso'],$data['id']);
                 }
-                else if ($data['proceso'] === 3) {
-                  Logs::this("Actualización en calibración", "Actualización de información, se encuentra en proceso de facturación. El informe".$data['id']);
-                  redirect('?c=factura&a=index&p='.$data['id']);               
+                else if ($proceso_temp === 2) {
+                  Logs::this("Actualización en calibración", "Actualización de información, se encuentra en proceso de Calibración. El informe ".$data['id']);
+                  $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);               
                 }
-                else if ($data['proceso'] === 4) {
-                  Logs::this("Actualización en calibración", "Actualización en información, ya se encontraba el informe terminado.".$data['id']);
-                  redirect('?c=recepcion');
+                else if ($proceso_temp === 3) {
+                  Logs::this("Actualización en calibración", "Actualización de información, se encuentra en proceso de facturación. El informe ".$data['id']);
+                  $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);              
+                }
+                else if ($proceso_temp === 4) {
+                  Logs::this("Actualización en calibración", "Actualización en información, ya se encontraba el informe terminado. ".$data['id']);
+                  $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
                   } 
                 else{
                   redirect('?c=informes&a=proceso');

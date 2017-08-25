@@ -75,5 +75,20 @@ class Informes extends Model {
         $this->get_results_from_query();       
         return $this->rows;
     }
+    //Esta función sirve para denegar el seguimiento a las personas no autorizadas (Técnicos)
+    public function _redirec($rol,$proceso,$id){ 
+         $array_pages= array('?c=recepcion','?c=calibracion&a=index&p=','?c=salida&a=index&p=','?c=factura&a=index&p=','?c=recepcion');
+        // 1 condición de recepción si el técnico esta en proceso de entrada, lo  va a pasar a calibración
+        if($rol==3 and ($proceso==0 || $proceso==1) ){ redirect($array_pages[1].$id);} 
+        else if($proceso==0){redirect($array_pages[$proceso]);}
+        // 2 condición de recepción si el técnico esta en proceso calibracion, lo regresa a su lista de equipos a calibrar
+        if($rol==3 and $proceso > 1) {redirect('?c=informes&a=calibrar');} // Regreso al técnico a su historial de equipos.
+        else{ // proceso [2,3,4]
+            if($proceso < 4){redirect($array_pages[$proceso].$id); }
+            else{redirect($array_pages[$proceso]);}
+            
+        }  
+        
+    }
 
 }
