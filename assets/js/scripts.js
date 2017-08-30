@@ -121,6 +121,30 @@
             // console.log(data);
         });
     }
+
+    /* Buscar los técnicos de acuerdo a la sucursal  */
+    var sucursalxtec_ajax = function() {      
+        $.ajax({
+            url: "?c=reportes&a=ajax_load_tecnicos",
+            dataType: "json",
+            method: "POST",
+            data: "sucursal=" + $(".select2").val()
+        }).done(function(data) {
+            var datos = data;                        
+            var select = $('#usuarios_calibracion_id');
+            select.empty();
+            select.append($("<option />").val('').text('Seleccione una opción'));
+            select.append($("<option />").val('0').text('Todos'));
+            $.each(datos, function() {                        
+                select.append($("<option />").val(this.id).text(this.nombre + ' '+ this.apellido));
+            });  
+            $('#usuarios_calibracion_id').val('').change();       
+        }).fail(function(data) {}).always(function(data) {
+            //console.log(data);
+        });
+    }
+    /* End Seleccionar las sucursales*/
+
 /* Buscar equipo */
     var buscar_idequipo_historial = function () {    
         count_check_equipo=0;
@@ -661,7 +685,9 @@
         $("#empresa_ajax").on('change', empresa_ajax);
         // # Home Recepción   
         $("#empresa_ajax_r").on('change', empresa_ajax_r);
-
+        /* Home Reportes Productividad  */  
+        $("#nombre_suc").on('change', sucursalxtec_ajax);
+        /* End Reportes productividad */
         $("#buscar_idequipo").on('click', buscar_idequipo_historial);
         
         $("#idequipo").keypress(function(e) {        

@@ -36,8 +36,8 @@
                                                 <th>Precio Extra</th>
                                                 <th>Moneda</th>
                                                 <th>Fecha de calibración</th>
-                                                <th>Días antes de:</th>
-                                                <th>Días despues de:</th>
+                                                <th>Días antes de Cal:</th>
+                                                <th>Días despues de Cal:</th>
                                                 <th>Total de días:</th>
                                                 <th>Proceso</th>
                                             </tr>
