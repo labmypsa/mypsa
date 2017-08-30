@@ -69,7 +69,7 @@ $condicion="";
         if($data[0] != 0){
             $query_condicion .= " and (calibraciones_id=". $data[0].")";
         }        
-        $condicion= $query_condicion;      
+        $condicion= $query_condicion;             
     }
 /* #End #End */
 // Table's primary key
@@ -79,7 +79,6 @@ $condicion="";
 // The `db` parameter represents the column name in the database, while the `dt`
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
-
 require ('data/'.$controller.'.php');
  
 //SQL server connection information
