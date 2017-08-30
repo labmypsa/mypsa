@@ -37,11 +37,23 @@
                                             <div class="form-group">
                                                 <label>Sucursal:</label>
                                                   <select id="nombre_suc" class="form-control select2" style="width: 100%;" name="nombre_suc">
-                                                      <option value="">Seleccione una opción</option> 
+                                                      <option value="">Seleccione una opción</option>
                                                         <?php
+                                                        // Al cambiar de sucursal deben cambiar los tecnicos.
                                                           foreach ($data['sucursal'] as $sucursal) {
-                                                          // Al cambiar de sucursal deben cambiar los tecnicos.
-                                                            echo '<option value="'.$sucursal['nombre'].'">'.$sucursal['nombre'].'</option>';
+                                                            if(Session::get('sucursal')=="Nogales"){
+                                                              echo '<option value="'.$sucursal['nombre'].'">'.$sucursal['nombre'].'</option>';
+                                                            }
+                                                              else if(Session::get('sucursal')=="Hermosillo"){
+                                                                if($sucursal['nombre'] != "Nogales"){
+                                                                  echo '<option value="'.$sucursal['nombre'].'">'.$sucursal['nombre'].'</option>'; 
+                                                                } 
+                                                              }
+                                                              else{
+                                                                if($sucursal['nombre'] == "Guaymas"){
+                                                                  echo '<option value="'.$sucursal['nombre'].'">'.$sucursal['nombre'].'</option>'; 
+                                                                }
+                                                              }
                                                           }
                                                         ?> 
                                                     </select> 

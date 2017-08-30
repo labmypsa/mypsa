@@ -19,6 +19,7 @@ class ReportesController{
 	}
 
 	public function index(){
+
 		if(isset($_POST['submit'])){
 			$data = validate($_POST, [
 	            'daterange' => 'required',
@@ -68,15 +69,11 @@ class ReportesController{
 	 		 	$array_Tdl[$i]=$table_t[$i]['total_dolares'];
 	 		 }  		
 	 	}
-		//$data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'plantas_id'=>Session::get('plantas_id')]); 			
-		$data['tipocalibracion']=$this->model['tipocalibracion']->all();	
-		 if (strtolower(Session::get('sucursal'))=="nogales") {
-		 	$data['sucursal']=$this->model['sucursal']->find_by();
-		 }
-		else{
-			$data['sucursal']=$this->model['sucursal']->find_by(['nombre'=>Session::get('sucursal')]);	 
-		}	   
-	 	include view($this->name.'.read');
+	 	
+		$data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'plantas_id'=>Session::get('plantas_id')]); 			
+		$data['tipocalibracion']=$this->model['tipocalibracion']->all();			
+		$data['sucursal']=$this->model['sucursal']->find_by();
+ 		include view($this->name.'.read');
 	}
 
 	public function tecnico(){
@@ -86,7 +83,7 @@ class ReportesController{
 
 	public function ajax_load_tecnicos() {
         $sucursal = $_POST['sucursal'];        
-		$data = json_encode($data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'sucursal'=>$sucursal],'view_usuarios')); 
+		$data = json_encode($data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'sucursal'=>$sucursal],'view_u')); 
         echo $data;
     }
 
