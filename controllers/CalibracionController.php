@@ -76,7 +76,8 @@ class CalibracionController {
         
          if ($this->model['informes']->find_by(['id' => $data['id']])){              
               if ($this->model['informes']->update($data))  {
-              // direccionarlo al siguiente proceso                     
+              // direccionarlo al siguiente proceso 
+                $roles_id= substr(Session::get('roles_id'),-1,1);                     
                if ($proceso_temp === 1) {
                 Logs::this("Captura en calibración", "Se capturo los datos de calibración el informe ".$data['id']);
                 $this->model['informes']->_redirec($roles_id, $data['proceso'],$data['id']);

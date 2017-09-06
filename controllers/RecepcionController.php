@@ -182,7 +182,7 @@
              //si se agrego correctamente hoja de entrada y PO entonces se hara update sobre la tabla informes de los datos pendientes.                
              if ($this->model['informes']->update($data))  {
             // direccionarlo al siguiente proceso 
-            $roles_id= substr(Session::get('roles_id'),-1,1);                                      
+              $roles_id= substr(Session::get('roles_id'),-1,1);                                      
               if ($proceso_temp == 0) {
                 Logs::this("Captura datos de recepción", "Recepción del equipo, cliente y datos de calibración del informe: ".$data['id']); 
               $this->model['informes']->_redirec($roles_id, $data['proceso'],$data['id']);

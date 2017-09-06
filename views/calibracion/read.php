@@ -87,7 +87,7 @@
                                         </div>
                                       </div>
                                       <div class="form-group">
-                                        <label class="col-sm-3 control-label">informe echo por : </label>
+                                        <label class="col-sm-3 control-label">informe hecho por : </label>
                                         <div class="col-sm-9">                                                                                        
                                           <select id="usuarios_informe_id" class="form-control select2" style="width: 100%;" name="usuarios_informe_id">
                                             <option value="">Seleccione una opción</option> 
