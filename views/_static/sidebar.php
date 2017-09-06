@@ -76,7 +76,7 @@
                 ?>              
              <!-- Módulos de reportes  --> 
              <?php
-                if(Session::has('rol',['Administrador','Ingenieros'])){             
+                if(Session::has('rol',['Administrador','Ingenieros']) || Session::has('email',['drodriguez@mypsa.com.mx'])){             
                     echo "<li class='treeview'>
                         <a href='#'>
                             <i class='fa fa-edit'></i> <span>Reportes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
