@@ -67,6 +67,7 @@ class FacturaController {
 
           if ($this->model['informes']->update($data))  {
               // direccionarlo al siguiente proceso
+            $roles_id= substr(Session::get('roles_id'),-1,1); 
             if ($proceso_temp == 3) {
                 Logs::this("Captura en factura", "Se capturo los datos de facturación, factura: ".$data['factura'].". Informe: ".$data['id']);   
               $this->model['informes']->_redirec($roles_id, $data['proceso'],$data['id']);

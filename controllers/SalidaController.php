@@ -98,7 +98,8 @@ class SalidaController {
           if (is_null($data['hojas_salida_id']) === false) {
 
               if ($this->model['informes']->update($data)) {
-                 // direccionarlo al siguiente proceso                
+                 // direccionarlo al siguiente proceso     
+                 $roles_id= substr(Session::get('roles_id'),-1,1);            
                 $po= $numero=$this->model['po']->po_pendiente($data['id']);
                 if ($proceso_temp === 2 && $po !="pendiente") {
                   Logs::this("Captura en salida", "Se capturo los datos de salida. Informe: ".$data['id']);
