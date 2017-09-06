@@ -19,6 +19,7 @@ class ReportesController{
 	}
 
 	public function index(){
+
 		if(isset($_POST['submit'])){
 			$data = validate($_POST, [
 	            'daterange' => 'required',
@@ -33,8 +34,9 @@ class ReportesController{
 			$ext="";
 	    	if ($data['nombre_suc']== 'nogales') {$ext="_n"; }
 	        else if($data['nombre_suc']== 'hermosillo') {$ext="_h"; }
-	        else if($data['nombre_suc']== 'guaymas') {$ext="_g"; }
+	        else if($data['nombre_suc']== 'guaymas') {$ext="_g"; }	        
 	        unset($data['nombre_suc']);
+
 	        $data['ext']=$ext;		      
 	 		$table_t=$this->model['informes']->get_reporte_totales($data); 	
 	 		$equipos_t = 0;
@@ -67,21 +69,23 @@ class ReportesController{
 	 		 	$array_Tdl[$i]=$table_t[$i]['total_dolares'];
 	 		 }  		
 	 	}
+	 	
 		$data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'plantas_id'=>Session::get('plantas_id')]); 			
-		$data['tipocalibracion']=$this->model['tipocalibracion']->all();	
-		// if (strtolower(Session::get('sucursal'))=="nogales") {
-		// 	$data['sucursal']=$this->model['sucursal']->find_by();
-		// }
-		// else{
-			$data['sucursal']=$this->model['sucursal']->find_by(['nombre'=>Session::get('sucursal')]);	 
-		//}	   
-	 	include view($this->name.'.read');
+		$data['tipocalibracion']=$this->model['tipocalibracion']->all();			
+		$data['sucursal']=$this->model['sucursal']->find_by();
+ 		include view($this->name.'.read');
 	}
 
 	public function tecnico(){
 		$arreglo = (isset($_GET['p'])) ? json_encode($this->url_get($_GET['p'])) : "";
 		include view($this->name.'.tecnico');
 	}
+
+	public function ajax_load_tecnicos() {
+        $sucursal = $_POST['sucursal'];        
+		$data = json_encode($data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'sucursal'=>$sucursal],'view_u')); 
+        echo $data;
+    }
 
 	public function cliente(){
 		if(isset($_POST['submit'])){

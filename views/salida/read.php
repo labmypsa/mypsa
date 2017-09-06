@@ -87,7 +87,7 @@
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-sm-3 control-label">Registrador por : </label>
+                                          <label class="col-sm-3 control-label">Registrado por : </label>
                                           <div class="col-sm-9">                                                                                        
                                             <select id="usuario_hoja_salida" class="form-control select2" style="width: 100%;" name="usuario_hoja_salida" required>
                                               <option value="">Seleccione una opción</option> 

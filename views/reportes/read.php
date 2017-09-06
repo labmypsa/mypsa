@@ -37,13 +37,23 @@
                                             <div class="form-group">
                                                 <label>Sucursal:</label>
                                                   <select id="nombre_suc" class="form-control select2" style="width: 100%;" name="nombre_suc">
-                                                      <option value="">Seleccione una opción</option> 
+                                                      <option value="">Seleccione una opción</option>
                                                         <?php
+                                                        // Al cambiar de sucursal deben cambiar los tecnicos.
                                                           foreach ($data['sucursal'] as $sucursal) {
-                                                            //$sucursaltemp =strtolower($sucursal['nombre']);
-                                                            // if($sucursaltemp=='nogales' || $sucursaltemp=='hermosillo' || $sucursaltemp=='guaymas' ){echo '<option value="'.$sucursal['nombre'].'">'.$sucursal['nombre'].'</option>';}
-                                                            // Al cambiar de sucursal deben cambiar los tecnicos.
-                                                            echo '<option value="'.$sucursal['nombre'].'">'.$sucursal['nombre'].'</option>';
+                                                            if(Session::get('sucursal')=="Nogales"){
+                                                              echo '<option value="'.$sucursal['nombre'].'">'.$sucursal['nombre'].'</option>';
+                                                            }
+                                                              else if(Session::get('sucursal')=="Hermosillo"){
+                                                                if($sucursal['nombre'] != "Nogales"){
+                                                                  echo '<option value="'.$sucursal['nombre'].'">'.$sucursal['nombre'].'</option>'; 
+                                                                } 
+                                                              }
+                                                              else{
+                                                                if($sucursal['nombre'] == "Guaymas"){
+                                                                  echo '<option value="'.$sucursal['nombre'].'">'.$sucursal['nombre'].'</option>'; 
+                                                                }
+                                                              }
                                                           }
                                                         ?> 
                                                     </select> 
@@ -55,12 +65,7 @@
                                                   <select id="usuarios_calibracion_id" class="form-control select2" style="width: 100%;" name="usuarios_calibracion_id">
                                                       <option value="">Seleccione una opción</option> 
                                                       <option value="0">Todos</option> 
-                                                        <?php
-                                                          foreach ($data['tecnico'] as $tecnico) {
-                                                          echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
-                                                          }
-                                                        ?> 
-                                                    </select> 
+                                                  </select>
                                             </div>
                                             <div class="form-group">
                                                 <label>Tipo de calibraciones:</label>
@@ -390,7 +395,7 @@
                     }
                 }
             });              
-        </script>
+        </script>        
     </body>
           
 </html>
