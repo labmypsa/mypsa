@@ -76,8 +76,8 @@ class UsuariosController {
 
     public function store() {
         $data = validate($_POST, [
-            'nombre' => 'required|trimlower',
-            'apellido' => 'required|trimlower',
+            'nombre' => 'required|ucwords',
+            'apellido' => 'required|ucwords',
             'plantas_id' => 'required|trimlower|exists:plantas:id',
             'email' => 'required|trimlower|unique:usuarios',
             'password' => 'required',
@@ -118,8 +118,8 @@ class UsuariosController {
     public function update() {
         $data = validate($_POST, [
             'id' => 'required|exists:usuarios',
-            'nombre' => 'required|trimlower',
-            'apellido' => 'required|trimlower',
+            'nombre' => 'required|ucwords',
+            'apellido' => 'required|ucwords',
             'plantas_id' => 'required|trimlower|exists:plantas:id',
             'roles_id' => 'required|trimlower|exists:roles:id',
             'activo' => 'required|toInt',
