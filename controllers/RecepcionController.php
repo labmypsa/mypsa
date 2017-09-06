@@ -185,11 +185,11 @@
               $roles_id= substr(Session::get('roles_id'),-1,1);                                      
               if ($proceso_temp == 0) {
                 Logs::this("Captura datos de recepción", "Recepción del equipo, cliente y datos de calibración del informe: ".$data['id']); 
-              $this->model['informes']->_redirec($roles_id, $data['proceso'],$data['id']);
+              $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
               }
               else if($proceso_temp == 1) {
               Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de recepción. Informe: ".$data['id']);              
-              $this->model['informes']->_redirec($roles_id, $data['proceso'],$data['id']);
+              $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
               }              
               else if($proceso_temp == 2) {
               Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de salida. Informe: ".$data['id']);  
