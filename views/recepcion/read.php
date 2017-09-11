@@ -333,11 +333,11 @@
                                               <?php  
                                                 if ($data['get'][0]['prioridad'] === '1') {
                                                   echo '<label style="padding-left: 10%"> <input type="radio" name="prioridad" class="flat-red" value="0">&nbsp;Normal </label>';
-                                                  echo '<label style="padding-left: 25%"> <input type="radio" name="prioridad" class="flat-red" value="1" checked>&nbsp;Urgente </label>';
+                                                  echo '<label style="padding-left: 25%"> <input type="radio" name="prioridad" class="flat-red" value="1" checked>&nbsp;Express </label>';
                                                 }
                                                 else{
                                                   echo '<label style="padding-left: 10%"> <input type="radio" name="prioridad" class="flat-red" value="0" checked>&nbsp;Normal </label>';
-                                                  echo '<label style="padding-left: 25%"> <input type="radio" name="prioridad" class="flat-red" value="1">&nbsp;Urgente </label>';
+                                                  echo '<label style="padding-left: 25%"> <input type="radio" name="prioridad" class="flat-red" value="1">&nbsp;Express </label>';
                                                 }
                                                ?>
                                           </div>

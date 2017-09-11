@@ -83,7 +83,7 @@ class ReportesController{
 
 	public function ajax_load_tecnicos() {
         $sucursal = $_POST['sucursal'];        
-		$data = json_encode($data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'sucursal'=>$sucursal],'view_u')); 
+		$data = json_encode($data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'sucursal'=>$sucursal],'view_usuarios')); 
         echo $data;
     }
 
