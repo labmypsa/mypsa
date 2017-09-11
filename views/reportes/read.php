@@ -65,6 +65,7 @@
                                                   <select id="usuarios_calibracion_id" class="form-control select2" style="width: 100%;" name="usuarios_calibracion_id">
                                                       <option value="">Seleccione una opción</option> 
                                                       <option value="0">Todos</option> 
+                                                      
                                                   </select>
                                             </div>
                                             <div class="form-group">
