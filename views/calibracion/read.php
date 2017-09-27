@@ -79,7 +79,14 @@
                                                 if ($data['get'][0]['usuarios_calibracion_id'] === $tecnico['id']) {
                                                   echo '<option value="'.$tecnico['id'].'" selected="selected">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
                                                 }
-                                                else{echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>'; }
+                                                else{
+                                                 if ($tecnico['plantas_id'] != '758' and Session::get('plantas_id')!= '758') {
+                                                           echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
+                                                          }  
+                                                          else if($tecnico['plantas_id'] == '758' and Session::get('plantas_id')== '758'){
+                                                              echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
+                                                          }
+                                                }
                                               }
                                             }
                                            ?> 
@@ -99,7 +106,14 @@
                                                   else if ($data['get'][0]['usuarios_calibracion_id'] === $tecnico['id']) {
                                                    echo '<option value="'.$tecnico['id'].'" selected="selected">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
                                                   }
-                                                  else{echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>'; }
+                                                  else{
+                                                    if ($tecnico['plantas_id'] != '758' and Session::get('plantas_id')!= '758') {
+                                                           echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
+                                                          }  
+                                                          else if($tecnico['plantas_id'] == '758' and Session::get('plantas_id')== '758'){
+                                                              echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
+                                                          }
+                                                  }
                                               }
                                             }                                              
                                            ?> 

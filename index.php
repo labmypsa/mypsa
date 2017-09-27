@@ -1,6 +1,6 @@
 <?php
 date_default_timezone_set('America/Phoenix');
-ini_set('session.gc_maxlifetime', 3600);
+ini_set('session.gc_maxlifetime', 7200);
 session_start();
 
 require 'config/App.php';
