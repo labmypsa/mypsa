@@ -48,7 +48,8 @@
       $data['empresa']=$this->model['empresa']->all();   
       
       //se hara la modificación para hermosillo y para guaymas que todos los tecnicos puedan estar en hoja de entrada
-      $data['tecnico']= $this->model['usuario']->find_by(['plantas_id'=>Session::get('plantas_id'),'activo'=>'1']); 
+      $data['tecnico']= $this->model['usuario']->find_by(['activo'=>'1']); 
+      //var_dump($data['tecnico']);
       if($sucursal != 'nogales'){        
         $data['registradopor']= $this->model['usuario']->find_by(['plantas_id'=>Session::get('plantas_id')]);
       }
