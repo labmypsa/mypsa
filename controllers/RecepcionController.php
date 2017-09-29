@@ -31,8 +31,8 @@
       $view_informes="view_informes". $this->ext;      
        $data['get']=$this->model['informes']->get_recepcion($id, $view_informes); 
       $data['planta']= $this->model['planta']->find_by(['empresas_id'=>$data['get'][0]['empresas_id']]);      
-      // var_dump($data['get']);  
-      // exit;        
+      //var_dump($data['get']);  
+      //exit;        
     }
     else{   
     $data ['get']=array(array(
@@ -42,7 +42,7 @@
       )); 
       //usuarios predefinidos para la hoja de entrada dependiendo la sucursal      
     }
-
+      //var_dump(Session::get());  
     $sucursal=strtolower(Session::get('sucursal'));
 
       $data['empresa']=$this->model['empresa']->all();   
@@ -64,6 +64,7 @@
       }
 
       $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']);
+
       $data['tipocalibracion']=$this->model['tipocalibracion']->all();             
   	include view($this->name.'.read');
 	}
@@ -126,9 +127,9 @@
           }  
 
 
-        $hojas_entrada_id = $data['hojas_entrada_id']; unset($data['hojas_entrada_id']);
-        $usuarios_id = $data['usuarios_id']; unset($data['usuarios_id']);
-        $fecha = $data['fecha']; unset($data['fecha']);       
+        $hojas_entrada_id = $data['hojas_entrada_id']; unset($data['hojas_entrada_id']);//3329  0000-17
+        $usuarios_id = $data['usuarios_id']; unset($data['usuarios_id']); // 
+        $fecha = $data['fecha']; unset($data['fecha']);//  
         //existe hoja entrada auxiliar
          if ($this->model['hojaentradaaux']->find_by(['numero_hoja' => $hojas_entrada_id,'usuarios_id'=> $usuarios_id,'fecha'=>$fecha],$hojaentrada_sucursal)) {          
                $id_hoja_entrada = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $hojas_entrada_id,'usuarios_id'=> $usuarios_id,'fecha'=>$fecha],$hojaentrada_sucursal);
@@ -218,7 +219,7 @@
           }           
   }
 
-  public function ajax_load_generar_informe() {        
+  public function ajax_load_generar_informe() {
       $hoy = date("Y-m-d H:i:s");
        $numero= "";      
       $data=[
@@ -243,36 +244,37 @@
         echo json_encode(Session::get('planta'));
   }
   
-
-  public function ajax_load_historial() {         
-    $idequipo = $_POST['idequipo']; 
-    $view_informes="view_informes". $this->ext;
-    $data = json_encode($data['informes'] = $this->model['informes']->find_by(['alias' => $idequipo],$view_informes));
-    echo $data;
+  public function ajax_load_historial() {
+      $idequipo = $_POST['idequipo']; 
+      $view_informes="view_informes". $this->ext;
+      $data = json_encode($data['informes'] = $this->model['informes']->find_by(['alias' => $idequipo],$view_informes));
+      echo $data;
     }
 
-    public function ajax_load_equipo() {         
-        $idequipo = $_POST['idequipo'];                    
-         $data = json_encode($data['equipo'] = $this->model['equipo']->find_by(['alias' => $idequipo],'view_equipos'));
-        echo $data;
-    }
+  public function ajax_load_equipo() {
+      $idequipo = $_POST['idequipo'];                    
+       $data = json_encode($data['equipo'] = $this->model['equipo']->find_by(['alias' => $idequipo],'view_equipos'));
+      echo $data;
+  }
 
-    public function ajax_load_plantas() {
-        $idempresa = $_POST['idempresa'];
-        $data = json_encode($data['planta'] = $this->model['planta']->find_by([ 'empresas_id' => $idempresa]));
-        echo $data;
-    }
+  public function ajax_load_plantas() {
+      $idempresa = $_POST['idempresa'];
+      $data = json_encode($data['planta'] = $this->model['planta']->find_by([ 'empresas_id' => $idempresa]));
+      echo $data;
+  }
 
-    public function ajax_load_po() {         
-        $idpo = $_POST['po_id'];       
-        $data = json_encode($data['po'] = $this->model['po']->find_by([ 'id' => $idpo]));
-        echo $data;
-    }
+  public function ajax_load_po() {         
+      $idpo = $_POST['po_id'];       
+      $data = json_encode($data['po'] = $this->model['po']->find_by([ 'id' => $idpo]));
+      echo $data;
+  }
 
-    public function ajax_load_hoja_entrada() {         
-        $numero_hoja = $_POST['hojas_entrada_id'];
-        $view_hojas_entrada="view_hojas_entrada_aux". $this->ext;         
-        $data = json_encode($data['hojaentradaaux'] = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $numero_hoja],$view_hojas_entrada)); 
-        echo $data;
-    }
+  public function ajax_load_hoja_entrada() {         
+      $numero_hoja = $_POST['hojas_entrada_id'];
+      $view_hojas_entrada="view_hojas_entrada_aux". $this->ext;         
+      $data = json_encode($data['hojaentradaaux'] = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $numero_hoja],$view_hojas_entrada)); 
+      echo $data;
+  }
+
+
  }

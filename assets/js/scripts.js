@@ -311,14 +311,15 @@
     }
 
 /* Buscar Hoja de entrada */
-    var buscar_hoja_entrada = function() {
+    var buscar_hoja_entrada = function() {          
     if (validar_text($("#num_hojaent").val()) == true) {
-        $.ajax({
+        if ($("#num_hojaent").val().substr(0,4)!="0000") { //evitar la busqueda de los números de hoja con '0000'
+            $.ajax({
             url: "?c=recepcion&a=ajax_load_hoja_entrada",
             dataType: "json",
             method: "POST",
             data: "hojas_entrada_id=" + $("#num_hojaent").val()
-        }).done(function(data) {
+            }).done(function(data) {
             var datos = data;
             //console.log(datos);
             if (datos.length > 0) {
@@ -329,52 +330,55 @@
             } else {
                 alertas_tipo_valor('alerta_hojaentrada', 'vacio', '');
             }
-        }).fail(function(data) {}).always(function(data) {
-            //console.log(data);
-        });
+            }).fail(function(data) {}).always(function(data) {
+                //console.log(data);
+            }); 
+        }        
     } else {
         alertas_tipo_valor('alerta_hojaentrada', 'requerido', 'número de hoja entrada');
     }
     }
 
 /* Buscar Hoja de salida */
-    var buscar_hoja_salida = function() {
+    var buscar_hoja_salida = function() {        
         if (validar_text($("#hojas_salida_id").val()) == true) {
-            $.ajax({
-                url: "?c=salida&a=ajax_load_hoja_salida",
-                dataType: "json",
-                method: "POST",
-                data: "hojas_salida_id=" + $("#hojas_salida_id").val()
-            }).done(function(data) {
-                var datos = data;
-                if (datos.length > 0) {
-                    $('#hojas_salida_id').val(datos[0].numero);
-                    $('#usuario_hoja_salida').val(datos[0].usuarios_id).change(); // librerias de query -> select2                 
-                    $('#fecha').datepicker({ autoclose: true, format: 'yyyy-mm-dd' }).datepicker("setDate", datos[0].fecha);
-                    var entregado = datos[0].fecha_entrega;
-                    //se hace uso de icheck para hacer el checked sobre el input de el equipo fue entregado
-                    if (entregado.length > 0) { $('.minimal').iCheck('check'); }
+            if ($("#hojas_salida_id").val().substr(0,4)!="0000") { //evitar la busqueda de los números de hoja con '0000'
+                $.ajax({
+                    url: "?c=salida&a=ajax_load_hoja_salida",
+                    dataType: "json",
+                    method: "POST",
+                    data: "hojas_salida_id=" + $("#hojas_salida_id").val()
+                }).done(function(data) {
+                    var datos = data;
+                    if (datos.length > 0) {
+                        $('#hojas_salida_id').val(datos[0].numero);
+                        $('#usuario_hoja_salida').val(datos[0].usuarios_id).change(); // librerias de query -> select2                 
+                        $('#fecha').datepicker({ autoclose: true, format: 'yyyy-mm-dd' }).datepicker("setDate", datos[0].fecha);
+                        var entregado = datos[0].fecha_entrega;
+                        //se hace uso de icheck para hacer el checked sobre el input de el equipo fue entregado
+                        if (entregado.length > 0) { $('.minimal').iCheck('check'); }
 
-                    alertas_tipo_valor('alerta_hojasalida', 'correcto', '');
-                } else {
-                    $('.minimal').iCheck('uncheck');
-                    alertas_tipo_valor('alerta_hojasalida', 'vacio', '');
-                }
-            }).fail(function(data) {}).always(function(data) {
-                //console.log(data);
-            });
+                        alertas_tipo_valor('alerta_hojasalida', 'correcto', '');
+                    } else {
+                        $('.minimal').iCheck('uncheck');
+                        alertas_tipo_valor('alerta_hojasalida', 'vacio', '');
+                    }
+                }).fail(function(data) {}).always(function(data) {
+                    //console.log(data);
+                });
+            }
         } else {
             $('input').iCheck('check');
             alertas_tipo_valor('alerta_hojasalida', 'requerido', 'número de hoja salida');
         }
     }
     /* End Hoja de salida */
-    /* validar campos  */
-    function validar_text(id) {
+/* validar campos  */
+    function validar_text(id) {        
     var bool = true;
-    if (id == "") {
+    if (id == "" || id.length<5) {
         bool = false;
-    }
+    }       
     return bool;
     }
 
@@ -391,7 +395,7 @@
         }
         if (tipo == 'requerido') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo vacío, favor de ingresar " + valor + ". Intente una vez más." + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido, favor de ingresar " + valor + " correctamente. Intente una vez más." + "</div>" + "</div>" + "</div>");
         }
     }
 
@@ -405,7 +409,6 @@
                 sucursales = $this.text().toLowerCase().trim();
             }
         });
-
         if (sucursal_temp == sucursales) {
             opciones_po('no_registrar');
             opciones_hoja_entrada('registrar');
@@ -490,7 +493,9 @@
             var anio = (new Date).getFullYear();
             $("#num_hojaent").val('0000-'+anio.toString().substr(-2));
             $("#buscar_hoja_entrada").addClass("disabled");
-            $("#usuarios_id").val('104').change();
+
+            //$("#usuarios_id").val('104').change();
+
             $("#fecha").datepicker({ autoclose: true, format: 'yyyy-mm-dd' }).datepicker('setDate', 'today');
         }
         //registrar
@@ -716,6 +721,7 @@
         });
 
         $("#buscar_hoja_entrada").on('click', buscar_hoja_entrada);
+        
         $("#num_hojaent").keypress(function(e) {          
             if($(this).val().length==4)
             {
