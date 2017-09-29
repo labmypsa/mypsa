@@ -281,13 +281,17 @@
                                                     }
                                                  } else{
                                                    foreach ($data['acreditacion'] as $acreditacion) {
-                                                    if (14 == $acreditacion['id']) {
-                                                      echo '<option value="'. $acreditacion['id'] .'" selected="selected">'.$acreditacion['nombre'].'</option>';
+                                                      if (14 == $acreditacion['id'] and Session::get('plantas_id')== '758') {
+                                                        echo '<option value="'. $acreditacion['id'] .'" selected="selected">'.$acreditacion['nombre'].'</option>';
+                                                      }
+                                                      else if(1 == $acreditacion['id']){
+                                                         echo '<option value="'. $acreditacion['id'] .'" selected="selected">'.$acreditacion['nombre'].'</option>'; 
+                                                       }                                                   
+                                                        else{
+                                                          echo '<option value="'. $acreditacion['id'] .'">'.$acreditacion['nombre'].'</option>';
+                                                        }
                                                     }
-                                                    else{
-                                                      echo '<option value="'. $acreditacion['id'] .'">'.$acreditacion['nombre'].'</option>'; }
-                                                    }
-                                                 }
+                                                  }
                                                   ?>                                           
                                                 </select>                                           
                                           </div>
@@ -304,11 +308,11 @@
                                                           echo '<option value="'.$tecnico['id'].'" selected="selected">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
                                                         }
                                                         else{
-                                                          if ($tecnico['plantas_id'] != '758' and Session::get('plantas_id')!= '758') {
+                                                          if ($tecnico['plantas_id'] != '758' and Session::get('plantas_id') != '758') {
                                                            echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
                                                           }  
-                                                          else if($tecnico['plantas_id'] == '758' and Session::get('plantas_id')== '758'){
-                                                              echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
+                                                          else if($tecnico['plantas_id'] == '758' and Session::get('plantas_id') == '758'){
+                                                          echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
                                                           }
                                                         }
                                                       }
@@ -428,7 +432,7 @@
                                         <select  class="form-control select2" style="width: 100%;" name="usuarios_id" id="usuarios_id" required="">
                                           <option value="">Seleccione una opción</option> 
                                           <?php
-                                          var_dump($data['get'][0]['usuarios_id']);                                                                        
+                                          //var_dump($data['get'][0]['usuarios_id']);                                                                        
                                           foreach ($data['registradopor'] as $registradopor) {
                                             if ($data['get'][0]['usuarios_id'] === $registradopor['id']) {
                                               echo '<option value="'.$registradopor['id'].'" selected="selected">'.$registradopor['nombre'].' '.$registradopor['apellido'].'</option>';
