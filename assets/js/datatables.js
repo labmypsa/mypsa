@@ -16,14 +16,14 @@ $('#table tfoot th').each( function () {
             "autoWidth": true,           
             "scrollX": true,
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
-            buttons: [
-                 {
-                    extend: 'excel',
-                    text: 'Excel',
-                    exportOptions: {
-                        columns: [':not(:last-child)' ]
-                    },
+        buttons: [
+             {
+                extend: 'excel',
+                text: 'Excel',
+                exportOptions: {
+                    columns: [':not(:last-child)' ]
                 },
+            },
                 {
                     extend: 'pdfHtml5',
                     text: 'PDF',

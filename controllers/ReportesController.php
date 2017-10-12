@@ -8,12 +8,13 @@ class ReportesController{
 	{
 		$this->name="reportes";
 		$this->title="Reportes";
-		$this->subtitle="Productividad";
+		$this->subtitle="";
 		$this->model = [		 
 		 'sucursal' => new Sucursal(),
 		 'usuario'=> new Usuario(),
 		 'tipocalibracion'=> new Tipocalibracion(),
 		 'informes'=> new Informes(),
+		 'planta' => new Planta(),
         ];
         $this->ext=$this->model['sucursal']->extension();        
 	}
@@ -37,7 +38,8 @@ class ReportesController{
 	        else if($data['nombre_suc']== 'guaymas') {$ext="_g"; }	        
 	        unset($data['nombre_suc']);
 
-	        $data['ext']=$ext;		      
+	        $data['ext']=$ext;
+
 	 		$table_t=$this->model['informes']->get_reporte_totales($data); 	
 	 		$equipos_t = 0;
 	 		$pesos_t = 0;
@@ -88,16 +90,8 @@ class ReportesController{
     }
 
 	public function cliente(){
-		if(isset($_POST['submit'])){
-			$data = validate($_POST, [
-	            'daterange' => 'required',
-	            'nombre_suc' => 'required|trimlower',
-	            'cliente_id' => 'required|toInt',          
-	            'tipo_busqueda' => 'required|toInt',            
-	        ]); 
-	        var_dump($data);
-		}
-		$data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'plantas_id'=>Session::get('plantas_id')]); 				
+ 		$data['planta']= $this->model['planta']->find_by([],'view_plantas');
+
 		 if (strtolower(Session::get('sucursal'))=="nogales") {
 			$data['sucursal']=$this->model['sucursal']->find_by();
 		}
@@ -106,6 +100,29 @@ class ReportesController{
 		}
 		include view($this->name.'.cliente');
 	}
+
+	public function ajax_load_clientes() { 	
+			$data = array(
+					"daterange" =>$_POST['daterange'],
+					"nombre_suc" =>$_POST['nombre_suc'],
+					"cliente_id" => (int) $_POST['cliente_id'],
+					"tipo_busqueda" =>(int) $_POST['tipo_busqueda']
+				);		
+	        $cadena= explode(' - ', $data['daterange']);				
+			unset($data['daterange']);
+			$data['fecha_home']=$cadena[0];
+			$data['fecha_end']=$cadena[1];
+			$ext="";
+			$sucursal= strtolower($data['nombre_suc']);
+	    	if ($sucursal== 'nogales') {$ext="_n"; }
+	        else if($sucursal== 'hermosillo') {$ext="_h"; }
+	        else if($sucursal== 'guaymas') {$ext="_g"; }	        
+	        unset($data['nombre_suc']);
+	        $data['ext']=$ext;	      	
+			$table_rc=$this->model['informes']->get_reporte_clientes($data);
+			
+ 			echo json_encode($table_rc);
+    }  
 
 	public function get_url($data)
 	{	
