@@ -102,26 +102,38 @@ class ReportesController{
 	}
 
 	public function ajax_load_clientes() { 	
-			$data = array(
-					"daterange" =>$_POST['daterange'],
-					"nombre_suc" =>$_POST['nombre_suc'],
-					"cliente_id" => (int) $_POST['cliente_id'],
-					"tipo_busqueda" =>(int) $_POST['tipo_busqueda']
-				);		
-	        $cadena= explode(' - ', $data['daterange']);				
-			unset($data['daterange']);
-			$data['fecha_home']=$cadena[0];
-			$data['fecha_end']=$cadena[1];
-			$ext="";
-			$sucursal= strtolower($data['nombre_suc']);
-	    	if ($sucursal== 'nogales') {$ext="_n"; }
-	        else if($sucursal== 'hermosillo') {$ext="_h"; }
-	        else if($sucursal== 'guaymas') {$ext="_g"; }	        
-	        unset($data['nombre_suc']);
-	        $data['ext']=$ext;	      	
-			$table_rc=$this->model['informes']->get_reporte_clientes($data);
-			
- 			echo json_encode($table_rc);
+		$data = array(
+				"daterange" =>$_POST['daterange'],
+				"nombre_suc" =>$_POST['nombre_suc'],
+				"cliente_id" => (int) $_POST['cliente_id'],
+				"tipo_busqueda" =>(int) $_POST['tipo_busqueda']
+			);			
+        $cadena= explode(' - ', $data['daterange']);				
+		unset($data['daterange']);
+		$data['fecha_home']=$cadena[0];
+		$data['fecha_end']=$cadena[1];
+		$ext="";		
+		$sucursal= strtolower($data['nombre_suc']);
+    	if ($sucursal== 'nogales') {$ext="_n"; }
+        else if($sucursal== 'hermosillo') {$ext="_h"; }
+        else if($sucursal== 'guaymas') {$ext="_g"; }	        
+        unset($data['nombre_suc']);
+        $data['ext']=$ext;			
+		if ($data['tipo_busqueda']==1) {
+			$hoy= date('Y-m-d');
+			$_fhome= date('Y-m-d',strtotime($data['fecha_home']));
+			$_fend= date('Y-m-d',strtotime($data['fecha_end']));
+			if ($_fhome >= $hoy and $_fend > $hoy) {				
+				$table_rc=$this->model['informes']->get_reporte_clientes($data);		
+			}
+			else{
+				$table_rc=false;
+			}
+		}
+		else{
+			$table_rc=$this->model['informes']->get_reporte_clientes($data);	
+		}			
+		echo json_encode($table_rc);
     }  
 
 	public function get_url($data)

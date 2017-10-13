@@ -13,10 +13,10 @@
                 </section>
                 <section class="content">
                     <div class="row">
-                     <form method="POST" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>&a=cliente" role="form" enctype="multipart/form-data">
+                     <form novalidate="" autocomplete="off" role="form" enctype="multipart/form-data">
                         <div class="col-lg-12">
                             <div class="box box-default">
-                                <div class="box-header">                                    
+                                <div class="box-header">
                                   <h3 class="box-title"><i class="fa fa-filter" aria-hidden="true"></i>&nbsp; Filtros de busqueda </h3>
                                     <div class="box-tools">                                        
                                     </div>
@@ -81,9 +81,10 @@
                                     </div>                                                                       
                                 </div> 
                                 <div class="box-footer">                                   
-                                    <button type="button" name="buscar_rc" id="buscar_rc" class="btn btn-info pull-right"><i class="fa fa-search" aria-hidden="true"></i> &nbsp;Buscar</button>
-                                </div>                            
-                            </div>                       
+                                  <button type="button" name="buscar_rc" id="buscar_rc" class="btn btn-info pull-right"><i class="fa fa-search" aria-hidden="true"></i> &nbsp;Buscar</button>
+                                </div> 
+                               
+                              </div>                              
                         </div>
                       </form>
                     </div>    
@@ -97,7 +98,7 @@
                                 </div>                                 
                                 <div class="box-body">
                                 <div class="box-body table-responsive">                                   
-                                  <table id="table_will" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%"> 
+                                  <table id="table_reportesc" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%"> 
                                     <thead>
                                             <tr>
                                                 <th>id</th>
@@ -133,8 +134,7 @@
                                 </div>
                                 <div class="box-footer">
                                   
-                                </div>
-
+                                </div>                                
                             </div>
                         </div>
                     </div>                    
@@ -147,72 +147,79 @@
         </script>         
         <?php importView('_static.scripts'); ?>   
         <script type="text/javascript">          
-          $(document).ready(function() {            
-            var _table= $('#table_will').DataTable({
-              // buttons: [
-              //            {
-              //               extend: 'excel',
-              //               text: 'Excel',
-              //               exportOptions: {
-              //                   columns: [':not(:last-child)' ]
-              //               } 
-              //             }          
-              //         ],
-            columns: [
-                        { data: 'id' },
-                        { data: 'equipo_id' },
-                        { data: 'descripcion'},
-                        { data: 'marca' },
-                        { data: 'modelo' },
-                        { data: 'serie' },
-                        { data: 'cliente' },
-                        { data: 'fecha_calibracion' },
-                        { data: 'periodo_calibracion' },
-                        { data: 'fecha_vencimiento' },
-                        { data: 'proceso' } 
-                      ]
-              });
+          $(document).ready(function() {
+
+         $('#table_reportesc tfoot th').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
+        } );
+            var _table= $('#table_reportesc').DataTable({             
+              columns: [
+                          { data: 'id' },
+                          { data: 'equipo_id' },
+                          { data: 'descripcion'},
+                          { data: 'marca' },
+                          { data: 'modelo' },
+                          { data: 'serie' },
+                          { data: 'cliente' },
+                          { data: 'fecha_calibracion' },
+                          { data: 'periodo_calibracion' },
+                          { data: 'fecha_vencimiento' },
+                          { data: 'proceso' } 
+                        ]
+                });
+
+            _table.columns().every( function () {
+            var that = this;
+            $( 'input', this.footer() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                    }
+                });
+            }); 
                       
-            $("#buscar_rc").click ( function(){
+            $("#buscar_rc").click ( function(){                            
                 var parametro= {
                   'daterange': $('#daterange-text').val(),
                   'nombre_suc': $("#nombre_suc").val(),
                   'cliente_id': $("#cliente_id").val(),
                   'tipo_busqueda': $("#tipo_busqueda").val()
-                }; 
-                // if (parametro.tipo_busqueda==1) {
-                //    console.log(validar_fecha(parametro.daterange.split(" - ")));  
-                // } 
-                           
-                //validar_fecha(parametro[]);
-                $.ajax({
-                    type: 'post',
-                    url: "?c=reportes&a=ajax_load_clientes",                        
-                    data: parametro
-                  }).done(function(data) {
-                    var datos = data;  
-                    var obj= JSON.parse(datos);  
-                    //console.log(obj);                                                                         
-                    _table.clear();
-                    _table.rows.add(obj).draw();
-                  }).fail(function(data) {}).always( function(data) {
-                    //console.log(data);
-                  });
-               });
-               function validar_fecha(daterange,)
-             {
-              var result= false;
-              var hoy= new Date(); 
+                };
+                if (validar_select(parametro)) {                                                      
+                    $.ajax({
+                      type: 'post',
+                      url: "?c=reportes&a=ajax_load_clientes",                        
+                      data: parametro
+                    }).done(function(data) {
+                      var datos = data;
+                      //console.log(datos);
+                      if(datos!= "false"){
+                        var obj= JSON.parse(datos); 
+                        _table.clear();
+                        _table.rows.add(obj).draw();
+                      } else{
+                        alert("Las fechas son más pequeñas que la fecha actual. Por favor verificar.");
+                      }
+                    }).fail(function(data) {}).always( function(data) {
+                      //console.log(data);
+                    });                     
+                  }
+                  else{
+                    alert("Alguna opción no esta seleccionado.Por favor verificar.");                  
+                  }                    
+                });
 
-              var fecha_home=new Date(daterange[0]);
-              var fecha_end=new Date(daterange[1]); 
-              console.log(hoy +" - "+ fecha_home +" - "+ fecha_end);                           
-              if (fecha_home >= hoy && fecha_end > hoy) {
-                result= true; 
+               function validar_select(parametro)
+              {    
+                 var result= true;
+                 if (parametro['nombre_suc']=='' || parametro['cliente_id']=='' || parametro['tipo_busqueda']=='') {
+                    result= false;
+                 }                
+                return result;
               }
-              
-              return result;
-             }             
+
           });        
 </script>
     </body>
