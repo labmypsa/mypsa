@@ -1,6 +1,8 @@
 <?php
 
-class Informes extends Model {        
+class Informes extends Model { 
+
+
     function __construct() {          	    		    	       
         $this->primary_key  = 'id';
         $this->model=[           
@@ -44,7 +46,7 @@ class Informes extends Model {
         return $this->rows;
     }
 
-    public function get_factura($id,$view){ // Consulta informacion de factura, cuando entra como opción para actulizar
+    public function get_factura($id,$view){ // Consulta informacion de factura, cuando entra como opción para actualizar
         $this->query= "SELECT id as id,precio,precio_extra,factura,monedas_id,po_id,comentarios,proceso FROM ".$view." WHERE id = ". $id.";";
         $this->get_results_from_query();       
         return $this->rows;
@@ -65,7 +67,8 @@ class Informes extends Model {
             $query_condicion .= " and (calibraciones_id=". $data['calibraciones_id'].")";
         }           
         $query_condicion .="  group by usuarios_calibracion_id,moneda,calibrado_por order by usuarios_calibracion_id asc;";       
-        $this->query= $query_condicion;             
+        $this->query= $query_condicion; 
+        //var_dump($this->query);            
         $this->get_results_from_query();           
         return $this->rows;
     }
@@ -86,9 +89,37 @@ class Informes extends Model {
         else if($proceso > 1){ // proceso [2,3,4]
             if($proceso < 4){redirect($array_pages[$proceso].$id); }
             else{redirect($array_pages[$proceso]);}
-            
-        }  
+        }
         
+    }
+
+    public function get_reporte_clientes($data){
+        $cliente_temp="";             
+        $condicion= " WHERE estado_calibracion=1 and activo=1 ";
+        $this->query= "SELECT id,l.alias as equipo_id,descripcion,marca,modelo,serie,cliente,fecha_calibracion,fecha_vencimiento,periodo_calibracion,precio,precio_extra,moneda,proceso FROM view_clienteinformes".$data['ext'] ." l ";
+
+        if($data['cliente_id'] != 0){
+             $cliente_temp ="and plantas_id=". $data['cliente_id']." ";
+             $condicion .= $cliente_temp;
+        }
+        if($data['tipo_busqueda'] == 0){ //equipos calibrados
+             $condicion .="and fecha_calibracion between '". $data['fecha_home']."' and '". $data['fecha_end']."' ";
+        }
+        if($data['tipo_busqueda'] == 1){ //equipos a vencer
+            $this->query .="LEFT Outer JOIN (select temp2.alias from (SELECT * FROM view_informes". $data['ext'] ." where fecha_calibracion >= '". $data['fecha_home']."' ". $cliente_temp .") as temp2) r1 ON l.alias=r1.alias LEFT JOIN ( select temp3.alias from (SELECT * FROM view_informes". $data['ext'] ." where alias is not null and proceso < 4 ". $cliente_temp .") as temp3) r2 ON l.alias=r2.alias";
+
+             $condicion .="and r1.alias is null and r1.alias is null and fecha_vencimiento between '". $data['fecha_home']."' and '". $data['fecha_end']."' ". $cliente_temp ."";
+        }
+        if($data['tipo_busqueda'] == 2){ //equipos vencidos
+            $this->query .= " LEFT Outer JOIN (select temp2.alias from (SELECT * FROM view_informes". $data['ext'] ." where fecha_calibracion >= '". $data['fecha_home']."' ". $cliente_temp .") as temp2) r1 ON l.alias=r1.alias LEFT Outer JOIN (select temp3.alias from (SELECT * FROM view_informes". $data['ext'] ." where alias is not null and proceso < 4 ". $cliente_temp .") as temp3) r2 ON l.alias=r2.alias";
+
+            $condicion .="and r1.alias is null and r2.alias is null and fecha_vencimiento between '". $data['fecha_home']."' and '". $data['fecha_end']."' ". $cliente_temp .""; 
+        }        
+        $this->query .= $condicion." ;";                  
+        //var_dump($this->query);
+        // exit;
+        $this->get_results_from_query();       
+        return $this->rows;
     }
 
 }

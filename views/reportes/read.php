@@ -9,7 +9,7 @@
             <?php importView('_static.sidebar'); ?>
             <div class="content-wrapper">
                 <section class="content-header">
-                    <h1><?php echo $this->title; ?><small><?php echo $this->subtitle; ?></small></h1>
+                    <h1><?php echo $this->title; ?><small><?php echo $this->subtitle; ?> Técnicos</small></h1>
                 </section>
                 <section class="content">
                     <div class="row">
@@ -36,6 +36,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Sucursal:</label>
+                                                <!-- id= nombre-sucursa-reportecliente -->
                                                   <select id="nombre_suc" class="form-control select2" style="width: 100%;" name="nombre_suc">
                                                       <option value="">Seleccione una opción</option>
                                                         <?php

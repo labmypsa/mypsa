@@ -122,7 +122,7 @@
         });
     }
 
-    /* Buscar los técnicos de acuerdo a la sucursal  */
+/* Buscar los técnicos de acuerdo a la sucursal  */
     var sucursalxtec_ajax = function() {      
         $.ajax({
             url: "?c=reportes&a=ajax_load_tecnicos",
@@ -143,7 +143,7 @@
             //console.log(data);
         });
     }
-    /* End Seleccionar las sucursales*/
+/* End Seleccionar las sucursales*/
 
 /* Buscar equipo */
     var buscar_idequipo_historial = function () {    
@@ -376,7 +376,7 @@
 /* validar campos  */
     function validar_text(id) {        
     var bool = true;
-    if (id == "" || id.length<5) {
+    if (id == "") {
         bool = false;
     }       
     return bool;
@@ -436,6 +436,7 @@
         }
     }
 
+/* Información de cokies */
     function retorna_session_planta() {
         $.ajax({
             url: "?c=recepcion&a=cookies",
@@ -449,6 +450,7 @@
         });
     }
 
+/*  Opciones para registrar PO*/
     function opciones_po(opciones){
 
         var op=['no_registrar','pendiente','registrar'];
@@ -481,6 +483,7 @@
         }
     }
 
+/*  Opción de la hoja de entrada*/
     function opciones_hoja_entrada(opciones) {
 
         var op = ['no_registrar', 'registrar'];
@@ -504,6 +507,7 @@
         }
     }
 
+/* Opciones para datos de factura */
     function opciones_factura(opciones) {
         var op = ['no_registrar', 'registrar'];
         $("#btn_registrar_factura").prop("disabled", false);
@@ -522,6 +526,7 @@
         }
     }
 
+/* Para capturar factura previa */
     var factura_previa = function() {    
         var informe= $("#numero_informe").val(); 
         if(informe=="" || informe== undefined || informe== null)
@@ -536,11 +541,11 @@
         
     }
 
-    /* ## Fin de funciones de recepción ## */
+/* ## Fin de funciones de recepción ## */
 
-    //Events
+//Events
     $(window).load(function() {
-        // Mostrar equipos a calibrar en area de notificaciones
+    // Mostrar equipos a calibrar en area de notificaciones
         $.ajax({
             url: "?c=informes&a=get_a_calibrar",
             dataType: "json",
@@ -562,17 +567,17 @@
             }).fail(function(data) {
 
             }).always(function(data) {
-        });
-            
+        });        
     });
+
     $(document).ready(function() { 
-        //$('#historial_informes').last().addClass( "table-fixed" );     
+    //$('#historial_informes').last().addClass( "table-fixed" );     
         $("#factura_previa").click(function(e){           
             factura_previa();
             e.preventDefault();
         });
 
-        //Busqueda
+    //Busqueda
         $('#search').on('keyup', function(e) {
             if (e.which == 13) {
                 var str = (($('#search').val()).trim()).toLowerCase();
@@ -588,8 +593,8 @@
                 window.location.replace('?c=buscar&p=' + str);
             }
         });
-        //Fin busqueda
 
+    //Fin busqueda
         $('.sidebar-toggle').on('click', function() {
             //
         });
@@ -689,10 +694,11 @@
 
         $("#empresa_ajax").on('change', empresa_ajax);
         // # Home Recepción   
-        $("#empresa_ajax_r").on('change', empresa_ajax_r);
+            $("#empresa_ajax_r").on('change', empresa_ajax_r);
         /* Home Reportes Productividad  */  
-        $("#nombre_suc").on('change', sucursalxtec_ajax);
+            $("#nombre_suc").on('change', sucursalxtec_ajax);            
         /* End Reportes productividad */
+
         $("#buscar_idequipo").on('click', buscar_idequipo_historial);
         
         $("#idequipo").keypress(function(e) {        
@@ -707,6 +713,7 @@
         //     var value=  $('#idequipo').val().trim();               
         //      $('#idequipo').val(value);
         // });
+
         $("#refresh_informe").click(function(e){           
             ultimo_numero_informe();
             e.preventDefault();
@@ -748,7 +755,7 @@
 
         //# End Recepción
 
-        /* start Salida */
+    /* start Salida */
         $("#buscar_hoja_salida").on('click', buscar_hoja_salida);
         $("#hojas_salida_id").keypress(function(e) {
             if($(this).val().length==4)
@@ -764,8 +771,8 @@
                 e.preventDefault();
             }
         });
+    /* End Salida */
 
-        /* End Salida */
         $("#cp").inputmask("99999", {
             clearIncomplete: true,
             showMaskOnHover: false,
@@ -786,7 +793,7 @@
             autoclose: true,
             format: 'yyyy-mm-dd'
         });    
-
+    /* Datarange libreria*/
         $('#daterange-text').daterangepicker(
             {
           ranges: {

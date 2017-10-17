@@ -23,7 +23,7 @@ class FacturaController {
               if($data['get'][0]['po_id'] === "pendiente"){
                redirect('?c=recepcion&a=index&p='. $data['get'][0]['id']);
               }
-              else{        
+              else{                         
                 $data['reget']= $this->model['informes']->get_prefactura($data['get'][0]['po_id'],$view_informes);
                 $data['get'][0]['factura']= $data['reget'][0]['factura'];
                 $data['get'][0]['precio']= $data['reget'][0]['precio'];
@@ -33,8 +33,7 @@ class FacturaController {
                 a ingresar cuando no haya P.O Pendiente*/
 
                 //if ($data['get'][0]['proceso']> 2) {                
-                  $data['get'][0]['precio']='0';
-                  $data['get'][0]['precio_extra']= '0';
+                  
                   include view($this->name.'.read');                  
                 //}
                 //else{ redirect('?c=informes&a=proceso');}
@@ -52,7 +51,7 @@ class FacturaController {
     'proceso' => 'toInt',
     'precio' => 'required',
     'precio_extra' => 'required',
-    'factura' => 'required|trimlower',
+   // 'factura' => 'required|trimlower',
     'monedas_id' => 'required|toInt',
     'comentarios' => 'ucname',    
     ]);

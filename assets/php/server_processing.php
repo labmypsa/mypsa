@@ -53,7 +53,7 @@ $condicion="";
         $condicion=$query;        
     }
     if($tipo=="vencidos"){
-        $query="plantas_id=". $usuario." and fecha_vencimiento > date_sub(curdate(),interval 3 month) and fecha_vencimiento < curdate()  and alias not in ( select temp2.alias from (SELECT * FROM ".$table." where plantas_id=". $usuario." and fecha_vencimiento >= curdate()) as temp2)";
+        $query="plantas_id=". $usuario." and fecha_vencimiento > date_sub(curdate(),interval 3 month) and fecha_vencimiento < curdate()  and alias not in ( select temp2.alias from (SELECT * FROM view_informes".$ext." where plantas_id=". $usuario." and fecha_calibracion >= date_sub(curdate(),interval 3 month)) as temp2) and alias not in ( select temp3.alias from (SELECT * FROM view_informes".$ext." where alias is not null and proceso < 4 and plantas_id=". $usuario." ) as temp3)";
         $condicion=$query;           
     }
 /* #End vista de informes cliente #End */ 
@@ -98,12 +98,12 @@ $sql_details = array(
 //     'charset' => 'utf8' 
 // );
  
- 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * If you just want to use the basic configuration for DataTables with PHP
  * server-side, there is no need to edit below this line.
  */
- 
+
+
 require( "ssp.class.php" );
 echo json_encode(
     SSP::simple($_GET, $sql_details, $table, $primary_key, $columns,$condicion)    

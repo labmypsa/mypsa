@@ -2,7 +2,7 @@ $(document).ready(function () {
     if (typeof controller != 'undefined') {                   
         var _arrayCtrl=controller.split(" "); 
 
-$('#table tfoot th').each( function () {
+            $('#table tfoot th').each( function () {
                 var title = $(this).text();
                 $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
             } );
@@ -17,13 +17,13 @@ $('#table tfoot th').each( function () {
             "scrollX": true,
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             buttons: [
-                 {
-                    extend: 'excel',
-                    text: 'Excel',
-                    exportOptions: {
-                        columns: [':not(:last-child)' ]
-                    },
+             {
+                extend: 'excel',
+                text: 'Excel',
+                exportOptions: {
+                    columns: [':not(:last-child)' ]
                 },
+            },
                 {
                     extend: 'pdfHtml5',
                     text: 'PDF',

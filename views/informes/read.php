@@ -21,7 +21,7 @@
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                 <!-- /* Agregar contenido */-->
-                                    <table id="table_informes" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%"> 
+                                <table id="table_informes" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%"> 
                                     <thead>
                                             <tr>
                                                 <th>id</th>
