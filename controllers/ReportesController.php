@@ -8,7 +8,7 @@ class ReportesController{
 	{
 		$this->name="reportes";
 		$this->title="Reportes";
-		$this->subtitle="";
+		$this->subtitle="";		
 		$this->model = [		 
 		 'sucursal' => new Sucursal(),
 		 'usuario'=> new Usuario(),
@@ -97,7 +97,8 @@ class ReportesController{
 		}
 		else{
 			$data['sucursal']=$this->model['sucursal']->find_by(['nombre'=>Session::get('sucursal')]);	 
-		}
+		}				
+
 		include view($this->name.'.cliente');
 	}
 
@@ -107,7 +108,8 @@ class ReportesController{
 				"nombre_suc" =>$_POST['nombre_suc'],
 				"cliente_id" => (int) $_POST['cliente_id'],
 				"tipo_busqueda" =>(int) $_POST['tipo_busqueda']
-			);			
+				);	
+
         $cadena= explode(' - ', $data['daterange']);				
 		unset($data['daterange']);
 		$data['fecha_home']=$cadena[0];
@@ -129,10 +131,14 @@ class ReportesController{
 			else{
 				$table_rc=false;
 			}
-		}
-		else{
+			}
+			else{
 			$table_rc=$this->model['informes']->get_reporte_clientes($data);	
-		}			
+			}							
+
+		$arraytest = array("a", "b","c","d");
+
+		$_SESSION['_arraykey']= $arraytest;
 		echo json_encode($table_rc);
     }  
 
@@ -167,5 +173,12 @@ class ReportesController{
         $tmp = urlencode($tmp);		
 		echo  $tmp;
 	}
+
+	public function test(){
+		//$_arraykey= array("a", "b","c","d");
+		//var_dump($this->model['informes']->arraytest);		
+		echo json_encode($_SESSION['_arraykey']);		
+	}
+	
 		
 }

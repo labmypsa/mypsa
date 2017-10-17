@@ -4,7 +4,7 @@
         <script src="assets/plugins/chartjs/Chart-2.5.0.js"></script>        
         <script src="assets/plugins/chartjs/FileSaver.min.js"></script> 
         <script src="assets/plugins/chartjs/canvas-toBlob.js"></script>
-        
+       
         <!-- FastClick -->
         <script src="assets/plugins/fastclick/fastclick.js"></script>
         <script src="assets/plugins/select2/select2.full.min.js"></script>

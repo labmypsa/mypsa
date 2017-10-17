@@ -1,6 +1,8 @@
 <?php
 
-class Informes extends Model {        
+class Informes extends Model { 
+
+
     function __construct() {          	    		    	       
         $this->primary_key  = 'id';
         $this->model=[           

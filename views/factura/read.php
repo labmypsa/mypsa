@@ -61,9 +61,9 @@
                                           <div class="col-sm-9">
                                           <?php                                          
                                             if(is_null($data['get'][0]['factura']) === false){
-                                                echo '<input type="text" class="form-control"  placeholder="0" name="factura" id="factura" value="'.strtoupper($data['get'][0]['factura']).'" required>';
+                                                echo '<input type="text" class="form-control"  placeholder="0" name="factura" id="factura" value="'.strtoupper($data['get'][0]['factura']).'">';
                                               }
-                                              else{ echo '<input type="text" class="form-control"  placeholder="0" name="factura" id="factura" required>';}
+                                              else{ echo '<input type="text" class="form-control"  placeholder="X123" name="factura" id="factura" >';}
     
                                             ?>
                                           </div>
@@ -75,7 +75,7 @@
                                               if(is_null($data['get'][0]['precio'])=== false){
                                                 echo '<input type="number" class="form-control"  placeholder="0" name="precio" id="precio" value="'.$data['get'][0]['precio'].'" required min="0">';
                                               }
-                                                else{echo '<input type="number" class="form-control"  placeholder="0" name="precio" id="precio" required min="0">';}
+                                                else{echo '<input type="number" class="form-control"  placeholder="0" name="precio" id="precio" required min="0" value="0">';}
                                             ?>
                                           </div>
                                         </div>
@@ -86,7 +86,7 @@
                                               if(is_null($data['get'][0]['precio_extra'])=== false){
                                                 echo '<input type="number" class="form-control"  placeholder="0" name="precio_extra" id="precio_extra" value="'.$data['get'][0]['precio_extra'].'" required min="0">';
                                               }
-                                                else{ echo '<input type="number" class="form-control"  placeholder="0" name="precio_extra" id="precio_extra" required min="0">'; }
+                                                else{ echo '<input type="number" class="form-control"  placeholder="0" name="precio_extra" id="precio_extra" required min="0" value="0">'; }
                                             ?>
                                           </div>
                                         </div> 
