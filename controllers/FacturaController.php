@@ -25,13 +25,14 @@ class FacturaController {
                redirect('?c=recepcion&a=index&p='. $data['get'][0]['id']);
               }
               else{ 
-                if($data['get'][0]['proceso'] < 4){
-                  $data['reget']= $this->model['informes']->get_prefactura($data['get'][0]['po_id'],$view_informes);
-                  $data['get'][0]['factura']= $data['reget'][0]['factura'];
-                  $data['get'][0]['precio']= $data['reget'][0]['precio'];
-                  $data['get'][0]['precio_extra']= $data['reget'][0]['precio_extra'];
-                  $data['get'][0]['monedas_id']= $data['reget'][0]['monedas_id'];
-                }                        
+
+                // if($data['get'][0]['proceso'] < 4 and ){
+                //   $data['reget']= $this->model['informes']->get_prefactura($data['get'][0]['po_id'],$view_informes);
+                //   $data['get'][0]['factura']= $data['reget'][0]['factura'];
+                //   $data['get'][0]['precio']= $data['reget'][0]['precio'];
+                //   $data['get'][0]['precio_extra']= $data['reget'][0]['precio_extra'];
+                //   $data['get'][0]['monedas_id']= $data['reget'][0]['monedas_id'];
+                // }                        
                         
                 /*Se quito la validación de entrar al modulo, para que funcione la opción agregar factura previa, pero solo va 
                 a ingresar cuando no haya P.O Pendiente*/

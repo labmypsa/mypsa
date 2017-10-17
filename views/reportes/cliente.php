@@ -105,9 +105,9 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <h4 class="text-center" id="_rfechas" > </h4>
-                                 <div class="chart">
+                              <!--    <div class="chart">
                                   <canvas id="areaChart" style="height:250px"></canvas>
-                                </div>
+                                </div> -->
                               </div>
                               <!-- /.col -->  
                             </div>
