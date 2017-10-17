@@ -136,9 +136,7 @@ class ReportesController{
 			$table_rc=$this->model['informes']->get_reporte_clientes($data);	
 			}							
 
-		$arraytest = array("a", "b","c","d");
-
-		$_SESSION['_arraykey']= $arraytest;
+		//$_SESSION['_arraykey']= $table_rc;
 		echo json_encode($table_rc);
     }  
 
@@ -175,9 +173,11 @@ class ReportesController{
 	}
 
 	public function test(){
-		//$_arraykey= array("a", "b","c","d");
-		//var_dump($this->model['informes']->arraytest);		
-		echo json_encode($_SESSION['_arraykey']);		
+		// $_arraykey= array("a", "b","c","d");
+		// $_topcliente= array();
+		// $_topequipos= array();
+		// var_dump($_SESSION['_arraykey']);		
+		// echo json_encode($_arraykey);		
 	}
 	
 		
