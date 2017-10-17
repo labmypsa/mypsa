@@ -51,8 +51,8 @@ class ReportesController{
 	 				for ($y=$z; $y <= sizeof($table_t); $y++) { 			 	
 	 			 		if ((int)$table_t[$i]['id_tecnico'] == (int)$table_t[$y]['id_tecnico']) {  						 					
 		 					$table_t[$i]['total_equipos'] += (int) $table_t[$y]['total_equipos']; //concatena y suma  la fila actual y la siguiente
-		 					$table_t[$i]['total_pesos'] += (int) $table_t[$y]['total_pesos'];
-		 					$table_t[$i]['total_dolares'] += (int) $table_t[$y]['total_dolares'];
+		 					$table_t[$i]['total_pesos'] += (floatval ($table_t[$y]['total_pesos']));
+		 					$table_t[$i]['total_dolares'] += (floatval ($table_t[$y]['total_dolares']));
 		 					unset($table_t[$y]);
 	 					} 		  				
 	 				}
@@ -63,8 +63,8 @@ class ReportesController{
 	 		//var_dump($table_t);  		 	
 	 		for ($i=0; $i < sizeof($table_t) ; $i++) { 
 	 			$equipos_t = $equipos_t + (int) $table_t[$i]['total_equipos']; // sumar el total de equipos de todos los tecnicos
-	 			$pesos_t = $pesos_t + (int) $table_t[$i]['total_pesos'] ; 
-	 			$dolares_t = $dolares_t + (int) $table_t[$i]['total_dolares'] ;
+	 			$pesos_t = $pesos_t + (floatval($table_t[$i]['total_pesos'])) ; 
+	 			$dolares_t = $dolares_t + (floatval($table_t[$i]['total_dolares'])) ;
 	 		 	$array_Ttec[$i]=$table_t[$i]['tecnico'];
 	 		 	$array_Teq[$i]=$table_t[$i]['total_equipos'];
 	 		 	$array_Tps[$i]=$table_t[$i]['total_pesos'];

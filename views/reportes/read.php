@@ -90,176 +90,136 @@
                             </div>                       
                         </div>
                       </form>
-                    </div>    
+                    </div>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="box box-default">
-                                <div class="box-header">
-                                  <h3 class="box-title"> <i class="fa fa-bars" aria-hidden="true"></i>&nbsp; Reporte general </h3>
-                                    <div class="box-tools">                                        
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                          <!-- small box -->
-                                          <div class="small-box bg-aqua">
-                                            <div class="inner">
-                                              <h3><?php  echo (isset($pesos_t)) ? $pesos_t : 0 ; ?></h3>
-
-                                              <p>Total</p>
-                                            </div>
-                                            <div class="icon">
-                                              <i class="ion-social-usd"></i>
-                                            </div>
-                                            <label class="small-box-footer">
-                                              <i class="fa fa-usd" aria-hidden="true"></i> Pesos 
-                                            </label>
-                                          </div>
-                                        </div>
-                                        <!-- ./col -->
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                          <!-- small box -->
-                                          <div class="small-box bg-green">
-                                            <div class="inner">
-                                              <h3><?php  echo (isset($dolares_t)) ? $dolares_t : 0 ; ?></h3>
-
-                                              <p>Total</p>
-                                            </div>
-                                            <div class="icon">
-                                              <i class="ion-social-usd-outline"></i>
-                                            </div>
-                                            <label class="small-box-footer">
-                                              <i class="fa fa-usd" aria-hidden="true"></i> Dolares 
-                                            </label>
-                                          </div>
-                                        </div>
-                                        <!-- ./col -->
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                          <!-- small box -->
-                                          <div class="small-box bg-yellow">
-                                            <div class="inner">
-                                              <h3><?php  echo (isset($equipos_t)) ? $equipos_t : 0 ; ?></h3>
-
-                                              <p>Total</p>
-                                            </div>
-                                            <div class="icon">
-                                              <i class="ion-filing"></i>
-                                            </div>
-                                            <label class="small-box-footer">
-                                             <i class="fa fa-hashtag" aria-hidden="true"></i> Equipos 
-                                            </label>
-                                          </div>
-                                        </div>                                    
-                                        <!-- ./col --> 
-                                    </div>                                   
-                                      <!-- /.row -->
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                          <div class="box box-solid">
-                                            <div class="box-header with-border">                                             
-                                            </div>
-                                            <!-- /.box-header -->
-                                            <div class="box-body">
-                                              <div class="box-group" id="accordion">
-                                                <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
-                                                <div class="panel box box-primary">
-                                                  <div class="box-header with-border">
-                                                    <h4 class="box-title">
-                                                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse-1">
-                                                        General
-                                                      </a>
-                                                    </h4>
-                                                  </div>
-                                                  <div id="collapse-1" class="panel-collapse collapse in">
-                                                    <div class="box-body">
-                                                        <table id="" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
-                                                            <thead>
-                                                                <tr>                                                
-                                                                    <th>#</th>
-                                                                    <th>Técnico</th>
-                                                                    <th > # Cantidad de equipos</th>
-                                                                    <th >Total en pesos</th>
-                                                                    <th >Total en dolares</th> 
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>                       
-                                                              <?php 
-                                                                if (isset($table_t)){
-                                                                  for ($i=0; $i < sizeof($table_t); $i++) {
-                                                                     echo "<tr>"; 
-                                                                     echo "<td>". $y= $i+1 ."</td>"; 
-                                                                     echo "<td><button class='btn btn-block btn-social btn-github' onclick='ajax_tecnico(". $table_t[$i]["id_tecnico"].")'> <i class='fa fa-th-list' aria-hidden='true'></i> ". $table_t[$i]["tecnico"]."</button></td>";
-                                                                     echo "<td>".$table_t[$i]["total_equipos"] ."</td>";
-                                                                     echo "<td>$".$table_t[$i]["total_pesos"] ."</td>";
-                                                                     echo "<td>$".$table_t[$i]["total_dolares"] ."</td>";
-                                                                     echo "</tr>"; 
-                                                                  }
-                                                                  if(sizeof($table_t)== 0){echo "<td>No se encontraron registros...<td>" ;}
-                                                                } 
-                                                                 else{
-                                                                 echo "<td>No hay registros...</td>" ;
-                                                                 }
-                                                              ?>
-                                                            </tbody>
-                                                            <tfoot>
-                                                                <tr>                                               
-                                                                    <th>#</th>
-                                                                    <th>Técnico</th>
-                                                                    <th > # Cantidad de equipos</th>
-                                                                    <th >Total en pesos</th>
-                                                                    <th >Total en dolares</th> 
-                                                                </tr>
-                                                            </tfoot>
-                                                        </table>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="panel box box-success">
-                                                  <div class="box-header with-border">
-                                                    <h4 class="box-title">
-                                                      <a data-toggle='collapse' data-parent='#accordion' href='#collapse-2'><i class="fa fa-area-chart" aria-hidden="true"></i> Total de equipos</a> 
-                                                    </h4>
-                                                  </div>
-                                                  <div id="collapse-2" class="panel-collapse collapse">
-                                                    <div class="box-body">
-                                                    <button id="save-lineChart" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button>   
-                                                       <div class="chart">                                                       
-                                                        <canvas id="lineChart" style="height:250px"></canvas>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="panel box box-success">
-                                                  <div class="box-header with-border">
-                                                    <h4 class="box-title">
-                                                      <a data-toggle='collapse' data-parent='#accordion' href='#collap-3'><i class="fa fa-bar-chart" aria-hidden="true"></i> Total de Pesos/Dolares  </i></a> 
-                                                    </h4>
-                                                  </div>
-                                                  <div id="collap-3" class="panel-collapse collapse">
-                                                    <div class="box-body"> 
-                                                    <button id="save-barChart" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button> 
-                                                      </div> 
-                                                      <div class="chart">                                                        
-                                                        <canvas id="barChart" style="height:250px"></canvas> 
-                                                      </div>
-                                                  </div>
-                                                </div>                                               
-                                              </div>
-                                            </div>
-                                            <!-- /.box-body -->
-                                          </div>
-                                          <!-- /.box -->
-                                            </div>
-                                        </div>
-                                    </div>
+                      <div class="col-md-12">
+                          <div class="box box-primary">
+                          <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-area-chart" aria-hidden="true"></i>&nbsp; Metricas</h3>
+                            <div class="box-tools pull-right">
+                              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                              </button>                                              
                             </div>
+                          </div>
+                          <!-- /.box-header -->
+                          <div class="box-body">
+                            <div class="row">
+                              <div class="col-md-12">                               
+                                  <button id="save-lineChart" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button>   
+                                    <div class="chart">
+                                      <canvas id="lineChart" style="height:250px"> </canvas> 
+                                    </div>
+                              </div>
+                              <div class="col-md-12">
+                               <h4 class="text-center"> </h4>
+                                  <button id="save-barChart" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button> 
+                                  <div class="chart">
+                                    <canvas id="barChart" style="height:250px"> </canvas>
+                                  </div>
+                              </div>
+                              <!-- /.col -->  
+                            </div>
+                            <!-- /.row -->
+                          </div>
+                          <!-- ./box-body -->
+                          <div class="box-footer">
+                            <div class="row">
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="description-block border-right">
+                                  <!-- <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span> -->
+                                  <h5 class="description-header"><?php  echo (isset($equipos_t)) ? $equipos_t : 0 ; ?></h5>
+                                  <span class="description-text">TOTAL DE EQUIPOS</span>
+                                </div>
+                                <!-- /.description-block -->
+                              </div>
+                              <!-- /.col -->
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="description-block border-right">
+                                  <!-- <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span> -->
+                                  <h5 class="description-header"><?php  echo (isset($pesos_t)) ? $pesos_t : 0 ; ?></h5>
+                                  <span class="description-text">TOTAL EN PESOS</span>
+                                </div>
+                                <!-- /.description-block -->
+                              </div>
+                              <!-- /.col -->
+                              <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="description-block border-right">
+                                  <!-- <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span> -->
+                                  <h5 class="description-header"><?php  echo (isset($dolares_t)) ? $dolares_t : 0 ; ?></h5>
+                                  <span class="description-text">TOTAL EN DOLARES</span>
+                                </div>
+                                <!-- /.description-block -->
+                              </div>                              
+                            </div>
+                            <!-- /.row -->
+                          </div>
+                          <!-- /.box-footer -->
+                          </div>                        
                         </div>
-                    </div>                    
-                </section>                        
+                    </div>
+                    <div class="row">
+                          <div class="col-lg-12 col-md-12">
+                              <div class="box box-success">
+                                  <div class="box-header with-border">
+                                    <h3 class="box-title"> <i class="fa fa-bars" aria-hidden="true"></i>&nbsp; Reporte</h3>
+                                      <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>                                                    
+                                        </div>
+                                      </div>                                 
+                                  <div class="box-body table-responsive">
+                                  <!-- <div class="box-body table-responsive">                               -->
+                                    <table class="table table-bordered table-striped table-hover" cellspacing="0" width="100%"> 
+                                      <thead>
+                                        <tr>
+                                          <th>#</th>
+                                          <th>Técnico</th>
+                                          <th > # Cantidad de equipos</th>
+                                          <th >Total en pesos</th>
+                                          <th >Total en dolares</th> 
+                                        </tr>
+                                      </thead>
+                                       <tbody>                       
+                                        <?php 
+                                          if (isset($table_t)){
+                                            for ($i=0; $i < sizeof($table_t); $i++) {
+                                               echo "<tr>"; 
+                                               echo "<td>". $y= $i+1 ."</td>"; 
+                                               echo "<td><button class='btn btn-block btn-social btn-github' onclick='ajax_tecnico(". $table_t[$i]["id_tecnico"].")'> <i class='fa fa-th-list' aria-hidden='true'></i> ". $table_t[$i]["tecnico"]."</button></td>";
+                                               echo "<td>".$table_t[$i]["total_equipos"] ."</td>";
+                                               echo "<td>$".$table_t[$i]["total_pesos"] ."</td>";
+                                               echo "<td>$".$table_t[$i]["total_dolares"] ."</td>";
+                                               echo "</tr>"; 
+                                            }
+                                            if(sizeof($table_t)== 0){echo "<td>No se encontraron registros...<td>" ;}
+                                          } 
+                                           else{
+                                           echo "<td>No hay registros...</td>" ;
+                                           }
+                                        ?>
+                                      </tbody>
+                                      <tfoot>
+                                        <tr>
+                                          <th>#</th>
+                                          <th>Técnico</th>
+                                          <th > # Cantidad de equipos</th>
+                                          <th >Total en pesos</th>
+                                          <th >Total en dolares</th> 
+                                        </tr>
+                                      </tfoot>
+                                    </table>                                                                 
+                                    <!-- </div> -->
+                                  </div>
+                                  <div class="box-footer">
+                                    
+                                  </div>                                
+                              </div>
+                          </div>
+                    </div>      
+                </section>
             </div>                         
             <?php importView('_static.footer'); ?>
-        </div>
+        </div>        
         <script>
             var controller = "<?php echo $this->name; ?>";              
         </script>         
@@ -285,23 +245,23 @@
           
             $("#save-lineChart").click(function() {
               $("#lineChart").get(0).toBlob(function(blob) {
-                saveAs(blob, "chart_lineChart.png");
+                saveAs(blob, "chart_totalEquipos.png");
               });
             });
 
             $("#save-barChart").click(function() {
               $("#barChart").get(0).toBlob(function(blob) {
-                saveAs(blob, "chart_barChart.png");
+                saveAs(blob, "chart_totalpesosdlls.png");
               });
             });
-            var ctx = document.getElementById("lineChart").getContext("2d");       
+            var ctx = document.getElementById("lineChart");       
             var myLineChart = new Chart(ctx, {
                 type: 'line',
                 data: {               
                     labels: <?php echo json_encode ($array_Ttec); ?>,
                     datasets: [
                       {
-                          label: "# Equiposs",
+                          label: "# Equipos",
                           fill: true,
                           fillColor: "#79D1CF",
                           strokeColor: "#79D1CF",
@@ -329,10 +289,10 @@
                 options: {
                   scales: {
                       xAxes: [{
-                          display: true
+                          display: true                          
                       }]
                   }
-                }
+                  }
             });      
 
             var ctx2 = document.getElementById("barChart");
