@@ -19,16 +19,20 @@ class FacturaController {
       if (isset($_GET['p'])) {
             $id=$_GET['p'];
             $view_informes="view_informes". $this->ext;     
-            $data['get']=$this->model['informes']->get_factura($id, $view_informes); //          
+            $data['get']=$this->model['informes']->get_factura($id, $view_informes); //  
+
               if($data['get'][0]['po_id'] === "pendiente"){
                redirect('?c=recepcion&a=index&p='. $data['get'][0]['id']);
               }
-              else{                         
-                $data['reget']= $this->model['informes']->get_prefactura($data['get'][0]['po_id'],$view_informes);
-                $data['get'][0]['factura']= $data['reget'][0]['factura'];
-                $data['get'][0]['precio']= $data['reget'][0]['precio'];
-                $data['get'][0]['precio_extra']= $data['reget'][0]['precio_extra'];
-                $data['get'][0]['monedas_id']= $data['reget'][0]['monedas_id'];         
+              else{ 
+                if($data['get'][0]['proceso'] < 4){
+                  $data['reget']= $this->model['informes']->get_prefactura($data['get'][0]['po_id'],$view_informes);
+                  $data['get'][0]['factura']= $data['reget'][0]['factura'];
+                  $data['get'][0]['precio']= $data['reget'][0]['precio'];
+                  $data['get'][0]['precio_extra']= $data['reget'][0]['precio_extra'];
+                  $data['get'][0]['monedas_id']= $data['reget'][0]['monedas_id'];
+                }                        
+                        
                 /*Se quito la validación de entrar al modulo, para que funcione la opción agregar factura previa, pero solo va 
                 a ingresar cuando no haya P.O Pendiente*/
 

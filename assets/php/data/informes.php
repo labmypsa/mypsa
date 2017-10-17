@@ -32,24 +32,19 @@ $columns = array(
         'db' => 'precio',
         'dt' => 25,
         'formatter' => function($d, $row){
-            return '$'.number_format($d);
+            return '$'.number_format($d,2,'.','');
             }
         ),
     array(
         'db' => 'precio_extra',
         'dt' => 26,
         'formatter' => function($d,$row) {       
-            return '$'.number_format($d);
+            return '$'.number_format($d,2,'.','');
         }
         ),
     array('db' => 'moneda', 'dt' => 27),
     array('db' => 'comentarios', 'dt' => 28),
-    array('db' => 'estado_calibracion', 
-        'dt' => 29,
-        'formatter' => function($d,$row) {       
-            return number_format($d);
-        }
-        ),
+    array('db' => 'estado_calibracion', 'dt' => 29),
     array('db' => 'proceso', 'dt' => 30),
     array('db' => 'prioridad', 'dt' => 31),
     array('db' => 'entrega_hoja_salida', 'dt' => 32),    
