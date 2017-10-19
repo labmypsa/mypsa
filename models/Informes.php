@@ -47,13 +47,13 @@ class Informes extends Model {
     }
 
     public function get_factura($id,$view){ // Consulta informacion de factura, cuando entra como opción para actualizar
-        $this->query= "SELECT id as id,precio,precio_extra,factura,monedas_id,po_id,comentarios,proceso FROM ".$view." WHERE id = ". $id.";";
+        $this->query= "SELECT id as id,precio,precio_extra,factura,monedas_id,po_id,comentarios,proceso,descripcion FROM ".$view." WHERE id = ". $id.";";
         $this->get_results_from_query();       
         return $this->rows;
     }
 
-    public function get_prefactura($id,$view){ // Consulta factura con relación al po, para llenar de manera previa esa información pero puede ser editable.
-        $this->query= "SELECT factura,precio,precio_extra,monedas_id FROM ".$view." WHERE po_id='". $id."' limit 1;";
+    public function get_prefactura($_query){ // Consulta factura con relación al po, para llenar de manera previa esa información pero puede ser editable.
+        $this->query= $_query;
         $this->get_results_from_query();       
         return $this->rows;
     }

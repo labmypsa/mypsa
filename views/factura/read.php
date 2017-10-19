@@ -46,22 +46,22 @@
                             <div class="box box-default">
                                  <div class="box-header ">
                                     <h3 class="box-title">Datos de <?php echo $this->title; ?></h3>
-                                  <div class="box-tools pull-right">
-                                  <label>Número de informe : </label>
-                                    <?php echo '<input type="hidden" name="id" id="id" value="'.$data['get'][0]['id'] .'">'; ?>
-                                    <?php echo '<input type="hidden" name="proceso" id="proceso" value="'.$data['get'][0]['proceso'] .'">'; ?> 
-                                    <label data-toggle="tooltip" id="proceso" name="proceso" class="badge bg-green"><?php echo $data['get'][0]['id']; ?></label>&nbsp; <button onclick="opciones_factura('registrar')" class="btn btn-success btn-xs pull-right" id="btn_registrar_factura">Registrar</button>
-                                    <button onclick="opciones_factura('no_registrar')" class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_factura">No registrar</button>                                    
-                                  </div>                                
-                                </div> 
+                                    <div class="box-tools pull-right">
+                                      <label>Número de informe : </label>
+                                      <?php echo '<input type="hidden" name="id" id="id" value="'.$data['get'][0]['id'] .'">'; ?>
+                                      <?php echo '<input type="hidden" name="proceso" id="proceso" value="'.$data['get'][0]['proceso'] .'">'; ?> 
+                                      <label data-toggle="tooltip" id="proceso" name="proceso" class="badge bg-green"><?php echo $data['get'][0]['id']; ?></label>&nbsp; <button onclick="opciones_factura('registrar')" class="btn btn-success btn-xs pull-right" id="btn_registrar_factura">Registrar</button>
+                                      <button onclick="opciones_factura('no_registrar')" class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_factura">No registrar</button>                                    
+                                    </div>                                
+                                  </div> 
                                   <div class="box-body">
                                     <div class="box-body form-horizontal">
                                         <div class="form-group">
                                           <label  class="col-sm-3 control-label"># Factura :</label>
                                           <div class="col-sm-9">
-                                          <?php                                          
-                                            if(is_null($data['get'][0]['factura']) === false){
-                                                echo '<input type="text" class="form-control"  placeholder="0" name="factura" id="factura" value="'.strtoupper($data['get'][0]['factura']).'">';
+                                          <?php   
+                                              if(is_null($data['get'][0]['factura']) === false){
+                                                echo '<input type="text" class="form-control" name="factura" id="factura" value="'. strtoupper($data['get'][0]['factura']).'">';
                                               }
                                               else{ echo '<input type="text" class="form-control"  placeholder="X123" name="factura" id="factura" >';}
     
@@ -72,7 +72,7 @@
                                           <label class="col-sm-3 control-label">Precio : $</label>
                                           <div class="col-sm-9">
                                             <?php
-                                              if(is_null($data['get'][0]['precio'])=== false){
+                                              if(is_null($data['get'][0]['precio']) === false){
                                                 echo '<input type="number" class="form-control"  placeholder="0" name="precio" id="precio" value="'.$data['get'][0]['precio'].'" required min="0">';
                                               }
                                                 else{echo '<input type="number" class="form-control"  placeholder="0" name="precio" id="precio" required min="0" value="0">';}
@@ -138,8 +138,42 @@
                                     </div>                                 
                                   </div>                               
                             </div>                                 
-                            </div>                                                                                                    
-                        </div>                                                              
+                        </div>                                                                                                                         
+                        <div class="col-lg-6">
+                          <div class="box box-default">
+                                <div class="box-header">
+                                  <h3 class="box-title"> Datos del equipo</h3>
+                                </div>
+                                <div class="box-body"> 
+                                  <div class="box-body form-horizontal">
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Id:</label>
+                                          <div class="col-sm-9">
+                                          <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['alias']; ?>">
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Marca:</label>
+                                          <div class="col-sm-9">
+                                          <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['marca']; ?>">
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Modelo:</label>
+                                          <div class="col-sm-9">
+                                          <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['modelo']; ?>">
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Descripción:</label>
+                                          <div class="col-sm-9">
+                                          <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['descripcion']; ?>">
+                                          </div>
+                                        </div>
+                                  </div>
+                                </div>
+                          </div>
+                        </div>                                                            
                     </div> 
                   </form>                   
                 </section>
