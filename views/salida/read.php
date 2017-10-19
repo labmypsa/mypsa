@@ -57,7 +57,7 @@
                                 </div> 
                                 <div class="box-body"> 
                                   <div class="box-body form-horizontal">
-                                  <div class="form-group">
+                                    <div class="form-group">
                                           <label class="col-sm-3 control-label"></label>
                                           <div class="col-sm-9">                                                                                        
                                             <?php
@@ -69,9 +69,8 @@
                                               }
                                             ?>                                       
                                           </div>
-                                        </div>
-                                        <div class="form-group" id="alerta_hojasalida">                                    
-                                          <label class="col-sm-3 control-label"># Hoja de salida :</label>
+                                    </div>
+                                    <div class="form-group" id="alerta_hojasalida"><label class="col-sm-3 control-label"># Hoja de salida :</label>
                                           <div class="col-sm-9">
                                             <div class="input-group">
                                               <?php 
@@ -85,74 +84,109 @@
                                                 </span> 
                                             </div>
                                           </div>
-                                        </div>
-                                        <div class="form-group">
-                                          <label class="col-sm-3 control-label">Registrado por : </label>
-                                          <div class="col-sm-9">                                                                                        
-                                            <select id="usuario_hoja_salida" class="form-control select2" style="width: 100%;" name="usuario_hoja_salida" required>
-                                              <option value="">Seleccione una opción</option> 
-                                              <?php                                           
-                                              foreach ($data['registradopor'] as $registradopor) {
-                                                if ($data['get'][0]['usuario_hoja_salida'] === $registradopor['id']) {
-                                                  echo '<option value="'.$registradopor['id'].'" selected="selected">'.$registradopor['nombre'].' '.$registradopor['apellido'].'</option>';
-                                                }
-                                                else{ echo '<option value="'.$registradopor['id'].'">'.$registradopor['nombre'].' '.$registradopor['apellido'].'</option>'; }  
-                                                }                                       
-                                              ?> 
-                                            </select>                                           
-                                          </div>
-                                        </div>                                      
-                                        <div class="form-group">
-                                          <label class="col-sm-3 control-label">Fecha de salida :</label>
-                                          <div class="col-sm-9"> 
-                                          <?php
-                                            if (is_null($data['get'][0]['fecha']) === false) {
-                                             echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker_aux" value="'. $data['get'][0]['fecha'] .'" required>';
+                                    </div>
+                                    <div class="form-group">
+                                      <label class="col-sm-3 control-label">Registrado por : </label>
+                                      <div class="col-sm-9">                                                                                        
+                                        <select id="usuario_hoja_salida" class="form-control select2" style="width: 100%;" name="usuario_hoja_salida" required>
+                                          <option value="">Seleccione una opción</option> 
+                                          <?php                                           
+                                          foreach ($data['registradopor'] as $registradopor) {
+                                            if ($data['get'][0]['usuario_hoja_salida'] === $registradopor['id']) {
+                                              echo '<option value="'.$registradopor['id'].'" selected="selected">'.$registradopor['nombre'].' '.$registradopor['apellido'].'</option>';
                                             }
-                                            else{echo ' <input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker" required>';}
-                                          ?>
-                                          </div>                                        
-                                        </div>
-                                        <!-- El check de entregado sera true si el campo fecha_entrega esta lleno -->
-                                         <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                            <label class="checkbox">
-                                              <?php                                              
-                                              if (is_null($data['get'][0]['fecha_entrega']) === true) {
-                                               echo '<input type="checkbox" class="minimal" name="fecha_entrega" value="1">&nbsp; Equipo entregado';
-                                              }
-                                              else{echo '<input type="checkbox" class="minimal" name="fecha_entrega" value="1" checked>&nbsp; Equipo entregado';}
-                                              ?>                                              
-                                              </label>
-                                            </div>
-                                        </div>                                                                                                            
-                                        <div class="form-group">
-                                          <label for="inputcomentario" class="col-sm-3 control-label">Comentarios :</label>
-                                          <div class="col-sm-9">
-                                            <?php 
-                                            if (strlen($data['get'][0]['comentarios'])> 0){
-                                                echo '<textarea class="form-control" rows="4" name="comentarios" placeholder="Comentarios ...">'.$data['get'][0]['comentarios'].'</textarea>';
-                                              }
-                                            else {echo '<textarea class="form-control" rows="4" name="comentarios" placeholder="Comentarios ..." ></textarea>';}
+                                            else{ echo '<option value="'.$registradopor['id'].'">'.$registradopor['nombre'].' '.$registradopor['apellido'].'</option>'; }  
+                                            }                                       
                                           ?> 
-                                          </div>
+                                        </select>                                           
+                                      </div>
+                                    </div>                                      
+                                    <div class="form-group">
+                                      <label class="col-sm-3 control-label">Fecha de salida :</label>
+                                      <div class="col-sm-9"> 
+                                      <?php
+                                        if (is_null($data['get'][0]['fecha']) === false) {
+                                         echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker_aux" value="'. $data['get'][0]['fecha'] .'" required>';
+                                        }
+                                        else{echo ' <input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker" required>';}
+                                      ?>
+                                      </div>                                        
+                                    </div>
+                                    <!-- El check de entregado sera true si el campo fecha_entrega esta lleno -->
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                        <label class="checkbox">
+                                          <?php                                              
+                                          if (is_null($data['get'][0]['fecha_entrega']) === true) {
+                                           echo '<input type="checkbox" class="minimal" name="fecha_entrega" value="1">&nbsp; Equipo entregado';
+                                          }
+                                          else{echo '<input type="checkbox" class="minimal" name="fecha_entrega" value="1" checked>&nbsp; Equipo entregado';}
+                                          ?>                                              
+                                          </label>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-3"> </div>
-                                            <div class="col-sm-9"> 
-                                              <?php
-                                              if ($data['get'][0]['proceso'] != 2) {
-                                                echo '<button type="submit" class="btn btn-info btn-block pull-right">Actualizar</button>';
-                                              }
-                                                else{echo '<button type="submit" class="btn btn-info btn-block pull-right">Guardar</button>';}
-                                              ?>                                            
-                                        </div> 
-                                  </div> 
+                                    </div> 
+                                    <div class="form-group">
+                                      <label for="inputcomentario" class="col-sm-3 control-label">Comentarios :</label>
+                                      <div class="col-sm-9">
+                                        <?php 
+                                        if (strlen($data['get'][0]['comentarios'])> 0){
+                                            echo '<textarea class="form-control" rows="4" name="comentarios" placeholder="Comentarios ...">'.$data['get'][0]['comentarios'].'</textarea>';
+                                          }
+                                        else {echo '<textarea class="form-control" rows="4" name="comentarios" placeholder="Comentarios ..." ></textarea>';}
+                                      ?> 
+                                      </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3"> </div>
+                                        <div class="col-sm-9"> 
+                                          <?php
+                                          if ($data['get'][0]['proceso'] != 2) {
+                                            echo '<button type="submit" class="btn btn-info btn-block pull-right">Actualizar</button>';
+                                          }
+                                            else{echo '<button type="submit" class="btn btn-info btn-block pull-right">Guardar</button>';}
+                                          ?>                                            
+                                        </div>
+                                    </div>
+                                  </div>                                     
                                 </div>
                             </div>
-                        </div>                                                                                                    
-                      </div> 
-                    </form>                                                                                              
+                        </div>
+                        <div class="col-lg-6"> 
+                          <div class="box box-default"> <div class="box-header">
+                                  <h3 class="box-title"> Datos del equipo</h3>
+                                </div>
+                                <div class="box-body"> 
+                                  <div class="box-body form-horizontal">
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Id:</label>
+                                          <div class="col-sm-9">
+                                          <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['alias']; ?>">
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Marca:</label>
+                                          <div class="col-sm-9">
+                                          <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['marca']; ?>">
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Modelo:</label>
+                                          <div class="col-sm-9">
+                                          <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['modelo']; ?>">
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Descripción:</label>
+                                          <div class="col-sm-9">
+                                          <input type="text" class="form-control" disabled="" value="<?php echo $data['equipo'][0]['descripcion']; ?>">
+                                          </div>
+                                        </div>
+                                  </div>
+                                </div>
+                          </div>
+                        </div>
+                      </div>      
+                    </form> 
                 </section>
             </div>                                               
         </div>

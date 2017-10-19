@@ -23,7 +23,8 @@ class SalidaController {
      //&a=index&p=2 
       if (isset($_GET['p'])) {
         $id=$_GET['p'];
-        $view_informes="view_informes". $this->ext;         
+        $view_informes="view_informes". $this->ext; 
+        $data['equipo'] = $this->model['informes']->datos_equipo($id);       
         $data['get']=$this->model['informes']->get_salida($id, $view_informes);                    
         if ($data['get'][0]['proceso']> 1) {
               //se hara la modificación para hermosillo y para guaymas que todos los tecnicos puedan estar en hoja de salida
