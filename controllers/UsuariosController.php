@@ -28,18 +28,25 @@ class UsuariosController {
     
     public function turn_off($id){
         $datas['usuario'] = $this->model['usuario']->find($id);
-        $disponible = $datas['usuario'][0]['activo'];
-        $data['id'] = $id;
+        if (exists($data['usuario'])) {  
+            if (intval($data['usuario'][0]['roles_id']) == 10000 and Session::get("rol") != "Administrador") {
+                        redirect('?c=error&a=error_403');
+            }
+            else{
+                $disponible = $datas['usuario'][0]['activo'];
+                $data['id'] = $id;
 
-        if($disponible == 1){
-            $data['activo'] = 0;
-        } else{
-            $data['activo'] = 1;
-        }
-        if ($this->model['usuario']->update($data)) {
-            redirect($_SERVER['HTTP_REFERER']);
-        } else {
-            Flash::error(setError('002'));
+                if($disponible == 1){
+                    $data['activo'] = 0;
+                } else{
+                    $data['activo'] = 1;
+                }
+                if ($this->model['usuario']->update($data)) {
+                    redirect($_SERVER['HTTP_REFERER']);
+                } else {
+                    Flash::error(setError('002'));
+                }
+            }
         }
     }
     public function add() {
@@ -72,13 +79,18 @@ class UsuariosController {
     public function delete($id) {
         $data['usuario'] = $this->model['usuario']->find($id);
         if (exists($data['usuario'])) {
-            $idplanta = $data['usuario'][0]['plantas_id'];
-            $empresa = $this->model['planta']->find_by(['id'=>$idplanta]);
-            $idempresa = $empresa[0]['empresas_id'];
-            $data['empresa'] = $this->model['empresa']->all();
-            $data['planta'] = $this->model['planta']->find_by(['empresas_id'=>$idempresa]);
-            $data['rol'] = $this->model['rol']->all();
-            include view($this->name . '.delete');
+            if (intval($data['usuario'][0]['roles_id']) == 10000 and Session::get("rol") != "Administrador") {
+                redirect('?c=error&a=error_403');
+            }
+            else{
+                $idplanta = $data['usuario'][0]['plantas_id'];
+                $empresa = $this->model['planta']->find_by(['id'=>$idplanta]);
+                $idempresa = $empresa[0]['empresas_id'];
+                $data['empresa'] = $this->model['empresa']->all();
+                $data['planta'] = $this->model['planta']->find_by(['empresas_id'=>$idempresa]);
+                $data['rol'] = $this->model['rol']->all();
+                include view($this->name . '.delete');
+            }
         }
     }
 
@@ -187,7 +199,13 @@ class UsuariosController {
 
     public function password($id) {
         $data['usuario'] = $this->model['usuario']->find($id);
-        include view($this->name . '.password');
+         if (intval($data['usuario'][0]['roles_id']) == 10000 and Session::get("rol") != "Administrador") {
+                        redirect('?c=error&a=error_403');
+            }
+            else{
+                include view($this->name . '.password');
+            }
+       
     }
 
     public function update_password() {
