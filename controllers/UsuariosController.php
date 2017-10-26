@@ -43,6 +43,7 @@ class UsuariosController {
         }
     }
     public function add() {
+            //var_dump(Session::get("rol")); //Administrador         
         $data['rol'] = $this->model['rol']->all();
         $data['empresa'] = $this->model['empresa']->all();
         include view($this->name . '.add');
@@ -50,7 +51,12 @@ class UsuariosController {
 
     public function edit($id) {
         $data['usuario'] = $this->model['usuario']->find($id);
-        if (exists($data['usuario'])) {
+        //var_dump($data['usuario'][0]['roles_id']);
+        if (exists($data['usuario'])) {  
+            if (intval($data['usuario'][0]['roles_id']) == 10000 and Session::get("rol") != "Administrador") {
+                        redirect('?c=error&a=error_403');
+            }
+            else{
             $plantas_id = $data['usuario'][0]['plantas_id'];
             $empresa = $this->model['planta']->find_by(['id'=>$plantas_id]);
             $empresas_id = $empresa[0]['empresas_id'];
@@ -58,6 +64,8 @@ class UsuariosController {
             $data['planta'] = $this->model['planta']->find_by(['empresas_id'=>$empresas_id]);
             $data['rol'] = $this->model['rol']->all();
             include view($this->name . '.edit');
+            }         
+            
         }
     }
 
