@@ -96,11 +96,21 @@
                                                     <option value="">Seleccione una opción</option>
                                                     <?php
                                                     foreach ($data['rol'] as $rol) {
-                                                        if($data['usuario'][0]['roles_id'] == $rol['id']){
-                                                            echo '<option selected value="' . $rol['id'] . '">' . ucwords($rol['nombre']) . '</option>';
-                                                        } else{
-                                                            echo '<option value="' . $rol['id'] . '">' . ucwords($rol['nombre']) . '</option>';
+                                                        if ($rol['id'] != '10000') {
+                                                            if($data['usuario'][0]['roles_id'] == $rol['id']){
+                                                                echo '<option selected value="' . $rol['id'] . '">' . ucwords($rol['nombre']) . '</option>';
+                                                            } else{
+                                                                echo '<option value="' . $rol['id'] . '">' . ucwords($rol['nombre']) . '</option>';
+                                                            }
                                                         }
+                                                        elseif (Session::get("rol") == "Administrador") {
+                                                            if($data['usuario'][0]['roles_id'] == $rol['id']){
+                                                                echo '<option selected value="' . $rol['id'] . '">' . ucwords($rol['nombre']) . '</option>';
+                                                            } else{
+                                                                echo '<option value="' . $rol['id'] . '">' . ucwords($rol['nombre']) . '</option>';
+                                                            }
+                                                        }
+
                                                     }
                                                     ?>
                                                 </select>

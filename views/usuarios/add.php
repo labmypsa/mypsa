@@ -82,7 +82,13 @@
                                                     <option value="">Seleccione una opción</option>
                                                     <?php
                                                     foreach ($data['rol'] as $rol) {
-                                                        echo '<option value="' . $rol['id'] . '">' . ucwords($rol['nombre']) . '</option>';
+
+                                                        if ($rol['id'] != '10000') {
+                                                            echo '<option value="' . $rol['id'] . '">' . ucwords($rol['nombre']) . '</option>';
+                                                        } 
+                                                        else if(Session::get("rol") == "Administrador"){
+                                                            echo '<option value="' . $rol['id'] . '">' . ucwords($rol['nombre']) . '</option>';
+                                                        }
                                                     }
                                                     ?>
                                                 </select>
