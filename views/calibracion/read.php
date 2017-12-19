@@ -189,7 +189,7 @@
                               <div class="box-header">
                                 <h3 class="box-title"> Datos del equipo</h3>
                               </div>
-                              <div class="box-body"> 
+                              <div class="box-body">                                 
                                 <div class="box-body form-horizontal">
                                       <div class="form-group">
                                         <label class="col-sm-3 control-label">Id:</label>
@@ -218,7 +218,48 @@
                                 </div>
                               </div>
                         </div>
-                    </div>                                                                                                    
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="box box-default">                                 
+                              <div class="box-header">
+                                <h3 class="box-title"> Datos del cliente</h3>
+                              </div>
+                              <div class="box-body"> 
+                                <div class="box-body form-horizontal">
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Empresa :</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control" disabled="" value="<?php echo $data['cliente'][0]['cliente']; ?>">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Dirección:</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control" disabled="" value="<?php echo $data['cliente'][0]['direccion']; ?>">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Télefono:</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control" disabled="" value="<?php echo $data['cliente'][0]['telefono']; ?>">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Email:</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control" disabled="" value="<?php echo $data['cliente'][0]['email']; ?>">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Contacto:</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control" disabled="" value="<?php echo $data['cliente'][0]['contacto']; ?>">
+                                        </div>
+                                      </div>
+                                </div>
+                              </div>
+                        </div>
+                    </div>                                                                                                   
                   </div>
                 </form>
               </section>
