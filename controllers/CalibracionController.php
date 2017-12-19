@@ -22,7 +22,10 @@ class CalibracionController {
         $id=$_GET['p'];
         $view_informes="view_informes". $this->ext;       
         $data['get']=$this->model['informes']->get_calibracion($id, $view_informes);
-        $data['equipo'] = $this->model['informes']->datos_equipo($id);
+        $data['equipo'] = $this->model['informes']->datos_equipo($id);              
+
+        $data['cliente'] = $this->model['informes']->datos_cliente($id);
+                
        if ($data['get'][0]['proceso']> 0) {
         $data['tecnico']= $this->model['usuario']->find_by(['activo'=>'1']);
         $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']); 

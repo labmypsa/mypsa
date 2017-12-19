@@ -129,7 +129,7 @@
                         </ul>
                     </li>";                            
                     //adminsitración de usuarios
-                    if(Session::has('rol',['Administrador','Ingenieros'])){
+                    if(Session::has('rol',['Administrador','Ingenieros','Calidad'])){
                         echo "<li class='treeview'>
                             <a href='#'>
                                 <i class='fa fa-user'></i> <span>Cuentas de usuarios</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>

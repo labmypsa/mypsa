@@ -12,7 +12,7 @@ class Informes extends Model {
     }
 
     public function equipos_calibrar_notification(){
-        $this->query= "SELECT id, CONCAT(descripcion, ' - ', marca) descripcion, prioridad FROM view_".$this->table." WHERE usuarios_calibracion_id = '".Session::get('id')."' AND proceso = 1;";
+        $this->query= "SELECT id, CONCAT(descripcion, ' - ', marca) descripcion, prioridad FROM view_".$this->table." WHERE usuarios_calibracion_id = '".Session::get('id')."' AND proceso = 1;";        
         $this->get_results_from_query();
         return $this->rows;
     }
@@ -20,6 +20,12 @@ class Informes extends Model {
     public function datos_equipo($id){
         $this->query= "SELECT alias, marca, modelo, descripcion FROM view_".$this->table." where id=".$id."";
         $this->get_results_from_query();
+        return $this->rows;
+    }
+
+    public function datos_cliente($id){
+        $this->query= "SELECT concat(nombre,' ',apellido) as contacto, IF(((planta = 'Planta1') OR (planta = 'Planta 1')), empresa, concat(empresa,' ',planta)) AS cliente, direccion, telefono, email FROM view_usuarios where plantas_id=(SELECT plantas_id FROM view_".$this->table." where id=".$id.") and roles_id=10005 limit 1;";       
+        $this->get_results_from_query();        
         return $this->rows;
     }
 
