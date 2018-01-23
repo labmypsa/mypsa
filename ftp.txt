@@ -1,9 +1,0 @@
-open 192.232.243.186
-mypsa
-a1Rvj_t2Eiug
-lcd C:\myftp
-cd /public_html/storage/informes
-mput *
-close
-quit
-exit

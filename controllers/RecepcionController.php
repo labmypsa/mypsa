@@ -49,7 +49,7 @@
       $data['empresa']=$this->model['empresa']->all();   
       
       //se hara la modificación para hermosillo y para guaymas que todos los tecnicos puedan estar en hoja de entrada
-      $data['tecnico']= $this->model['usuario']->find_by(['activo'=>'1']); 
+      $data['tecnico']= $this->model['usuario']->find_by(['activo'=>'1','plantas_id'=>Session::get('plantas_id')]);       
       //var_dump($data['tecnico']);
       if($sucursal != 'nogales'){        
         $data['registradopor']= $this->model['usuario']->find_by(['plantas_id'=>Session::get('plantas_id')]);
@@ -115,36 +115,36 @@
         $fecha = $data['fecha']; unset($data['fecha']);//                
         $data['hojas_entrada_aux_id']= $this->store_hoja_entrada($hojas_entrada_id,$usuarios_id,$fecha,$hojaentrada_sucursal);
 
-         /* Comparar si si agrego bien el PO y la hoja de entrada */                                  
+          /* Comparar si si agrego bien el PO y la hoja de entrada */                                  
           if (strlen($data['hojas_entrada_aux_id'])> 0 && strlen($data['po_id'])>0) {
-             //si se agrego correctamente hoja de entrada y PO entonces se hara update sobre la tabla informes de los datos pendientes.                
-             if ($this->model['informes']->update($data))  {
-            // direccionarlo al siguiente proceso 
+            //si se agrego correctamente hoja de entrada y PO entonces se hara update sobre la tabla informes de los datos pendientes.                
+            if ($this->model['informes']->update($data))  {
+              // direccionarlo al siguiente proceso 
               $roles_id= substr(Session::get('roles_id'),-1,1);                                      
               if ($proceso_temp == 0) {
                 Logs::this("Captura datos de recepción", "Recepción del equipo, cliente y datos de calibración del informe: ".$data['id']); 
               $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
               }
               else if($proceso_temp == 1) {
-              Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de recepción. Informe: ".$data['id']);              
-              $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
+                Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de recepción. Informe: ".$data['id']);              
+                $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
               }              
               else if($proceso_temp == 2) {
-              Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de salida. Informe: ".$data['id']);  
-              $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);                                     
+                Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de salida. Informe: ".$data['id']);  
+                $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
               }
               else if ($proceso_temp == 3) {
                 Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de facturación. Informe:".$data['id']);                
                 $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
-                } 
+              } 
               else if ($proceso_temp == 4) {                
                 Logs::this("Actualización en recepción", "Actualización en recepción, ya se encontraba el informe terminado. Informe:".$data['id']); 
                 $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
-                } 
+              } 
               else{
                 redirect('?c=informes&a=proceso');
               }
-            }
+              }
             else {               
                Flash::error(setError('002'));
             }  
@@ -256,7 +256,7 @@
 
 
   public function cookies() {                                                
-        echo json_encode(Session::get('planta'));
+    echo json_encode(Session::get('planta'));
   }
   
   public function ajax_load_historial() {
@@ -278,17 +278,21 @@
       echo $data;
   }
 
-  public function ajax_load_po() {         
+  public function ajax_load_po() {
       $idpo = $_POST['po_id'];       
       $data = json_encode($data['po'] = $this->model['po']->find_by([ 'id' => $idpo]));
       echo $data;
   }
 
-  public function ajax_load_hoja_entrada() {         
+  public function ajax_load_hoja_entrada() {
       $numero_hoja = $_POST['hojas_entrada_id'];
       $view_hojas_entrada="view_hojas_entrada_aux". $this->ext;         
       $data = json_encode($data['hojaentradaaux'] = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $numero_hoja],$view_hojas_entrada)); 
       echo $data;
+  }
+
+  public function ajax_descargar_csv(){
+    
   }
 
 

@@ -541,11 +541,11 @@
         
     }
 
-/* ## Fin de funciones de recepción ## */
+    /* ## Fin de funciones de recepción ## */
 
-//Events
+    //Events
     $(window).load(function() {
-    // Mostrar equipos a calibrar en area de notificaciones
+        // Mostrar equipos a calibrar en area de notificaciones
         $.ajax({
             url: "?c=informes&a=get_a_calibrar",
             dataType: "json",
@@ -570,14 +570,14 @@
         });        
     });
 
-    $(document).ready(function() { 
-    //$('#historial_informes').last().addClass( "table-fixed" );     
-        $("#factura_previa").click(function(e){           
+    $(document).ready(function() {
+        //$('#historial_informes').last().addClass( "table-fixed" );     
+        $("#factura_previa").click(function(e){
             factura_previa();
             e.preventDefault();
         });
 
-    //Busqueda
+        //Busqueda
         $('#search').on('keyup', function(e) {
             if (e.which == 13) {
                 var str = (($('#search').val()).trim()).toLowerCase();
@@ -594,7 +594,7 @@
             }
         });
 
-    //Fin busqueda
+        //Fin busqueda
         $('.sidebar-toggle').on('click', function() {
             //
         });
@@ -694,14 +694,14 @@
 
         $("#empresa_ajax").on('change', empresa_ajax);
         // # Home Recepción   
-            $("#empresa_ajax_r").on('change', empresa_ajax_r);
+        $("#empresa_ajax_r").on('change', empresa_ajax_r);
         /* Home Reportes Productividad  */  
-            $("#nombre_suc").on('change', sucursalxtec_ajax);            
+        $("#nombre_suc").on('change', sucursalxtec_ajax);            
         /* End Reportes productividad */
 
         $("#buscar_idequipo").on('click', buscar_idequipo_historial);
         
-        $("#idequipo").keypress(function(e) {        
+        $("#idequipo").keypress(function(e) {
             if (e.which == 13) {   
                $(this).val(espacio_blanco($(this).val()));      
                 buscar_idequipo_historial();
@@ -729,7 +729,7 @@
 
         $("#buscar_hoja_entrada").on('click', buscar_hoja_entrada);
         
-        $("#num_hojaent").keypress(function(e) {          
+        $("#num_hojaent").keypress(function(e) {
             if($(this).val().length==4)
             {
                 var anio = (new Date).getFullYear();            
@@ -755,7 +755,7 @@
 
         //# End Recepción
 
-    /* start Salida */
+        /* start Salida */
         $("#buscar_hoja_salida").on('click', buscar_hoja_salida);
         $("#hojas_salida_id").keypress(function(e) {
             if($(this).val().length==4)
@@ -771,7 +771,7 @@
                 e.preventDefault();
             }
         });
-    /* End Salida */
+        /* End Salida */
 
         $("#cp").inputmask("99999", {
             clearIncomplete: true,
@@ -793,7 +793,7 @@
             autoclose: true,
             format: 'yyyy-mm-dd'
         });    
-    /* Datarange libreria*/
+        /* Datarange libreria*/
         $('#daterange-text').daterangepicker(
             {
           ranges: {
@@ -828,7 +828,6 @@
             checkboxClass: 'icheckbox_flat-green',
             radioClass: 'iradio_flat-green'
         });        
-
     });
 
     $("#avatar").change(function() {

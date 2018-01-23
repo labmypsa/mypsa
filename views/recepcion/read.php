@@ -301,7 +301,7 @@
                                           <div class="col-sm-9"> 
                                             <select id="usuarios_calibracion_id" class="form-control select2" style="width: 100%;" name="usuarios_calibracion_id" required="">
                                                   <option value="">Seleccione una opción</option> 
-                                                  <?php
+                                                  <?php                                                 
                                                   foreach ($data['tecnico'] as $tecnico) {
                                                       if($tecnico['roles_id']== '10003' || $tecnico['roles_id']== '10002' || $tecnico['roles_id']== '10004'){
                                                         if ($data['get'][0]['usuarios_calibracion_id'] === $tecnico['id']) {
@@ -358,9 +358,9 @@
                                           <div class="col-sm-9">
                                           <?php 
                                           if (strlen($data['get'][0]['comentarios'])> 0){
-                                              echo '<textarea class="form-control" rows="4" name="comentarios" placeholder="Comentarios ...">'.$data['get'][0]['comentarios'].'</textarea>';
+                                              echo '<textarea id="comentario" class="form-control" rows="4" name="comentarios" placeholder="Comentarios ...">'.$data['get'][0]['comentarios'].'</textarea>';
                                             }
-                                            else {echo '<textarea class="form-control" rows="4" name="comentarios" placeholder="Comentarios ..." ></textarea>';}
+                                            else {echo '<textarea id="comentario" class="form-control" rows="4" name="comentarios" placeholder="Comentarios ..." ></textarea>';}
                                           ?>
                                           </div>
                                         </div> 
@@ -453,6 +453,13 @@
                                         else{echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker" required="">';} ?>
                                       </div>
                                     </div>
+                                    <div class="form-group">
+                                     <div class="col-sm-3"></div>
+                                     <div class="col-sm-9">
+                                      <button type="button" class="btn btn-box-tool pull-right" onclick="downloadCSV({ filename: 'formato.csv' });"><i class="fa fa-download" aria-hidden="true"></i> &nbsp; Descargar formato *.csv</button>                                     
+                                     <!-- id del campo = numero_informe -->
+                                     </div>
+                                     </div>
                                   </div>   
                                   <div class="box-footer">
                                     <?php
@@ -470,8 +477,92 @@
             </div>                                                      
             <?php importView('_static.footer'); ?>
         </div>    
-        <script>          
+        <script>
             var controller = "<?php echo $this->name; ?>";   
+        </script>
+        <script type="text/javascript">                      
+            function downloadCSV(args){   
+              var data, filename, link;
+
+              var empresa = document.getElementById("empresa_ajax_r");
+              var planta = document.getElementById("idplanta_ajax_r");
+              var acreditacion = document.getElementById("acreditaciones_id");
+              var tecnico = document.getElementById("usuarios_calibracion_id");
+              var calibracion = document.getElementById("calibraciones_id");
+              var usuario = document.getElementById("usuarios_id");
+
+              var datos= [{                
+                    id: "",
+                    descripcion: "",
+                    marca: "",
+                    modelo: "",
+                    serie: "",
+                    empresa:  empresa.options[empresa.selectedIndex].text,                  
+                    planta:  planta.options[planta.selectedIndex].text,
+                    planta_id: $('#idplanta_ajax_r').val(),
+                    periodo_calibracion: $('#periodo_calibracion').val(),
+                    acreditacion:  acreditacion.options[acreditacion.selectedIndex].text,                    
+                    tecnico:  tecnico.options[tecnico.selectedIndex].text,
+                    usuarios_calibracion_id: $('#usuarios_calibracion_id').val(),
+                    calibracion:  calibracion.options[calibracion.selectedIndex].text,                   
+                    prioridad: $("input:radio[name=prioridad]:checked").val(),                   
+                    po_id: $('#po_id').val(),
+                    cantidad: $('#cantidad').val(),
+                    num_hojaent: $('#num_hojaent').val(),
+                    usuario:  usuario.options[usuario.selectedIndex].text,
+                    usuarios_id: $('#usuarios_id').val(),
+                    fecha: $('#fecha').val()                  
+                  }];          
+
+              var csv = convertArrayOfObjectsToCSV({
+                  data: datos
+              });
+              if (csv == null) return;
+
+              filename = args.filename || 'export.csv';
+
+              if (!csv.match(/^data:text\/csv/i)) {
+                  csv = 'data:text/csv;charset=utf-8,' + csv;
+              }
+              data = encodeURI(csv);
+
+              link = document.createElement('a');
+              link.setAttribute('href', data);
+              link.setAttribute('download', filename);
+              link.click();
+                               
+            }
+
+            function convertArrayOfObjectsToCSV(args) {
+              var result, ctr, keys, columnDelimiter, lineDelimiter, data;
+
+              data = args.data || null;
+              if (data == null || !data.length) {
+                  return null;
+              }
+
+              columnDelimiter = args.columnDelimiter || ',';
+              lineDelimiter = args.lineDelimiter || '\n';
+
+              keys = Object.keys(data[0]);
+
+              result = '';
+              result += keys.join(columnDelimiter);
+              result += lineDelimiter;
+
+              data.forEach(function(item) {
+                  ctr = 0;
+                  keys.forEach(function(key) {
+                      if (ctr > 0) result += columnDelimiter;
+
+                      result += item[key];
+                      ctr++;
+                  });
+                  result += lineDelimiter;
+              });
+
+              return result;
+            }
         </script>
         <?php importView('_static.scripts'); ?>
     </body>
