@@ -160,48 +160,46 @@
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                         </button>                                                    
                                         </div>
-                                      </div>                                 
-                                  <div class="box-body table-responsive">
-                                  <!-- <div class="box-body table-responsive">                               -->
+                                    </div>                                 
+                                  <div class="box-body table-responsive">                                 
                                     <table id="table_will" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%"> 
                                       <thead>
-                                              <tr>
-                                                  <th>id</th>
-                                                  <th>Id equipo</th>
-                                                  <th>Descripción</th>
-                                                  <th>Marca</th>
-                                                  <th>Modelo</th>
-                                                  <th>Serie</th>
-                                                  <th>Cliente (Sucursal/Departamento)</th>
-                                                  <th>Fecha de calibración</th>
-                                                  <th>Vigencia</th>
-                                                  <th>Fecha de vencimiento</th>
-                                                  <th>Precio</th>
-                                                  <th>Precio extra</th>
-                                                  <th>Moneda</th>
-                                                  <th>Proceso</th>
-                                                </tr>
-                                          </thead>
-                                          <tfoot>
-                                              <tr>
-                                                  <th>id</th>
-                                                  <th>Id equipo</th>
-                                                  <th>Descripción</th>
-                                                  <th>Marca</th>
-                                                  <th>Modelo</th>
-                                                  <th>Serie</th>
-                                                  <th>Cliente (Sucursal/Departamento)</th>
-                                                  <th>Fecha de calibración</th>
-                                                  <th>Vigencia</th>
-                                                  <th>Fecha de vencimiento</th>
-                                                  <th>Precio</th>
-                                                  <th>Precio extra</th>
-                                                  <th>Moneda</th>
-                                                  <th>Proceso</th>       
-                                              </tr>
-                                          </tfoot>
-                                      </table>                                                                 
-                                    <!-- </div> -->
+                                        <tr>
+                                          <th>id</th>
+                                          <th>Id equipo</th>
+                                          <th>Descripción</th>
+                                          <th>Marca</th>
+                                          <th>Modelo</th>
+                                          <th>Serie</th>
+                                          <th>Cliente (Sucursal/Departamento)</th>
+                                          <th>Fecha de calibración</th>
+                                          <th>Vigencia</th>
+                                          <th>Fecha de vencimiento</th>
+                                          <th>Precio</th>
+                                          <th>Precio extra</th>
+                                          <th>Moneda</th>
+                                          <th>Proceso</th>
+                                        </tr>
+                                      </thead>
+                                      <tfoot>
+                                        <tr>
+                                          <th>id</th>
+                                          <th>Id equipo</th>
+                                          <th>Descripción</th>
+                                          <th>Marca</th>
+                                          <th>Modelo</th>
+                                          <th>Serie</th>
+                                          <th>Cliente (Sucursal/Departamento)</th>
+                                          <th>Fecha de calibración</th>
+                                          <th>Vigencia</th>
+                                          <th>Fecha de vencimiento</th>
+                                          <th>Precio</th>
+                                          <th>Precio extra</th>
+                                          <th>Moneda</th>
+                                          <th>Proceso</th>       
+                                        </tr>
+                                      </tfoot>
+                                    </table> 
                                   </div>
                                   <div class="box-footer">
                                     
@@ -228,10 +226,12 @@
               _tpesos.text('$ 0');
               _tdlls.text('$ 0');
               _rfechas.text('Rango de fechas:');
+
            $('#table_will tfoot th').each( function () {
               var title = $(this).text();
               $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
             } );
+
             var _table= $('#table_will').DataTable({ 
               dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
               buttons: [
@@ -287,11 +287,11 @@
                       data: parametro
                     }).done(function(data) {
                       var datos = data;
-                      //console.log(datos);
+                      console.log(datos);
                       if(datos!= "false"){
                         var obj= JSON.parse(datos);                        
                         //console.log(obj[1]); 
-                        totales_p_d(obj);
+                        totales_p_d(obj); //Funcion de totales_Pesos_dolares
                         _table.clear();
                         _table.rows.add(obj).draw();
                         //Morris Charts
@@ -321,8 +321,7 @@
                 return result;
               }                            
 
-            function showgraph(){
-              
+            function showgraph(){            
             }
 
             function totales_p_d(obj){

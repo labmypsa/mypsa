@@ -70,9 +70,40 @@
   	include view($this->name.'.read');
 	}
 
-	public function volumen() {  		
-  		include view($this->name.'.volumen');
+	public function volumen() {    
+    include view($this->name.'.volumen');
 	}
+
+  public function ajax_cargarcsv(){
+
+    if($_FILES['csvfile']['name'] != ''){    
+    $ext = strtolower(end(explode('.', $_FILES['csvfile']['name'])));
+    $type = $_FILES['csvfile']['type'];
+    $ruta = $_FILES['csvfile']['tmp_name'];   
+    // check the file is a csv
+      if($ext === 'csv'){              
+        $data= $this->readCSV($ruta);
+      }                                
+    }    
+   //var_dump($data);
+   //exit;
+    echo json_encode($data);
+  }
+
+  public function readCSV($ruta){       
+        $lines = file($ruta, FILE_IGNORE_NEW_LINES); 
+        $data = array();                     
+         foreach ($lines as $key => $value)
+        {                  
+             $csv[$key] = str_getcsv(utf8_encode($value));             
+             if($key>0)
+             {              
+             array_push($data,$csv[$key]);
+             }                         
+        }         
+        return $data;
+  }
+
  //Update la bitacora 
 
   public function store() {
@@ -291,9 +322,5 @@
       echo $data;
   }
 
-  public function ajax_descargar_csv(){
-    
-  }
-
-
+ 
  }

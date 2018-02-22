@@ -301,7 +301,8 @@
                                           <div class="col-sm-9"> 
                                             <select id="usuarios_calibracion_id" class="form-control select2" style="width: 100%;" name="usuarios_calibracion_id" required="">
                                                   <option value="">Seleccione una opción</option> 
-                                                  <?php                                                 
+                                                  <?php
+
                                                   foreach ($data['tecnico'] as $tecnico) {
                                                       if($tecnico['roles_id']== '10003' || $tecnico['roles_id']== '10002' || $tecnico['roles_id']== '10004'){
                                                         if ($data['get'][0]['usuarios_calibracion_id'] === $tecnico['id']) {
@@ -490,7 +491,9 @@
               var tecnico = document.getElementById("usuarios_calibracion_id");
               var calibracion = document.getElementById("calibraciones_id");
               var usuario = document.getElementById("usuarios_id");
-
+              //planta_id: $('#idplanta_ajax_r').val(),
+              //usuarios_calibracion_id: $('#usuarios_calibracion_id').val(),
+              //usuarios_id: $('#usuarios_id').val(),
               var datos= [{                
                     id: "",
                     descripcion: "",
@@ -498,19 +501,18 @@
                     modelo: "",
                     serie: "",
                     empresa:  empresa.options[empresa.selectedIndex].text,                  
-                    planta:  planta.options[planta.selectedIndex].text,
-                    planta_id: $('#idplanta_ajax_r').val(),
+                    planta:  planta.options[planta.selectedIndex].text,                   
                     periodo_calibracion: $('#periodo_calibracion').val(),
                     acreditacion:  acreditacion.options[acreditacion.selectedIndex].text,                    
                     tecnico:  tecnico.options[tecnico.selectedIndex].text,
-                    usuarios_calibracion_id: $('#usuarios_calibracion_id').val(),
+                   
                     calibracion:  calibracion.options[calibracion.selectedIndex].text,                   
                     prioridad: $("input:radio[name=prioridad]:checked").val(),                   
                     po_id: $('#po_id').val(),
                     cantidad: $('#cantidad').val(),
                     num_hojaent: $('#num_hojaent').val(),
                     usuario:  usuario.options[usuario.selectedIndex].text,
-                    usuarios_id: $('#usuarios_id').val(),
+                    
                     fecha: $('#fecha').val()                  
                   }];          
 
@@ -522,12 +524,12 @@
               filename = args.filename || 'export.csv';
 
               if (!csv.match(/^data:text\/csv/i)) {
-                  csv = 'data:text/csv;charset=utf-8,' + csv;
+                  csv = csv;
               }
               data = encodeURI(csv);
 
               link = document.createElement('a');
-              link.setAttribute('href', data);
+              link.setAttribute('href','data:text/csv;charset=utf-8,%EF%BB%BF' + data);
               link.setAttribute('download', filename);
               link.click();
                                

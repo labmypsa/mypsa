@@ -37,8 +37,7 @@ class PaisesController {
 
     public function store() {
         $data = validate($_POST, [
-            'nombre' => 'required|trimlower|unique:paises',
-            'nombre' => 'trimlower|email|unique:paises',
+            'nombre' => 'required|trimlower|unique:paises',           
         ]);
         if ($this->model['pais']->store($data)) {
             redirect('?c=' . $this->name);
