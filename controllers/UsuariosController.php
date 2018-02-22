@@ -27,13 +27,13 @@ class UsuariosController {
     }
     
     public function turn_off($id){
-        $datas['usuario'] = $this->model['usuario']->find($id);
+        $data['usuario'] = $this->model['usuario']->find($id);
         if (exists($data['usuario'])) {  
             if (intval($data['usuario'][0]['roles_id']) == 10000 and Session::get("rol") != "Administrador") {
                         redirect('?c=error&a=error_403');
             }
             else{
-                $disponible = $datas['usuario'][0]['activo'];
+                $disponible = $data['usuario'][0]['activo'];
                 $data['id'] = $id;
 
                 if($disponible == 1){
