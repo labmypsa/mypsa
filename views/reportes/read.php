@@ -226,6 +226,7 @@
         <?php importView('_static.scripts'); ?>    
         <script type="text/javascript">
            function ajax_tecnico($val){
+            
              var parametro= {
                 'var1': $val,
                 'var2': "<?php echo $this->get_url($data); ?>"

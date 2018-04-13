@@ -35,12 +35,12 @@ class UsuariosController {
             else{
                 $disponible = $data['usuario'][0]['activo'];
                 $data['id'] = $id;
-
                 if($disponible == 1){
                     $data['activo'] = 0;
                 } else{
                     $data['activo'] = 1;
                 }
+                unset($data['usuario']);
                 if ($this->model['usuario']->update($data)) {
                     redirect($_SERVER['HTTP_REFERER']);
                 } else {
@@ -49,6 +49,7 @@ class UsuariosController {
             }
         }
     }
+
     public function add() {
             //var_dump(Session::get("rol")); //Administrador         
         $data['rol'] = $this->model['rol']->all();

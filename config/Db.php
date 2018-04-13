@@ -18,7 +18,7 @@ abstract class Db {
         } else {
             $table_aux = $this->table;
             $this->table = $view;
-            $this->query = "SELECT * FROM " . $this->table . " WHERE " . $this->primary_key . " = '" . $id . "'";
+            $this->query = "SELECT * FROM " . $this->table . " WHERE " . $this->primary_key . " = '" . $id . "'";       
             $this->get_results_from_query();
             $this->table = $table_aux;
             return $this->rows;
@@ -32,8 +32,7 @@ abstract class Db {
         $field = "nombre";
         $query = "SELECT * FROM $view ";
         $query .= "WHERE ".$field." LIKE '%".$string."%' ORDER BY nombre ASC LIMIT ".$inicio.", ".$fin."";
-        $this->query = $query;
-        // echo $query;
+        $this->query = $query;        
         $this->get_results_from_query();
         return $this->rows;
     }
@@ -62,7 +61,7 @@ abstract class Db {
                 $query .= " AND ";
             }
             $query = substr($query, 0, -5);
-            $this->query = $query;            
+            $this->query = $query;                        
             $this->get_results_from_query();
             return $this->rows;
         } else {
@@ -74,7 +73,7 @@ abstract class Db {
                 $query .= " AND ";
             }
             $query = substr($query, 0, -5);
-            $this->query = $query;              
+            $this->query = $query;                            
             $this->get_results_from_query();
             $this->table = $table_aux;           
             return $this->rows;
@@ -137,9 +136,7 @@ abstract class Db {
         }
         $query = substr($query, 0, - 1);
         $query .= " WHERE " . $this->primary_key . "='" . $data[$this->primary_key] . "';";  
-        $this->query = $query;
-        //var_dump($query);
-        //exit;        
+        $this->query = $query;            
         return $this->execute_single_query();
     }
 

@@ -70,4 +70,8 @@ class SucursalesController {
         }
     }
 
+    public function seleccionar() {
+        include view('login.sucursal');        
+    }
+
 }

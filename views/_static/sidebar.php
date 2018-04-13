@@ -42,6 +42,9 @@
                                 <li><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
                            ";
                         }
+                        if(Session::has('rol',['Administrador'])){
+                            echo " <li><a href='?c=login&a=sucursal'><i class='fa fa-circle-o'></i>Sucursal</a></li> ";
+                        } 
                         if(Session::has('rol',['Administrador','Almacén','Calidad'])){
                             echo "         
                                 <li><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                 
@@ -49,7 +52,7 @@
                                 <li><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>
                                 <li><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
                            ";
-                        }                         
+                        }                                        
                     }
                 ?>             
                 </ul>

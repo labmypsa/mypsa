@@ -45,7 +45,9 @@ $columns = array(
     array('db' => 'moneda', 'dt' => 27),
     array('db' => 'comentarios', 'dt' => 28),
     array('db' => 'estado_calibracion', 'dt' => 29),
-    array('db' => 'proceso', 'dt' => 30),
-    array('db' => 'prioridad', 'dt' => 31),
-    array('db' => 'entrega_hoja_salida', 'dt' => 32),    
+    array('db' => 'nombre_proceso', 'dt' => 30),
+    array('db' => 'proceso', 'dt' => 31),
+    array('db' => 'prioridad', 'dt' => 32),
+    array('db' => 'entrega_hoja_salida', 'dt' => 33)
+
 );

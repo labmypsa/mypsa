@@ -173,7 +173,7 @@ class Session {
     *  SINTAXIS
     *  Valida unicamente Logueo y Activo: Session::logged();
     *  Valida Logue, Activo y que cumpla parametros: Session::logged(['nombre'=>'Maria','apellido'=>'Torres']);
-    *  Validacion con mas de una opcion de valor: Session::loggued('edad'=>'18|19|20');
+    *  Validacion con mas de una opcion de valor: Session::logged('edad'=>'18|19|20');
     */
     public static function logged($rules = NULL) {
         /* Verificamos primero si el estado de la session se encuentra bloqueado
