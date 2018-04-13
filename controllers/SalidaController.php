@@ -7,8 +7,7 @@ class SalidaController {
 	public function __construct() {
 		$this->name= "salida";
 		$this->title="Salida";
-		$this->subtitle="Bitácora";
-		$this->sucursal= Session::get('plantas_id'); 
+		$this->subtitle="Bitácora";		
 		$this->model = [
 		'usuario'=> new Usuario(),
 		'informes'=> new Informes(),
@@ -17,6 +16,7 @@ class SalidaController {
     'salida' => new Salida(),
     ];
     $this->ext=$this->model['sucursal']->extension();
+    $this->sucursal= strtoupper(Session::get('sucursal'));
 	}
 
 	public function index(){

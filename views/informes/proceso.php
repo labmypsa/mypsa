@@ -14,7 +14,7 @@
             <?php importView('_static.sidebar'); ?>
             <div class="content-wrapper">
                 <section class="content-header">
-                    <h1><?php echo $this->title; ?><small><?php echo $this->subtitle; ?></small></h1>
+                    <h1><?php echo $this->title; ?><small><?php echo $this->subtitle.' '. $this->sucursal; ?></small></h1>
                 </section>
                 <section class="content">
                     <div class="row">
@@ -58,7 +58,10 @@
                                                 <th>Extra</th>
                                                 <th>Moneda</th>
                                                 <th>Comentarios</th>
-                                                <th>Proceso</th>
+                                                <th>Estado</th>
+                                                <th>Proceso</th>                                                
+                                                <th>%</th>                                                
+                                                                                              
                                                 <th>Acción</th>
                                             </tr>
                                         </thead>
@@ -93,8 +96,11 @@
                                                 <th>Extra</th>
                                                 <th>Moneda</th>
                                                 <th>Comentarios</th>
-                                                <th >Proceso</th>
-                                                <th >Acción</th> 
+                                                <th>Estado</th>
+                                                <th>Proceso</th>                                                
+                                                <th>%</th>                                                
+                                                                                                
+                                                <th>Acción</th>
                                             </tr>
                                         </tfoot>
                                     </table>

@@ -21,7 +21,8 @@
         'equipo'=> new Equipo(),
   		 'sucursal' => new Sucursal(),
       ];
-      $this->ext=$this->model['sucursal']->extension();  
+      $this->ext=$this->model['sucursal']->extension(); 
+      $this->sucursal= strtoupper(Session::get('sucursal'));   
 	}
 
 	public function index (){
@@ -47,7 +48,8 @@
     $sucursal=strtolower(Session::get('sucursal'));
 
       $data['empresa']=$this->model['empresa']->all();   
-      
+      //echo json_encode(Session::get());
+
       //se hara la modificación para hermosillo y para guaymas que todos los tecnicos puedan estar en hoja de entrada
       $data['tecnico']= $this->model['usuario']->find_by(['activo'=>'1','plantas_id'=>Session::get('plantas_id')]);       
       //var_dump($data['tecnico']);

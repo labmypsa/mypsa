@@ -2,13 +2,12 @@
 
 class Informes extends Model { 
 
-
-    function __construct() {          	    		    	       
+    function __construct() {                	    		    	    
         $this->primary_key  = 'id';
         $this->model=[           
         'sucursal' => new Sucursal(),
         ];      
-        $this->table = 'informes'.$this->model['sucursal']->extension();
+        $this->table = 'informes'.$this->model['sucursal']->extension();       
     }
 
     public function equipos_calibrar_notification(){
@@ -127,5 +126,11 @@ class Informes extends Model {
         $this->get_results_from_query();       
         return $this->rows;
     }
+
+     public function get_query_informe($data){
+        $this->query= $data;
+        $this->get_results_from_query();       
+        return $this->rows;
+     }
 
 }

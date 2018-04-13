@@ -14,7 +14,8 @@ class CalibracionController {
         'informes'=> new Informes(),
         'sucursal' => new Sucursal(),
   		];
-      $this->ext=$this->model['sucursal']->extension();      
+      $this->ext=$this->model['sucursal']->extension();    
+      $this->sucursal= strtoupper(Session::get('sucursal')); 
   	}
 
   	public function index (){   

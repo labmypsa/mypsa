@@ -234,16 +234,17 @@ $(document).ready(function () {
                     }
                      return planta;                                                             
                     }
-                },                            
+                },
+                {"targets":[29,30,31], "visible":false},                            
                 {   
                     "targets": -2,                                 
                     "render": function(data,type, row){
                         //console.log(data +' ('+ row[29]+')');                                                        
                         if(data == 1){
-                            return "<a href='?c=informes&a=verinforme&p="+row[0]+"' target='_blank' data-toggle='tooltip' class='btn btn-social-icon badge bg-green' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";
+                            return "<a href='?c=informes&a=verinforme&p="+row[0]+"' target='_blank'  class='btn btn-social-icon badge bg-green' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";
                         }
                         else{
-                          return "<a href='#' data-toggle='tooltip' class='btn btn-social-icon badge bg-green disabled' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";  
+                          return "<a href='#'  class='btn btn-social-icon badge bg-green disabled' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";  
                         }                        
                     },
                     "orderable" : false,
@@ -251,8 +252,9 @@ $(document).ready(function () {
                 },
                 { "width": "60px", "targets": -1 },
                 {
-                    "targets": -1,
-                    "render": function(data,type, row){ 
+                    "targets": -1, //
+                    "render": function(data,type, row){
+                     var proceso=parseInt(row[31]);   
                     var enable=[
                     ["","disabled","disabled","disabled"],
                     ["","disabled","disabled","disabled"],
@@ -260,17 +262,17 @@ $(document).ready(function () {
                     ["","","","disabled"],
                     ["","","",""]
                     ];
-                    var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion' data-toggle='tooltip' class='btn btn-social-icon badge bg-red"+ enable[data][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
-                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion' data-toggle='tooltip' class='btn btn-social-icon badge bg-yellow "+ enable[data][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";                                
+                    var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
+                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[proceso][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";                                
 
                     if(_arrayCtrl[4] == '00' || _arrayCtrl[4] == '02'|| _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){
-                    menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' data-toggle='tooltip' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                    "<a href='?c=factura&a=index&p="+row[0]+"' target='_black' id='btn_factura' data-toggle='tooltip' class='btn btn-social-icon badge bg-navy "+ enable[data][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
+                    menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                    "<a href='?c=factura&a=index&p="+row[0]+"' target='_black' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[proceso][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
                     }
                     else
                     {
-                    menu +="<a href='#' id='btn_salida' data-toggle='tooltip' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                    "<a href='#' id='btn_factura' data-toggle='tooltip' class='btn btn-social-icon badge bg-navy "+ enable[data][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
+                    menu +="<a href='#' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                    "<a href='#' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[proceso][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
                     }
                         return  menu;                     
                     },
@@ -330,7 +332,8 @@ $(document).ready(function () {
             "dataType": "jsonp",
             "lengthMenu": [[15, 20, 50, -1], [15, 20, 50, "All"]],
             "autoWidth": true,
-            "scrollX": true,             
+            "scrollX": true,
+            "responsive": true,            
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             buttons: [
                  {
@@ -338,14 +341,14 @@ $(document).ready(function () {
                     text: 'Excel',
                     exportOptions: {
                         columns: [':not(:last-child)' ]
-                    },
-                }                
+                    },                    
+                }
             ], 
             //fixedColumns: true,           
             "rowCallback": function( row, data, index ) {                      
-                var prioridad = parseInt(data[31]),
-                    entregado= (data[32]),
-                    proceso= parseInt(data[30]),                 
+                var prioridad = parseInt(data[32]),
+                    entregado= (data[33]),
+                    proceso= parseInt(data[31]),                 
                   $node = this.api().row(row).nodes().to$();
                   if (proceso < 3 && prioridad == 1 ) {
                      $node.addClass('bg-red')
@@ -354,7 +357,7 @@ $(document).ready(function () {
                      $node.addClass('bg-light-blue')
                   }
               },
-            "columnDefs": [
+            "columnDefs": [              
                 { "targets":[7], "visible":true}, 
                 {
                     //"width": "150px",
@@ -367,23 +370,22 @@ $(document).ready(function () {
                      return planta;                     
                     }
                 },  
-                {"targets":[24,25,26,27], "visible":false},
+                {"targets":[24,25,26,27,29], "visible":false},
                 {                 
-                 "targets": -2,
+                 "targets": 31, //Proceso
                  "render": function(data,type, row){                     
-                    var color=['danger','warning','info','primary'];
-                    var proceso=['Inicio','Calibración','Salida','Facturación'];
+                    var color=['danger','warning','info','primary'];                   
                     var menu="<div class='progress progress-striped active'>"+
-                    "<div class='progress-bar progress-bar-"+ color[row[30]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[30])*100)/4+"%'> "+(parseInt(row[30])*100)/4+"% </div>"+                    
-                    "</div>"+
-                    "<div><p>"+ proceso[parseInt(row[30])]+"</p></div>";
+                    "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%'> "+(parseInt(row[31])*100)/4+"% </div>"+                    
+                    "</div>";                   
                     return  menu;
                 }
-                },                            
-                { "width": "60px", "targets": -1 },
+                },                           
+                { "width": "90px", "targets": -1 },
                 {
-                    "targets": -1,
-                    "render": function(data,type, row){                        
+                    "targets": -1, //
+                    "render": function(data,type, row){
+                    var proceso=parseInt(row[31]);                      
                     var enable=[
                     ["","disabled","disabled","disabled"],
                     ["","","disabled","disabled"],
@@ -392,25 +394,23 @@ $(document).ready(function () {
                     ];
                     var disabledf="";
                     if(row[22]=='pendiente'){disabledf=enable[2][3];} 
-                    else {disabledf=enable[data][3];}
+                    else {disabledf=enable[proceso][3];}
                     //opciones del menu que siempre estaran habilitados
-                    var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_blank' id='btn_recepcion' data-toggle='tooltip' class='btn btn-social-icon badge bg-red"+ enable[data][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
-                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_blank' id='btn_calibracion' data-toggle='tooltip' class='btn btn-social-icon badge bg-yellow "+ enable[data][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";
+                    var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_blank' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
+                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_blank' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[proceso][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";
 
                     if(_arrayCtrl[4] == '00' || _arrayCtrl[4] == '02'|| _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){
-                    menu +="<a href='?c=salida&a=index&p="+row[0]+"'  target='_blank' id='btn_salida' data-toggle='tooltip' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                    "<a href='?c=factura&a=index&p="+row[0]+"'  target='_blank' id='btn_factura' data-toggle='tooltip' class='btn btn-social-icon badge bg-navy "+ disabledf  +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";                
+                    menu +="<a href='?c=salida&a=index&p="+row[0]+"'  target='_blank' id='btn_salida'  class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                    "<a href='?c=factura&a=index&p="+row[0]+"' target='_blank' id='btn_factura'  class='btn btn-social-icon badge bg-navy "+ disabledf  +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";                
                     } 
                     else{
-                    menu +="<a href='#' id='btn_salida' data-toggle='tooltip' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                    "<a href='#' id='btn_factura' data-toggle='tooltip' class='btn btn-social-icon badge bg-navy "+ disabledf  +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";                
-                    }        
-                    
+                    menu +="<a href='#' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                    "<a href='#' id='btn_factura'  class='btn btn-social-icon badge bg-navy "+ disabledf  +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";                
+                    }                        
                     return  menu;
-                    }
-                // "orderable" : false,
-                // "searchable": false,
-                }],
+                }} 
+
+                ],
             "language": {
                 "sProcessing": "Procesando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",
@@ -437,58 +437,7 @@ $(document).ready(function () {
             }
         }); 
         
-        // var table_proceso = $('#table_proceso').DataTable({
-        //     "colReorder": true,
-        //     "processing": true,
-        //     "serverSide": true,
-        //     "dataType": "jsonp",
-        //     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        //      "autoWidth": false,
-        //      "scrollX": true,
-        //     dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
-        //     buttons: [
-        //          {
-        //             extend: 'excel',
-        //             text: 'Excel',
-        //             exportOptions: {
-        //                 columns: [':not(:last-child)' ]
-        //             },
-        //         }                
-        //     ], 
-        //     "ajax": "assets/php/server_processing.php?controller=" + controller,
-        //     "columnDefs": [{
-        //             "targets": -1,
-        //             "data": null,
-        //             "defaultContent": "<a href='#' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='#' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a> <a href='#' data-type='password' class='btn btn-xs btn-warning btn-flat' title='Restablecer contraseña'><i class='fa fa-key' aria-hidden='true'></i></a> <a href='#' data-type='turn_off' class='btn btn-xs btn-default btn-flat' title='Suspender usuario'><i class='fa fa-power-off' aria-hidden='true'></i></a>"
-        //         }],
-        //     "language": {
-        //         "sProcessing": "Procesando...",
-        //         "sLengthMenu": "Mostrar _MENU_ registros",
-        //         "sZeroRecords": "No se encontraron resultados",
-        //         "sEmptyTable": "Ningún dato disponible en esta tabla",
-        //         "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
-        //         "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        //         "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        //         "sInfoPostFix": "",
-        //         "sSearch": "Buscar:",
-        //         "sUrl": "",
-        //         "sInfoThousands": ",",
-        //         "sLoadingRecords": "Cargando...",
-        //         "oPaginate": {
-        //             "sFirst": "Primero",
-        //             "sLast": "Último",
-        //             "sNext": "Siguiente",
-        //             "sPrevious": "Anterior"
-        //         },
-        //         "oAria": {
-        //             "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-        //             "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        //         }
-        //     }
-        // });
-
-
-
+      
         table_proceso.columns().every( function () {
             var that = this;
             $( 'input', this.footer() ).on( 'keyup change', function () {
@@ -525,7 +474,7 @@ $(document).ready(function () {
                 }                
             ],            
             "rowCallback": function( row, data, index ) {                
-                var prioridad = parseInt(data[31]),                 
+                var prioridad = parseInt(data[32]),                 
                   $node = this.api().row(row).nodes().to$();
                   if (prioridad == 1 ) {
                      $node.addClass('bg-red')
@@ -550,7 +499,7 @@ $(document).ready(function () {
                  "render": function(data,type, row){                     
                     var color=['danger','warning','info','primary'];
                     var menu="<div class='progress progress-striped active'>"+
-                    "<div class='progress-bar progress-bar-"+ color[row[30]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[30])*100)/4+"%'> "+(parseInt(row[30])*100)/4+"% </div>"+
+                    "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%'> "+(parseInt(row[31])*100)/4+"% </div>"+
                     "</div>";
                     return  menu;
                 }
@@ -559,7 +508,7 @@ $(document).ready(function () {
                 {
                     "targets": -1,
                     "render": function(data,type, row){                    
-                    var menu= "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion' data-toggle='tooltip' class='btn btn-social-icon badge bg-yellow ' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";
+                    var menu= "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion' class='btn btn-social-icon badge bg-yellow ' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";
                     return  menu;
                     },                   
                 "orderable" : false,
@@ -627,10 +576,10 @@ $(document).ready(function () {
                     "targets": -1,                                 
                     "render": function(data,type, row){                        
                         if(row[14] == 1){
-                            return "<a href='?c=informes&a=verinforme&p="+row[0]+"' target='_blank' data-toggle='tooltip' class='btn btn-social-icon badge bg-green' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";
+                            return "<a href='?c=informes&a=verinforme&p="+row[0]+"' target='_blank' class='btn btn-social-icon badge bg-green' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";
                         }
                         else{
-                            return "<a href='#' data-toggle='tooltip' class='btn btn-social-icon badge bg-green disabled' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";  
+                            return "<a href='#'  class='btn btn-social-icon badge bg-green disabled' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";  
                         }                        
                     },
                     "orderable" : false,
@@ -665,10 +614,10 @@ $(document).ready(function () {
                     "targets": -1,                                 
                     "render": function(data,type, row){
                         if(row[14] == 1){
-                            return "<a href='?c=informes&a=verinforme&p="+row[0]+"' target='_blank' data-toggle='tooltip' class='btn btn-social-icon badge bg-green' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";
+                            return "<a href='?c=informes&a=verinforme&p="+row[0]+"' target='_blank'  class='btn btn-social-icon badge bg-green' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";
                         }
                         else{
-                            return "<a href='#' data-toggle='tooltip' class='btn btn-social-icon badge bg-green disabled' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";  
+                            return "<a href='#'  class='btn btn-social-icon badge bg-green disabled' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";  
                         }                        
                     },
                     "orderable" : false,

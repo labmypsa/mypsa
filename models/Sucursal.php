@@ -7,12 +7,13 @@ class Sucursal extends Model {
         $this->primary_key = 'id';       
     }
 
-    function extension(){
-    	$sucursal=Session::get('sucursal');
+    function extension($_ext){
+
+    	$sucursal = strtolower(Session::get('sucursal'));       
     	$ext="";
-    	if ($sucursal== 'Nogales') {$ext="_n"; }
-        else if($sucursal== 'Hermosillo') {$ext="_h"; }
-        else if($sucursal== 'Guaymas') {$ext="_g"; }
+    	if ( $sucursal== 'nogales') {$ext="_n"; }
+        else if($sucursal== 'hermosillo') {$ext="_h"; }
+        else if($sucursal== 'guaymas') {$ext="_g"; }
         return $ext;
     }
 
