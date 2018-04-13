@@ -234,7 +234,8 @@ $(document).ready(function () {
                     }
                      return planta;                                                             
                     }
-                },                            
+                },
+                {"targets":[29,30,31], "visible":false},                            
                 {   
                     "targets": -2,                                 
                     "render": function(data,type, row){
@@ -251,8 +252,9 @@ $(document).ready(function () {
                 },
                 { "width": "60px", "targets": -1 },
                 {
-                    "targets": -2, //
-                    "render": function(data,type, row){ 
+                    "targets": -1, //
+                    "render": function(data,type, row){
+                     var proceso=parseInt(row[31]);   
                     var enable=[
                     ["","disabled","disabled","disabled"],
                     ["","disabled","disabled","disabled"],
@@ -260,17 +262,17 @@ $(document).ready(function () {
                     ["","","","disabled"],
                     ["","","",""]
                     ];
-                    var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[data][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
-                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[data][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";                                
+                    var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
+                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[proceso][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";                                
 
                     if(_arrayCtrl[4] == '00' || _arrayCtrl[4] == '02'|| _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){
-                    menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                    "<a href='?c=factura&a=index&p="+row[0]+"' target='_black' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[data][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
+                    menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                    "<a href='?c=factura&a=index&p="+row[0]+"' target='_black' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[proceso][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
                     }
                     else
                     {
-                    menu +="<a href='#' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[data][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                    "<a href='#' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[data][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
+                    menu +="<a href='#' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                    "<a href='#' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[proceso][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
                     }
                         return  menu;                     
                     },
@@ -372,12 +374,10 @@ $(document).ready(function () {
                 {                 
                  "targets": 31, //Proceso
                  "render": function(data,type, row){                     
-                    var color=['danger','warning','info','primary'];
-                    var proceso=['Inicio','Calibración','Salida','Facturación'];
+                    var color=['danger','warning','info','primary'];                   
                     var menu="<div class='progress progress-striped active'>"+
                     "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%'> "+(parseInt(row[31])*100)/4+"% </div>"+                    
-                    "</div>"+
-                    "<div><p>"+ proceso[parseInt(row[31])]+"</p></div>";
+                    "</div>";                   
                     return  menu;
                 }
                 },                           

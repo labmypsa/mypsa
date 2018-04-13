@@ -53,6 +53,9 @@
                                                 <th>Extra</th>
                                                 <th>Moneda</th>
                                                 <th>Comentarios</th>
+                                                <th>Estado</th>
+                                                <th>Proceso</th>                                                
+                                                <th>%</th>    
                                                 <th class="text-center">&nbsp;Ver&nbsp;</th>
                                                 <th>Acción</th>
                                             </tr>
@@ -88,6 +91,9 @@
                                                 <th>Extra</th>
                                                 <th>Moneda</th>
                                                 <th>Comentarios</th>
+                                                <th>Estado</th>
+                                                <th>Proceso</th>                                                
+                                                <th>%</th> 
                                                 <th class="text-center">&nbsp;Ver&nbsp;</th>
                                                 <th >Acción</th> 
                                             </tr>
