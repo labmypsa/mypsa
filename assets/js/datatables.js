@@ -241,7 +241,7 @@ $(document).ready(function () {
                     "render": function(data,type, row){
                         //console.log(data +' ('+ row[29]+')');                                                        
                         if(row[29] == 1){
-                            return "<a href='?c=informes&a=verinforme&p="+row[29]+"' target='_blank'  class='btn btn-social-icon badge bg-green' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";
+                            return "<a href='?c=informes&a=verinforme&p="+row[0]+"' target='_blank'  class='btn btn-social-icon badge bg-green' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";
                         }
                         else{
                           return "<a href='#'  class='btn btn-social-icon badge bg-green disabled' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";  
