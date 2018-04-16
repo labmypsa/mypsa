@@ -240,8 +240,8 @@ $(document).ready(function () {
                     "targets": -2,                                 
                     "render": function(data,type, row){
                         //console.log(data +' ('+ row[29]+')');                                                        
-                        if(data == 1){
-                            return "<a href='?c=informes&a=verinforme&p="+row[0]+"' target='_blank'  class='btn btn-social-icon badge bg-green' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";
+                        if(row[29] == 1){
+                            return "<a href='?c=informes&a=verinforme&p="+row[29]+"' target='_blank'  class='btn btn-social-icon badge bg-green' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";
                         }
                         else{
                           return "<a href='#'  class='btn btn-social-icon badge bg-green disabled' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";  
@@ -250,7 +250,7 @@ $(document).ready(function () {
                     "orderable" : false,
                     "searchable": false,
                 },
-                { "width": "60px", "targets": -1 },
+                { "width": "70px", "targets": [-1,-2] },
                 {
                     "targets": -1, //
                     "render": function(data,type, row){
@@ -374,14 +374,15 @@ $(document).ready(function () {
                 {                 
                  "targets": 31, //Proceso
                  "render": function(data,type, row){                     
-                    var color=['danger','warning','info','primary'];                   
+                    var color=['danger','warning','info','primary'];
+                    var text_color=['#5F5F5F','#FFFFFF','#FFFFFF','#FFFFFF'];                                       
                     var menu="<div class='progress progress-striped active'>"+
-                    "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%'> "+(parseInt(row[31])*100)/4+"% </div>"+                    
+                    "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%; color:"+ text_color[row[31]]+"'> "+(parseInt(row[31])*100)/4+"% </div>"+                    
                     "</div>";                   
                     return  menu;
                 }
                 },                           
-                { "width": "90px", "targets": -1 },
+                { "width": "60px", "targets": [-1,-2] },
                 {
                     "targets": -1, //
                     "render": function(data,type, row){
