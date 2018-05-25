@@ -85,8 +85,11 @@
                             <i class='fa fa-edit'></i> <span>Reportes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                         </a>
                         <ul class='treeview-menu'>                
-                            <li><a href='?c=reportes'><i class='fa fa-circle-o'></i>Productividad</a></li>               
-                            <li><a href='?c=reportes&a=cliente'><i class='fa fa-circle-o'></i>Clientes</a></li>                    
+                            <li><a href='?c=reportes'><i class='fa fa-circle-o'></i>Técnicos</a></li>               
+                            <li><a href='?c=reportes&a=cliente'><i class='fa fa-circle-o'></i>
+                            Clientes</a></li>
+                            <li><a href='?c=reportes&a=productividad'><i class='fa fa-circle-o'></i>
+                            Productividad</a></li>                  
                         </ul>
                         </li>";
                 }

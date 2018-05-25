@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <?php importView('_static.head'); ?>     
+        <?php importView('_static.head'); ?>           
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -23,7 +23,7 @@
                                      <table id="table_reportec" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>                                                
-                                                <th>id</th>
+                                                <th >id</th>
                                                 <th>Id equipo</th>
                                                 <th>Descripción</th>
                                                 <th>Marca</th>

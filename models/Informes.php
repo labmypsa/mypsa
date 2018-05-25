@@ -84,8 +84,8 @@ class Informes extends Model {
         return $this->rows;
     }
     //Esta función sirve para denegar el seguimiento a las personas no autorizadas (Técnicos)
-    public function _redirec($rol,$proceso,$id){ 
-         $array_pages= array('?c=recepcion','?c=calibracion&a=index&p=','?c=salida&a=index&p=','?c=factura&a=index&p=','?c=recepcion');
+    public function _redirec($rol,$proceso,$id){
+        $array_pages= array('?c=recepcion','?c=calibracion&a=index&p=','?c=salida&a=index&p=','?c=factura&a=index&p=','?c=recepcion');
         // 1 condición de recepción si el técnico esta en proceso de entrada, lo  va a pasar a calibración
         if($rol==3 and ($proceso==0 || $proceso==1) ){ redirect($array_pages[1].$id);} 
         else if($rol != 3 and ($proceso==0 || $proceso==1)){redirect($array_pages[$proceso]);}
@@ -94,13 +94,12 @@ class Informes extends Model {
         else if($proceso > 1){ // proceso [2,3,4]
             if($proceso < 4){redirect($array_pages[$proceso].$id); }
             else{redirect($array_pages[$proceso]);}
-        }
-        
+        }   
     }
 
     public function get_reporte_clientes($data){
         $cliente_temp="";             
-        $condicion= " WHERE estado_calibracion=1 and activo=1 ";
+        $condicion= "WHERE estado_calibracion=1 and activo=1 ";
         $this->query= "SELECT id,l.alias as equipo_id,descripcion,marca,modelo,serie,cliente,fecha_calibracion,fecha_vencimiento,periodo_calibracion,precio,precio_extra,moneda,proceso FROM view_clienteinformes".$data['ext'] ." l ";
 
         if($data['cliente_id'] != 0){
@@ -120,12 +119,89 @@ class Informes extends Model {
 
             $condicion .="and r1.alias is null and r2.alias is null and fecha_vencimiento between '". $data['fecha_home']."' and '". $data['fecha_end']."' ". $cliente_temp .""; 
         }        
-        $this->query .= $condicion." ;";                  
-        //var_dump($this->query);
-        // exit;
+        $this->query .= $condicion." ;";                          
         $this->get_results_from_query();       
         return $this->rows;
     }
+
+    public function get_productividad($data){
+        $sucursal= array('nogales'=>'_n','hermosillo'=>'_h','guaymas'=>'_g');                
+        $table="";
+        $query="SELECT id,fecha_calibracion FROM view_informes";
+        $condicion=" where fecha_calibracion between '". $data['fecha_home'] ."' and '". $data['fecha_end'] ."'";
+        $_totalsc= array();
+        
+        //Tipo de busqueda 0: 'comparacion del cliente',1:'comparacion de sucursales'      
+        if ($data['tipo_busqueda']== 0) {// Cliente
+            # code...
+            $condicion .=" and plantas_id=". $data['cliente_id'] ." and estado_calibracion=1 order by fecha_calibracion asc";
+                $suctemp= strtolower($data['nombre_suc'][0]);
+                $table=$sucursal[$suctemp];
+
+                $this->query =$query .$table .$condicion;
+                $this->get_results_from_query(); 
+                $result=$this->rows;             
+
+                $reporte= $this->_productividad($result);               
+                array_push($_totalsc[$data['cliente_id']]=$reporte); 
+        }
+        else{//Sucursales
+            if (count($data['nombre_suc'])>0) {
+                # code...  
+                $condicion .=" and estado_calibracion=1 order by fecha_calibracion asc";                           
+                for ($i=0; $i < count($data['nombre_suc']); $i++) { 
+                    # code...
+                    $this->query =$query;
+                    $suctemp= strtolower($data['nombre_suc'][$i]);
+                    $table=$sucursal[$suctemp]; 
+
+                    $this->query .=$table .$condicion;                
+                    $this->get_results_from_query();
+                    $result=$this->rows;                  
+                    $reporte= $this->_productividad($result);
+                    array_push($_totalsc[$suctemp]=$reporte);                    
+                }           
+            }
+        }       
+        return $_totalsc;
+    }
+
+    public function get_productividad_total($data){
+
+     }
+
+    public function _productividad($data)
+    {
+        $meses=array('enero' => 0,'febrero' =>0,'marzo'=>0,'abril'=>0,'mayo'=>0,'junio'=>0,'julio'=>0,'agosto'=>0,'septiembre'=>0,'octubre'=>0,'noviembre'=>0,'diciembre'=>0);
+        $list_meses= array('enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre');
+        $aniotemp="";
+        $arraytotales= array();
+        for ($i=0; $i < count($data); $i++) { 
+            # code...
+            $fecha=strtotime($data[$i]['fecha_calibracion']);           
+            $m = date("m", $fecha); 
+            $anio=  date("Y", $fecha);           
+            if ($i==0) {
+                # code...
+                $aniotemp=$anio;
+            }
+            if ($anio==$aniotemp){
+                # code...
+                $mtemp= $m-1; 
+                $nommes= $list_meses[$mtemp];               
+                $meses[$nommes]=$meses[$nommes]+1;                
+            }
+            else{               
+                array_push($arraytotales[$aniotemp]=$meses);
+                $aniotemp=$anio;
+                $meses=array('enero' => 0,'febrero' =>0,'marzo'=>0,'abril'=>0,'mayo'=>0,'junio'=>0,'julio'=>0,'agosto'=>0,'septiembre'=>0,'octubre'=>0,'noviembre'=>0,'diciembre'=>0);                
+            }                                 
+        }
+        array_push($arraytotales[$aniotemp]=$meses);
+        return $arraytotales;        
+    }
+
+
 
      public function get_query_informe($data){
         $this->query= $data;
