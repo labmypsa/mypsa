@@ -96,11 +96,14 @@ class ReportesController{
 				"tipo_busqueda" =>(int) $_POST['tipo_busqueda']
 			);
 
-			$cadena= explode(' - ', $data['daterange']);				
+			$cadena= explode(' - ', $data['daterange']);
+			$fecha=$data['daterange'];
+
 			unset($data['daterange']);
 			$data['fecha_home']=$cadena[0];
 			$data['fecha_end']=$cadena[1];	
 			$table_data=$this->model['informes']->get_productividad($data);
+			
 			//$table_totales=$this->model['informes']->get_productividad_total($data);		
 		}
 

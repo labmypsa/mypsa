@@ -89,7 +89,7 @@
                     </div>
                     <div class="row">
                       <div class="col-md-12">
-                        <div class="box box-primary">
+                        <div class="box box-success">
                           <div class="box-header with-border">
                             <h3 class="box-title"><i class="fa fa-bars" aria-hidden="true"></i>&nbsp; TOTAL DE EQUIPOS</h3>
                             <div class="box-tools pull-right">
@@ -101,10 +101,9 @@
                           <div class="box-body">
                             <div class="row">
                               <div class="col-md-12">
-                                <h4 class="text-center" id="_rfechas" >Rango de fechas:</h4>
-                              <!--    <div class="chart">
-                                  <canvas id="areaChart" style="height:250px"></canvas>
-                                </div> -->
+                                <h4 class="text-center" id='_rfechas'>Rango de fechas: </h4>
+                                <!-- <h2 class="text-center"></h2> -->
+                                   
                               </div>
                               <!-- /.col -->  
                             </div>
@@ -171,7 +170,7 @@
                                 <?php foreach ( $table_data as $sucursal => $sucursal_anios) {  ?>
                                   <?php $size= 12 / sizeof($table_data);?>
                                   <div <?php echo "class='col-lg-". $size ."'" ?> >
-                                    <div class="box box-primary collapsed-box">
+                                    <div class="box box-info collapsed-box">
                                         <div class="box-header with-border">
                                           <h3 class="box-title"><?php echo strtoupper($sucursal); ?></h3>
                                           <div class="box-tools pull-right">
@@ -225,9 +224,9 @@
 
                     <div class="row">
                       <div class="col-lg-12 col-md-12">
-                        <div class="box box-info">
+                        <div class="box box-success">
                           <div class="box-header with-border">
-                            <h3 class="box-title"> <i class="fa fa-list" aria-hidden="true"></i>&nbsp; Reporte</h3>
+                            <h3 class="box-title"> <i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp; Reporte</h3>
                               <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>                                                    
@@ -235,51 +234,12 @@
                           </div>                                 
                           <div class="box-body"> <!-- table-responsive -->
                             <div class="row">
-                              <div class="col-md-6">                                
-                                <table id="table_will3" class="table table-bordered table-striped table-hover" cellspacing="0" width="50%">
-                                  <thead>
-                                    <tr>
-                                      <th>Mes(s) / Año(s)</th>
-                                      <th>2015</th>
-                                      <th>2016</th>
-                                      <th>2017</th>
-                                      <th>2018</th>
-                                    </tr>
-                                  </thead>
-                                  <tfoot>
-                                    <tr>
-                                      <th>Mes(s) / Año(s)</th>
-                                      <th>2015</th>
-                                      <th>2016</th>
-                                      <th>2017</th>
-                                      <th>2018</th>
-                                    </tr>
-                                  </tfoot>
-                                </table>  
-                              </div>
-                              <div class="col-md-6">
-                                <table id="table_will4" class="table table-bordered table-striped table-hover" cellspacing="0" width="50%"> 
-                                  <thead>
-                                    <tr>
-                                      <th>Mes(s) / Año(s)</th>
-                                      <th>2015</th>
-                                      <th>2016</th>
-                                      <th>2017</th>
-                                      <th>2018</th>
-                                    </tr>
-                                  </thead>
-                                  <tfoot>
-                                    <tr>
-                                      <th>Mes(s) / Año(s)</th>
-                                      <th>2015</th>
-                                      <th>2016</th>
-                                      <th>2017</th>
-                                      <th>2018</th>
-                                    </tr>
-                                  </tfoot>
-                                </table> 
-                              </div>
-                            </div>
+                              <?php foreach ( $table_data as $sucursal => $sucursal_anios) {  ?>
+                                <?php $size= 12 / sizeof($table_data);?>
+                                <div <?php echo "class='col-lg-". $size ."'" ?> >
+                                <?php echo "<canvas id=\"chartjs-". $sucursal ."\" class=\"chartjs\" width=\"538\" height=\"269\" style=\"display: block; width: 538px; height: 269px;\"></canvas>"; ?>     
+                                </div>                         
+                              <?php } ?>                                                        
                           </div>                                                        
                           <div class="box-footer">                                    
                           </div>                                
@@ -313,135 +273,83 @@
             function (start, end) {
           $('#daterange-text-p span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
             }
-        );
+        );      
 
           $(document).ready(function() { 
             var _tregistrados= $('#_tregistrados');                      
             var _tcalibrados= $('#_tcalibrados');                      
             var _tentregados= $('#_tentregados'); 
-             var _tfacturados= $('#_tfacturados'); 
-            var _rfechas= $('#_rfechas'); 
+            var _tfacturados= $('#_tfacturados');
               _tregistrados.text('0');
               _tcalibrados.text('0');
               _tentregados.text('0');
-              _tfacturados.text('0');
-              _rfechas.text('Rango de fechas:');
+              _tfacturados.text('0');                                    
+              $("#nombre_suc").val();
+              $("#cliente_id").val();
+              $("#tipo_busqueda").val();
+  
 
-           // $('#table_will tfoot th').each( function () {
-           //    var title = $(this).text();
-           //    $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
-           //  } );
+            // $("#buscar_rp").click(function(){ //reporte productividad= rp
+            //   var parametro= {
+            //       'daterange': $('#daterange-text-p').val(),
+            //       'nombre_suc': $("#nombre_suc").val(),
+            //       'cliente_id': $("#cliente_id").val(),
+            //       'tipo_busqueda': $("#tipo_busqueda").val()                  
+            //     };    
+            //     //console.log(parametro);  
+            //     /*Empieza ajax*/
+            //     $.ajax({
+            //           type: 'post',
+            //           url: "?c=reportes&a=ajax_load_productividad",                        
+            //           data: parametro
+            //         }).done(function(data) {
+            //           var datos = data;
+            //           console.log(datos);                      
+            //         }).fail(function(data) {}).always( function(data) {
+            //           //console.log(data);
+            //         });                                                                                     
+            //     /*end ajax*/
+            // });
+               <?php 
+                  // $hola="hola";
+                  // echo "label:'".."'";                 
+                foreach ($table_data as $sucursal => $sucursal_anios) {
+                   echo 'var data'.$sucursal.'= [';
+                  foreach ($sucursal_anios as $anio => $mes) {
+                    // Año
+                    echo '{';
+                    echo "label:'". $anio ."',";
+                    echo 'data:[';
+                    foreach ($mes as $key => $value) {
+                      //MES 
+                      echo $sucursal_anios[$anio][$key].',';
+                    }
+                    // echo ''.rand(20, 244).','.rand(20, 244).',80,'.rand(20, 244).',56,'.rand(20, 244).',40,'.rand(20, 244).',56,'.rand(20, 244).',45,'.rand(20, 244).',';
+                    echo '],';
+                    echo "fill:false,borderColor:'rgb(".rand(0, 255).",".rand(50, 255).",".rand(100, 255).")',lineTension:0.1";
+                    echo '},';
+                  }
+                  echo '];';
+                  echo "\n";
+                  echo 'var datatotal'.$sucursal.'={labels:[\'January\',\'February\',\'March\',\'April\',\'May\',\'June\',\'July\',\'August\',\'September\',\'October\',\'November\',\'December\'],datasets:data'.$sucursal.'};';
+                  echo "\n";
+                  echo "var myChart =  new Chart(document.getElementById('chartjs-".$sucursal."'),{type:'line',data: datatotal".$sucursal.' });';
+                }
 
-           //  var _table= $('#table_will').DataTable({ 
-           //    dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
-           //    buttons: [
-           //         {
-           //            extend: 'excel',
-           //            text: 'Excel',
-           //            exportOptions: {
-           //                columns: [':not(:last-child)' ]
-           //            }
-           //        }                
-           //    ],                  
-           //    columns: [
-           //                { data: 'data.mes' },
-           //                { data: 'data.total' },                         
-           //              ]             
-           //      });
+                ?>                                      
 
-           //  _table.columns().every( function () {
-           //  var that = this;
-           //  $( 'input', this.footer() ).on( 'keyup change', function () {
-           //      if ( that.search() !== this.value ) {
-           //          that
-           //              .search( this.value )
-           //              .draw();
-           //          }
-           //      });
-           //  });        
-                  
-                       
-
-            $("#buscar_rp").click(function(){ //reporte productividad= rp
-              var parametro= {
-                  'daterange': $('#daterange-text-p').val(),
-                  'nombre_suc': $("#nombre_suc").val(),
-                  'cliente_id': $("#cliente_id").val(),
-                  'tipo_busqueda': $("#tipo_busqueda").val()                  
-                };    
-                //console.log(parametro);  
-                /*Empieza ajax*/
-                $.ajax({
-                      type: 'post',
-                      url: "?c=reportes&a=ajax_load_productividad",                        
-                      data: parametro
-                    }).done(function(data) {
-                      var datos = data;
-                      console.log(datos);                      
-                    }).fail(function(data) {}).always( function(data) {
-                      //console.log(data);
-                    });                                                                                     
-                /*end ajax*/
-            });
-
-               function validar_select(parametro)
-              {    
-               var result= true;
-                 if (parametro['nombre_suc']=='' || parametro['tipo_busqueda']=='') {
-                    result= false;
-                 }                
-                return result;
-              }                            
-
-            function showgraph(){            
-            }
-
-            // function totales_p_d(obj){
-            //   _tequipos.text('0');
-            //   _tpesos.text('$ 0');
-            //   _tdlls.text('$ 0');
-            //   var sumap=0;
-            //   var sumad=0;
-            //   var equipost= obj.length;
-            //   for (var i = 0 ; i < obj.length; i++) { 
-            //     if(obj[i].moneda=="PESOS"){
-            //          sumap += parseFloat(obj[i].precio) + parseFloat(obj[i].precio_extra);
-            //       }
-            //       else if(obj[i].moneda=="DLLS"){
-            //         sumad += parseFloat(obj[i].precio) + parseFloat(obj[i].precio_extra);
-            //       }
-            //   }
-            //   _tequipos.text(equipost);
-            //   _tpesos.text('$ '+ sumap.toFixed(2));
-            //   _tdlls.text('$ '+ sumad.toFixed(2));
-            // }
-
+    //   document.getElementById("chartjs-0").onclick = function(evt){
+    //   var activePoints = myChart.getElementsAtEvent(evt);
+    //   //var activeDataSet = myChart.getDatasetAtEvent(evt);
+    //   console.log(activePoints);
+    //   var firstPoint = activePoints[0];
+    //   var label = myChart.data.labels[firstPoint._index];
+    //   var value = myChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+    //   if (firstPoint !== undefined)
+    //     alert(label + ": " + value);
+    // };
           });
-        </script>
-        <script>
-          // var ctx = document.getElementById("areaChart").getContext('2d');
-          // var myChart = new Chart(ctx, {
-          //    type: 'line',
-          //     data: {
-          //         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-          //         datasets: [{
-          //             label: '# of Votes',
-          //             data: [12, 19, 3, 5, 2, 3],
-          //             backgroundColor: [
-          //               'rgba(255, 99, 132, 0.2)'
-          //             ],
-          //             borderWidth: 1
-          //         }]
-          //     },
-          //     options: {
-          //         scales: {
-          //             yAxes: [{
-          //                 stacked: true
-          //             }]
-          //         }
-          //     }
-          // });
-        </script>   
+        </script>        
     </body>
           
 </html>
