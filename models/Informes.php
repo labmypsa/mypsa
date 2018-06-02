@@ -6,6 +6,7 @@ class Informes extends Model {
         $this->primary_key  = 'id';
         $this->model=[           
         'sucursal' => new Sucursal(),
+        'planta' => new Planta(),
         ];      
         $this->table = 'informes'.$this->model['sucursal']->extension();       
     }
@@ -63,7 +64,7 @@ class Informes extends Model {
         return $this->rows;
     }
 
-    public function get_reporte_totales($data){        
+    public function get_reporte_totales($data){
         $query_condicion="SELECT usuarios_calibracion_id as id_tecnico,calibrado_por as tecnico, Count(idequipo) as total_equipos, if(moneda='PESOS',round(SUM(precio + precio_extra),2),0) as total_pesos,if(moneda='DLLS',round(SUM(precio + precio_extra),2),0) as total_dolares FROM view_informes".$data['ext']." where (fecha_calibracion between '".$data['fecha_home']."' and '".$data['fecha_end']."')";
         if($data['usuarios_calibracion_id'] != 0){
              $query_condicion .= " and (usuarios_calibracion_id=". $data['usuarios_calibracion_id'].")"; 
@@ -127,35 +128,37 @@ class Informes extends Model {
     public function get_productividad($data){
         $sucursal= array('nogales'=>'_n','hermosillo'=>'_h','guaymas'=>'_g');                
         $table="";
-        $query="SELECT id,fecha_calibracion FROM view_informes";
+        $select="SELECT id,fecha_calibracion FROM view_informes";
         $condicion=" where fecha_calibracion between '". $data['fecha_home'] ."' and '". $data['fecha_end'] ."'";
+        $order= " order by fecha_calibracion asc";
         $_totalsc= array();
         
         //Tipo de busqueda 0: 'comparacion del cliente',1:'comparacion de sucursales'      
         if ($data['tipo_busqueda']== 0) {// Cliente
             # code...
-            $condicion .=" and plantas_id=". $data['cliente_id'] ." and estado_calibracion=1 order by fecha_calibracion asc";
+            $condicion .=" and plantas_id=". $data['cliente_id'] ." and estado_calibracion=1";
                 $suctemp= strtolower($data['nombre_suc'][0]);
                 $table=$sucursal[$suctemp];
 
-                $this->query =$query .$table .$condicion;
+                $this->query =$select .$table .$condicion.$order;
                 $this->get_results_from_query(); 
                 $result=$this->rows;             
 
-                $reporte= $this->_productividad($result);               
+                $reporte= $this->_productividad($result);
+                        
                 array_push($_totalsc[$data['cliente_id']]=$reporte); 
         }
         else{//Sucursales
             if (count($data['nombre_suc'])>0) {
                 # code...  
-                $condicion .=" and estado_calibracion=1 order by fecha_calibracion asc";                           
+                $condicion .=" and estado_calibracion=1";                           
                 for ($i=0; $i < count($data['nombre_suc']); $i++) { 
                     # code...
-                    $this->query =$query;
+                    $this->query =$select;
                     $suctemp= strtolower($data['nombre_suc'][$i]);
                     $table=$sucursal[$suctemp]; 
 
-                    $this->query .=$table .$condicion;                
+                    $this->query .=$table .$condicion.$order;                
                     $this->get_results_from_query();
                     $result=$this->rows;                  
                     $reporte= $this->_productividad($result);
@@ -166,12 +169,7 @@ class Informes extends Model {
         return $_totalsc;
     }
 
-    public function get_productividad_total($data){
-
-     }
-
-    public function _productividad($data)
-    {
+    public function _productividad($data){
         $meses=array('enero' => 0,'febrero' =>0,'marzo'=>0,'abril'=>0,'mayo'=>0,'junio'=>0,'julio'=>0,'agosto'=>0,'septiembre'=>0,'octubre'=>0,'noviembre'=>0,'diciembre'=>0);
         $list_meses= array('enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre');
         $aniotemp="";
@@ -204,12 +202,53 @@ class Informes extends Model {
         return $arraytotales;        
     }
 
+    public function get_totalprocesos($data){      
+        $_data= array();
+        if ($data['tipo_busqueda']== 0) {// Cliente                
+            $reporte= $this->_totalprocesos($data,strtolower($data['nombre_suc'][0]));                    
+            array_push($_data[$data['cliente_id']]=$reporte);
+        }
+        else{
+             if (count($data['nombre_suc'])>0) {
+                for ($i=0; $i < count($data['nombre_suc']); $i++) { 
+                    $reporte= $this->_totalprocesos($data,strtolower($data['nombre_suc'][$i]));
+                    array_push($_data[$data['nombre_suc'][$i]]=$reporte);   
+                }
+             }
 
+        }
+        return $_data;
+    }
+    public function _totalprocesos($data,$nom_suc){
+ 
+        $sucursal= array('nogales'=>'_n','hermosillo'=>'_h','guaymas'=>'_g');    
+        $procesos= array('Alta','Calibración','Entregados','Facturados','Pagados');
+        //$fechas= array('fecha_inicio','fecha_calibracion','fecha_hoja_salida','fecha_final','fecha_final');
+        //$fechas= array('fecha_inicio','fecha_inicio','fecha_inicio','fecha_inicio','fecha_inicio');
+        $select="SELECT count(*) as total FROM view_informes";      
+        $and= array(""," and estado_calibracion=1",""," and factura !='no existe' and factura !='0' and factura!='No disponible'"," and precio !=0");       
+        $between=" between '".$data['fecha_home']."' and '".$data['fecha_end']."'";            
 
-     public function get_query_informe($data){
+        $_data = array();
+
+        $cliente = ($data['tipo_busqueda'] == 0) ? " and plantas_id=".$data['cliente_id']."" : "";
+        
+        for ($i=0; $i < count($procesos) ; $i++) {            
+            $table= $sucursal[$nom_suc];
+            $condicion=" where fecha_inicio".$between .$and[$i].$cliente;
+            $order=" order by fecha_inicio asc;";
+            $this->query =$select.$table.$condicion.$order;            
+            $this->get_results_from_query();            
+            $result=$this->rows;           
+            array_push($_data[$procesos[$i]]=$result[0]['total']);
+        }
+        return $_data;
+    }
+
+    public function get_query_informe($data){
         $this->query= $data;
         $this->get_results_from_query();       
         return $this->rows;
-     }
+    }
 
 }

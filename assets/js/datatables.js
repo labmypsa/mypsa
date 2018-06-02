@@ -674,6 +674,56 @@ $(document).ready(function () {
             ],                      
             "language": { "url": "assets/json/datatables.spanish.json" }
         });
+
+        var table_totalproduct = $('#table_totalproduct').DataTable({
+            "ajax": "assets/php/server_processing.php?controller=" + controller,
+            "processing": true,
+            "serverSide": true,
+            "dataType": "jsonp",
+            "lengthMenu": [[15, 20, ,50, 100, -1], [15, 20, 50, 100, "All"]],
+            "autoWidth": true,
+            "scrollX": true,            
+            dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: 'Excel',
+                    exportOptions: {
+                        //columns: [':not(:last-child)' ]
+                         modifer: {
+      page: 'all',
+      search: 'none'    }               
+                    },
+                }
+            ],
+            fixedColumns: true,
+            "rowCallback": function( row, data, index ) {                      
+                var activo = parseInt(data[6]), 
+                $node = this.api().row(row).nodes().to$();
+                if (activo = 0) {
+                     $node.addClass('bg-red')
+                }                                        
+              },
+            "columnDefs": [                
+                { "targets":[6], "visible":false},
+                {                                                   
+                    "render": function(data,type, row){ 
+                        var suma= row[13] + row[14];
+                         return suma; 
+                        },
+                        "targets": -2                                    
+                },
+                {                                                   
+                    "render": function(data,type, row){ 
+                        var proceso= ["","","Calibrado","Entregado","Terminado"];
+
+                         return proceso[row[15]]; 
+                        },
+                        "targets": -1                                    
+                }
+            ],                      
+            "language": { "url": "assets/json/datatables.spanish.json" }
+        });
     
     }        
 });

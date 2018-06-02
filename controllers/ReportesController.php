@@ -89,6 +89,9 @@ class ReportesController{
 	public function productividad(){
 		/* Lectura de los datos del formulario */
 		if(isset($_POST['submit'])){
+			if ($_POST['tipo_busqueda']== 1) {
+				$_POST['cliente_id']=0;
+			}			
 			$data = array(
 				"daterange" =>$_POST['daterange'],
 				"nombre_suc" =>$_POST['nombre_suc'],
@@ -104,16 +107,23 @@ class ReportesController{
 			$data['fecha_end']=$cadena[1];	
 			$table_data=$this->model['informes']->get_productividad($data);
 			
+			$table_totales=$this->model['informes']->get_totalprocesos($data);			
+					
+			if ($data['tipo_busqueda']== 0) {
+			$empresa= $this->model['planta']->find_by(['id'=>$data['cliente_id']],'view_plantas');                 
+            $cliente = (trim(strtolower($empresa[0]['nombre']))=='planta1') ?  $empresa[0]['empresa']: $empresa[0]['empresa'].' ('.$empresa[0]['nombre'].')';
+			}
+			
 			//$table_totales=$this->model['informes']->get_productividad_total($data);		
 		}
 
  		/* Arreglos default para el formulario */
-		$data['planta']= $this->model['planta']->find_by([],'view_plantas');
+		$_data['planta']= $this->model['planta']->find_by([],'view_plantas');
 		 if (strtolower(Session::get('sucursal'))=="nogales") {
-			$data['sucursal']=$this->model['sucursal']->find_by();
+			$_data['sucursal']=$this->model['sucursal']->find_by();
 		}
 		else{
-			$data['sucursal']=$this->model['sucursal']->find_by(['nombre'=>Session::get('sucursal')]);	 
+			$_data['sucursal']=$this->model['sucursal']->find_by(['nombre'=>Session::get('sucursal')]);	 
 		}	
 
 		include view($this->name.'.productividad');
@@ -208,20 +218,49 @@ class ReportesController{
 		echo  $tmp;
 	}
 
-	public function ajax_load_productividad(){
-		$data = array(
-				"daterange" =>$_POST['daterange'],
-				"nombre_suc" =>$_POST['nombre_suc'],
-				"cliente_id" => (int) $_POST['cliente_id'],
-				"tipo_busqueda" =>(int) $_POST['tipo_busqueda']
-				);
+	// public function ajax_load_productividad(){
+	// 	$data = array(
+	// 			"daterange" =>$_POST['daterange'],
+	// 			"nombre_suc" =>$_POST['nombre_suc'],
+	// 			"cliente_id" => (int) $_POST['cliente_id'],
+	// 			"tipo_busqueda" =>(int) $_POST['tipo_busqueda']
+	// 			);
 
-		$cadena= explode(' - ', $data['daterange']);				
-		unset($data['daterange']);
-		$data['fecha_home']=$cadena[0];
-		$data['fecha_end']=$cadena[1];	
-		$table_data=$this->model['informes']->get_reporte_productividad($data);		
-		echo json_encode($table_data);		
+	// 	$cadena= explode(' - ', $data['daterange']);				
+	// 	unset($data['daterange']);
+	// 	$data['fecha_home']=$cadena[0];
+	// 	$data['fecha_end']=$cadena[1];	
+	// 	$table_data=$this->model['informes']->get_reporte_productividad($data);
+	// 	$table_totales= $this->model['informes']->get_totalprocesos($data);
+
+	// 	//echo json_encode($table_data);
+	// 	echo json_encode($table_totales);
+	// }
+
+	public function total_product(){
+		$meses=array('enero' => '01','febrero' =>'02','marzo'=>'03','abril'=>'04','mayo'=>'05','junio'=>'06','julio'=>'07','agosto'=>'08','septiembre'=>'09','octubre'=>'10','noviembre'=>'11','diciembre'=>'12');
+		$sucursal=array('nogales' =>'_n','hermosillo' =>'_h','guaymas' =>'_g' );	
+
+	  	if ($_GET['var0']=="compara") {
+	  		$arreglo = json_encode(array(
+	  		$_GET['var0'],			
+			$_GET['var1'],
+			$meses[$_GET['var2']],
+			$sucursal[$_GET['var3']],
+			$_GET['var4']			
+			));	
+	  	}
+	  	else{
+	  		$arreglo = json_encode(array(
+	  		$_GET['var0'],			
+			$_GET['var1'], //fecha home
+			$_GET['var2'], //fecha end
+			$sucursal[$_GET['var3']],
+			$_GET['var4']			
+			));	
+
+	  	}			
+		include view($this->name.'.total_product');
 	}
 	
 		

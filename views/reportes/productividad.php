@@ -41,7 +41,7 @@
                                                   <select id="nombre_suc" name="nombre_suc[]" class="form-control select2" multiple="multiple" data-placeholder="Seleccione una opción" style="width: 100%;">
                                                       <option value="">Seleccione una opción</option> 
                                                         <?php
-                                                          foreach ($data['sucursal'] as $sucursal) {
+                                                          foreach ($_data['sucursal'] as $sucursal) {
                                                           $sucursaltemp =strtolower($sucursal['nombre']);
                                                             if($sucursaltemp=='nogales' || $sucursaltemp=='hermosillo' || $sucursaltemp=='guaymas' ){echo '<option value="'.$sucursal['nombre'].'">'.$sucursal['nombre'].'</option>';} 
                                                            }
@@ -55,7 +55,7 @@
                                                     <select id="cliente_id" class="form-control select2" data-placeholder="Seleccione una opción" style="width: 100%;" name="cliente_id">
                                                       <option value="0">Seleccione una opción</option>
                                                       <?php
-                                                        foreach ($data['planta'] as $clientes) {
+                                                        foreach ($_data['planta'] as $clientes) {
                                                           if(trim(strtolower($clientes['nombre'])) == 'planta1')
                                                           {
                                                             $_cliente= $clientes['empresa'];
@@ -73,7 +73,7 @@
                                                 <label>Tipo de busqueda:</label>
                                                   	<select id="tipo_busqueda" class="form-control select2" style="width: 100%;" name="tipo_busqueda">
                                                       <option value="">Seleccione una opción</option> 
-                                                      <option value="0">Comparación por empresa</option>
+                                                      <option value="0">Comparación del cliente</option>
                                                       <option value="1">Comparación de sucursales</option>
                                                    	</select>
                                             </div>
@@ -100,55 +100,62 @@
                           <!-- /.box-header -->
                           <div class="box-body">
                             <div class="row">
-                              <div class="col-md-12">
-                                <h4 class="text-center" id='_rfechas'>Rango de fechas: </h4>
-                                <!-- <h2 class="text-center"></h2> -->
-                                   
-                              </div>
-                              <!-- /.col -->  
+                               <?php //echo "<a href='?c=reportes&a=total_product&var0=total&var1=".$data['fecha_home']."&var2=".$data['fecha_end']."&var3=". strtolower($data['nombre_suc'][0]) ."&var4=".$data['cliente_id']."' target='_blank'> ver Total</a>";?> 
+
+                                <?php  foreach ( $table_totales as $sucursal => $procesos) {  ?>
+                                <?php $size= 12 / sizeof($table_totales);?>
+                                <div <?php echo "class='col-lg-". $size ."'" ?> >
+                                  <h3 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h3> 
+                                  <table class="table table-condensed">
+                                    <tbody>
+                                      <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>Procesos</th>
+                                        <th>Porcentaje</th>
+                                        <th style="width: 40px">Cantidad</th>
+                                      </tr>
+                                      <?php $ids=0; foreach ( $procesos as $key => $value) { $entero= $procesos['Alta']; ?>
+                                      <tr>                                        
+                                        <td><?php echo $ids= $ids +1; ?>.</td>
+                                        <td><?php echo $key; ?></td>
+                                        <td>
+                                          <?php $bar= array('','danger','warning','info','primary','success');
+                                          $bg= array('','red','yellow','aqua','blue','green'); $x= round(($value*100)/$entero); ?>
+                                          <div class="progress progress active">
+                                             <?php echo "<div class=\"progress-bar progress-bar-".$bar[$ids]." progress-bar-striped\" style=\"width:".$x."%\">".$x."%</div>";?>
+                                          </div>
+                                        </td>
+                                        <td><?php echo "<span class=\"badge bg-".$bg[$ids]."\"> ".$value."</span>"; ?> </td>
+                                      </tr>
+                                      <?php } ?>                                
+                                    </tbody>
+                                    <tfoot>
+                                      <tr>
+                                        <td colspan="3" align="center"><?php echo "<a href='?c=reportes&a=total_product&var0=total&var1=".$data['fecha_home']."&var2=".$data['fecha_end']."&var3=". strtolower($data['nombre_suc'][0]) ."&var4=".$data['cliente_id']."' target='_blank'> Más información <i class='fa fa-arrow-circle-right'></i></a>"; ?> </td>                                       
+                                      </tr>
+                                    </tfoot>
+                                  </table>                                  
+                                </div>                         
+                              <?php } ?>
+                                                                         
                             </div>
                             <!-- /.row -->
                           </div>
                           <!-- ./box-body -->
                           <div class="box-footer">
                             <div class="row">
-                              <div class="col-sm-3 col-md-3 col-xs-12">
-                                <div class="description-block border-right">
-                                  <!-- <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span> -->
-                                  <h5 class="description-header" id="_tregistrados"></h5>
-                                  <span class="description-text">REGISTRADOS</span>
-                                </div>
-                                <!-- /.description-block -->
-                              </div>
-                              <div class="col-sm-3 col-md-3 col-xs-12">
-                                <div class="description-block border-right">
-                                  <!-- <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span> -->
-                                  <h5 class="description-header" id="_tcalibrados"></h5>
-                                  <span class="description-text">CALIBRADOS</span>
-                                </div>
-                                <!-- /.description-block -->
-                              </div>
-                              <!-- /.col -->
-                              <div class="col-sm-3 col-md-3 col-xs-12">
-                                <div class="description-block border-right">
-                                  <!-- <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span> -->
-                                  <h5 class="description-header" id="_tentregados"></h5>
-                                  <span class="description-text">ENTREGADOS</span>
-                                </div>
-                                <!-- /.description-block -->
-                              </div>
-                              <!-- /.col -->
-                              <div class="col-sm-3 col-md-3 col-xs-12">
-                                <div class="description-block border-right">
-                                  <!-- <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span> -->
-                                  <h5 class="description-header" id="_tfacturados"></h5>
-                                  <span class="description-text">FACTURADOS</span>
-                                </div>
-                                <!-- /.description-block -->
-                              </div>                              
+                              <div class="col-lg-12">                                                
+                              <h4 class="box-title"> <i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp; Métricas</h4>
+                              <?php foreach ($table_totales as $sucursal => $procesos) {  ?>
+                                <?php $size= 12 / sizeof($table_data);?>
+                                <div <?php echo "class='col-lg-". $size ." border-right'" ?> >
+                                  <h3 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h3>
+                                <?php echo "<canvas id=\"pieChart-".$sucursal."\" class=\"chartjs\" width=\"538\" height=\"269\" style=\"display: block; width: 538px; height: 269px;\"></canvas>"; ?>     
+                                </div>                         
+                              <?php } ?>                      
                             </div>
-                            <!-- /.row -->
-                          </div>
+                            </div>
+                        </div>
                           <!-- /.box-footer -->
                         </div>
                         <!-- /.box -->
@@ -157,7 +164,7 @@
                     <!-- /.col -->   
                     <div class="row">
                       <div class="col-lg-12 col-md-12">
-                        <div class="box box-widget">
+                        <div class="box box-info">
                           <div class="box-header with-border">
                             <h3 class="box-title"> <i class="fa fa-list" aria-hidden="true"></i>&nbsp; Reporte</h3>
                               <div class="box-tools pull-right">
@@ -166,13 +173,13 @@
                                 </div>
                           </div>                                 
                           <div class="box-body"> <!-- table-responsive -->
-                            <div class="row">                                                        
+                            <div class="row">
                                 <?php foreach ( $table_data as $sucursal => $sucursal_anios) {  ?>
                                   <?php $size= 12 / sizeof($table_data);?>
                                   <div <?php echo "class='col-lg-". $size ."'" ?> >
-                                    <div class="box box-info collapsed-box">
+                                    <div class="box box-default collapsed-box">
                                         <div class="box-header with-border">
-                                          <h3 class="box-title"><?php echo strtoupper($sucursal); ?></h3>
+                                          <h3 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h3>
                                           <div class="box-tools pull-right">
                                           <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                           </button>
@@ -181,7 +188,7 @@
                                         </div>
                                         <!-- /.box-header -->
                                         <div class="box-body">                                 
-                                          <table  class="table table-bordered table-striped table-hover" role="grid" cellspacing="0" width="50%">
+                                          <table  class="table table-condensed" role="grid" cellspacing="0" width="50%">
                                             <thead>
                                               <tr>
                                                 <th>Mes(s) / Año(s)</th>
@@ -195,16 +202,20 @@
                                             <tr>
                                                 <td><?php echo strtoupper($key); ?></td>
                                                 <?php foreach ($sucursal_anios as $anio => $mes) { ?> <!-- años -->
-                                                  <td><?php echo $sucursal_anios[$anio][$key]; ?></td>
+                                                  <td><?php if ($sucursal_anios[$anio][$key] == 0) { echo $sucursal_anios[$anio][$key];} else{ ?>
+                                                    <?php echo "<a href='?c=reportes&a=total_product&var0=compara&var1=".$anio."&var2=".$key."&var3=". strtolower($data['nombre_suc'][0]) ."&var4=".$data['cliente_id']."' target='_blank'>" ?><span class="badge bg-green"><?php echo $sucursal_anios[$anio][$key]; } ?></span></a></td>
                                                 <?php } ?>
                                               </tr>                                      
                                             <?php } ?>
                                             </tbody>
                                             <tfoot>
                                               <tr>
-                                                <th>Mes(s) / Año(s)</th>
-                                                <?php foreach ( $sucursal_anios as $anio => $mes) { ?>                
-                                                <th><?php echo $anio; ?></th>
+                                                <th>Total: </th>
+                                                <?php foreach ($sucursal_anios as $anio => $mes) {  $suma=0; ?> 
+                                                  <?php foreach ($mes as $key => $value) { ?><!-- Meses (12)--> 
+                                                    <?php $suma=$suma+$sucursal_anios[$anio][$key]; ?>
+                                                  <?php } ?>
+                                                  <th><?php echo $suma; ?></th>
                                                 <?php } ?>
                                               </tr>
                                             </tfoot>
@@ -216,36 +227,23 @@
                                 <?php } ?>
                             </div>
                           </div>                                                        
-                          <div class="box-footer">                                    
-                          </div>                                
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-lg-12 col-md-12">
-                        <div class="box box-success">
-                          <div class="box-header with-border">
-                            <h3 class="box-title"> <i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp; Reporte</h3>
-                              <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>                                                    
-                                </div>
-                          </div>                                 
-                          <div class="box-body"> <!-- table-responsive -->
+                          <div class="box-footer">
                             <div class="row">
-                              <?php foreach ( $table_data as $sucursal => $sucursal_anios) {  ?>
-                                <?php $size= 12 / sizeof($table_data);?>
-                                <div <?php echo "class='col-lg-". $size ."'" ?> >
-                                <?php echo "<canvas id=\"chartjs-". $sucursal ."\" class=\"chartjs\" width=\"538\" height=\"269\" style=\"display: block; width: 538px; height: 269px;\"></canvas>"; ?>     
-                                </div>                         
-                              <?php } ?>                                                        
-                          </div>                                                        
-                          <div class="box-footer">                                    
+                              <div class="col-lg-12">                                                
+                              <h4 class="box-title"> <i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp; Métricas</h4>
+                                <?php foreach ( $table_data as $sucursal => $sucursal_anios) {  ?>
+                                  <?php $size= 12 / sizeof($table_data);?>
+                                  <div <?php echo "class='col-lg-". $size ." border-right'" ?> >
+                                    <h3 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h3>
+                                  <?php echo "<canvas id=\"chartjs-". $sucursal ."\" class=\"chartjs\" width=\"538\" height=\"269\" style=\"display: block; width: 538px; height: 269px;\"></canvas>"; ?>     
+                                  </div>                         
+                                <?php } ?>
+                              </div>                                                      
+                            </div>                                     
                           </div>                                
                         </div>
                       </div>
-                    </div>
+                    </div>     
                                                    
                 </section>                        
             </div>                         
@@ -256,7 +254,6 @@
         </script>         
         <?php importView('_static.scripts'); ?>   
         <script type="text/javascript">
-
           /* Datarange libreria alternativa*/
         $('#daterange-text-p').daterangepicker(
             {
@@ -265,7 +262,7 @@
             'Mes anterior': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
             '3 Meses': [moment().subtract(3, 'month').startOf('month'), moment().endOf('month')],
             '6 Meses': [moment().subtract(6, 'month').startOf('month'), moment().endOf('month')],
-            '1 año': [moment().subtract(1, 'years').add(1, 'day'), moment()]            
+            '1 año': [moment().subtract(1, 'years').startOf('month'), moment().endOf('month')]            
           },
           startDate: moment().startOf('month'),
           endDate: moment().endOf('month')
@@ -275,80 +272,58 @@
             }
         );      
 
-          $(document).ready(function() { 
-            var _tregistrados= $('#_tregistrados');                      
-            var _tcalibrados= $('#_tcalibrados');                      
-            var _tentregados= $('#_tentregados'); 
-            var _tfacturados= $('#_tfacturados');
-              _tregistrados.text('0');
-              _tcalibrados.text('0');
-              _tentregados.text('0');
-              _tfacturados.text('0');                                    
-              $("#nombre_suc").val();
-              $("#cliente_id").val();
-              $("#tipo_busqueda").val();
-  
-
-            // $("#buscar_rp").click(function(){ //reporte productividad= rp
-            //   var parametro= {
-            //       'daterange': $('#daterange-text-p').val(),
-            //       'nombre_suc': $("#nombre_suc").val(),
-            //       'cliente_id': $("#cliente_id").val(),
-            //       'tipo_busqueda': $("#tipo_busqueda").val()                  
-            //     };    
-            //     //console.log(parametro);  
-            //     /*Empieza ajax*/
-            //     $.ajax({
-            //           type: 'post',
-            //           url: "?c=reportes&a=ajax_load_productividad",                        
-            //           data: parametro
-            //         }).done(function(data) {
-            //           var datos = data;
-            //           console.log(datos);                      
-            //         }).fail(function(data) {}).always( function(data) {
-            //           //console.log(data);
-            //         });                                                                                     
-            //     /*end ajax*/
-            // });
-               <?php 
-                  // $hola="hola";
-                  // echo "label:'".."'";                 
-                foreach ($table_data as $sucursal => $sucursal_anios) {
-                   echo 'var data'.$sucursal.'= [';
-                  foreach ($sucursal_anios as $anio => $mes) {
-                    // Año
-                    echo '{';
-                    echo "label:'". $anio ."',";
-                    echo 'data:[';
-                    foreach ($mes as $key => $value) {
-                      //MES 
-                      echo $sucursal_anios[$anio][$key].',';
+          $(document).ready(function() {                       
+                <?php
+                  foreach ($table_data as $sucursal => $sucursal_anios) {
+                     echo 'var data'.$sucursal.'= [';
+                    foreach ($sucursal_anios as $anio => $mes) {
+                      // Año
+                      echo '{';
+                      echo "label:'". $anio ."',";
+                      echo 'data:[';
+                      foreach ($mes as $key => $value) {
+                        //MES 
+                        echo $sucursal_anios[$anio][$key].',';
+                      }                    
+                      echo '],';
+                      echo "fill:false,borderColor:'rgb(".rand(0, 255).",".rand(50, 255).",".rand(100, 255).")',lineTension:0.1";
+                      echo '},';
                     }
-                    // echo ''.rand(20, 244).','.rand(20, 244).',80,'.rand(20, 244).',56,'.rand(20, 244).',40,'.rand(20, 244).',56,'.rand(20, 244).',45,'.rand(20, 244).',';
-                    echo '],';
-                    echo "fill:false,borderColor:'rgb(".rand(0, 255).",".rand(50, 255).",".rand(100, 255).")',lineTension:0.1";
-                    echo '},';
+                    echo '];';
+                    echo "\n";
+                    echo 'var datatotal'.$sucursal.'={labels:[\'Enero\',\'Febrero\',\'Marzo\',\'Abril\',\'Mayo\',\'Junio\',\'Julio\',\'Agosto\',\'Septiembre\',\'Octubre\',\'Noviembre\',\'Diciembre\'],datasets:data'.$sucursal.'};';
+                    echo "\n";
+                    echo "var myChart =  new Chart(document.getElementById('chartjs-".$sucursal."'),{type:'line',data: datatotal".$sucursal.' });';
                   }
-                  echo '];';
-                  echo "\n";
-                  echo 'var datatotal'.$sucursal.'={labels:[\'January\',\'February\',\'March\',\'April\',\'May\',\'June\',\'July\',\'August\',\'September\',\'October\',\'November\',\'December\'],datasets:data'.$sucursal.'};';
-                  echo "\n";
-                  echo "var myChart =  new Chart(document.getElementById('chartjs-".$sucursal."'),{type:'line',data: datatotal".$sucursal.' });';
-                }
+                ?>
 
-                ?>                                      
-
-    //   document.getElementById("chartjs-0").onclick = function(evt){
-    //   var activePoints = myChart.getElementsAtEvent(evt);
-    //   //var activeDataSet = myChart.getDatasetAtEvent(evt);
-    //   console.log(activePoints);
-    //   var firstPoint = activePoints[0];
-    //   var label = myChart.data.labels[firstPoint._index];
-    //   var value = myChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
-    //   if (firstPoint !== undefined)
-    //     alert(label + ": " + value);
-    // };
+                <?php
+                  $bg= array("rgb(229,40,0)","rgb(243,150,8)","rgb(8,205,243)","rgb(0,120,255)","rgb(54,177,50)");
+                  foreach ($table_totales as $sucursal => $procesos) {
+                    echo "new Chart(document.getElementById('pieChart-".$sucursal."'),{'type':'doughnut','data':{'labels':[";
+                    foreach ( $procesos as $key => $value){ // $key = procesos =>  labels  |  $values = valores=> data
+                      echo "'".$key."',";
+                    }
+                    echo "],";
+                    echo "'datasets':[{'label':'".$sucursal."',";
+                    echo "'data':[";
+                    foreach ( $procesos as $key => $value){ // $key = procesos =>  labels  |  $values = valores=> data
+                      echo "'".$value."',";
+                    }
+                    echo "],";
+                    echo "'backgroundColor': [";
+                    for ($i=0; $i < count($bg) ; $i++) { 
+                      echo "'".$bg[$i]."',";
+                    }
+                    echo "]}";
+                    echo "]}";
+                    echo "});";
+                  }
+                ?>
           });
+
+          // reportes[tipo_calibracion,fecha_home,fecha_end,sucursal,técnico]
+          //[0,"2018-05-01","2018-05-31","_n",116]
         </script>        
     </body>
           
