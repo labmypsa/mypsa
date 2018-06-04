@@ -218,25 +218,6 @@ class ReportesController{
 		echo  $tmp;
 	}
 
-	// public function ajax_load_productividad(){
-	// 	$data = array(
-	// 			"daterange" =>$_POST['daterange'],
-	// 			"nombre_suc" =>$_POST['nombre_suc'],
-	// 			"cliente_id" => (int) $_POST['cliente_id'],
-	// 			"tipo_busqueda" =>(int) $_POST['tipo_busqueda']
-	// 			);
-
-	// 	$cadena= explode(' - ', $data['daterange']);				
-	// 	unset($data['daterange']);
-	// 	$data['fecha_home']=$cadena[0];
-	// 	$data['fecha_end']=$cadena[1];	
-	// 	$table_data=$this->model['informes']->get_reporte_productividad($data);
-	// 	$table_totales= $this->model['informes']->get_totalprocesos($data);
-
-	// 	//echo json_encode($table_data);
-	// 	echo json_encode($table_totales);
-	// }
-
 	public function total_product(){
 		$meses=array('enero' => '01','febrero' =>'02','marzo'=>'03','abril'=>'04','mayo'=>'05','junio'=>'06','julio'=>'07','agosto'=>'08','septiembre'=>'09','octubre'=>'10','noviembre'=>'11','diciembre'=>'12');
 		$sucursal=array('nogales' =>'_n','hermosillo' =>'_h','guaymas' =>'_g' );	

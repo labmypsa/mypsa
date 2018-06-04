@@ -17,7 +17,7 @@ $(document).ready(function () {
             "scrollX": true,
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             buttons: [
-             {
+             {               
                 extend: 'excel',
                 text: 'Excel',
                 exportOptions: {
@@ -683,19 +683,14 @@ $(document).ready(function () {
             "lengthMenu": [[15, 20, ,50, 100, -1], [15, 20, 50, 100, "All"]],
             "autoWidth": true,
             "scrollX": true,            
-            dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
-            buttons: [
-                {
+            dom: '<"pull-left"l>fr<"dt-buttons"B>tip',           
+            buttons: [ {
                     extend: 'excel',
                     text: 'Excel',
                     exportOptions: {
-                        //columns: [':not(:last-child)' ]
-                         modifer: {
-      page: 'all',
-      search: 'none'    }               
-                    },
-                }
-            ],
+                        columns: [':not(:last-child)' ]
+                    },                    
+                } ],
             fixedColumns: true,
             "rowCallback": function( row, data, index ) {                      
                 var activo = parseInt(data[6]), 

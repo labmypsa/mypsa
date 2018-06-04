@@ -73,7 +73,7 @@
                         }
                          echo '<li><a href="?c=clienteinformes&a=recalibrar"><i class="fa fa-circle-o"></i>Equipos a vencer</a></li>';
                           echo '<li><a href="?c=clienteinformes&a=vencidos"><i class="fa fa-circle-o"></i>Equipos vencidos</a></li>';
-                           echo '<li><a href="#"><i class="fa fa-circle-o"></i>Cartas de trazabilidad</a></li>';
+                           //echo '<li><a href="#"><i class="fa fa-circle-o"></i>Cartas de trazabilidad</a></li>';
                            echo '</ul> </li>';
                     }
                 ?>              

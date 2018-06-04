@@ -100,12 +100,13 @@
                           <!-- /.box-header -->
                           <div class="box-body">
                             <div class="row">
-                               <?php //echo "<a href='?c=reportes&a=total_product&var0=total&var1=".$data['fecha_home']."&var2=".$data['fecha_end']."&var3=". strtolower($data['nombre_suc'][0]) ."&var4=".$data['cliente_id']."' target='_blank'> ver Total</a>";?> 
+                              <h4 class="box-title" align="center">&nbsp; Rango de fechas <?php echo ": ".$data['fecha_home']." - ". $data['fecha_end']; ?> </h4>
+                               
 
                                 <?php  foreach ( $table_totales as $sucursal => $procesos) {  ?>
                                 <?php $size= 12 / sizeof($table_totales);?>
                                 <div <?php echo "class='col-lg-". $size ."'" ?> >
-                                  <h3 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h3> 
+                                  <h4 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h4> 
                                   <table class="table table-condensed">
                                     <tbody>
                                       <tr>
@@ -149,7 +150,7 @@
                               <?php foreach ($table_totales as $sucursal => $procesos) {  ?>
                                 <?php $size= 12 / sizeof($table_data);?>
                                 <div <?php echo "class='col-lg-". $size ." border-right'" ?> >
-                                  <h3 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h3>
+                                  <h4 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h4>
                                 <?php echo "<canvas id=\"pieChart-".$sucursal."\" class=\"chartjs\" width=\"538\" height=\"269\" style=\"display: block; width: 538px; height: 269px;\"></canvas>"; ?>     
                                 </div>                         
                               <?php } ?>                      
@@ -320,10 +321,7 @@
                     echo "});";
                   }
                 ?>
-          });
-
-          // reportes[tipo_calibracion,fecha_home,fecha_end,sucursal,técnico]
-          //[0,"2018-05-01","2018-05-31","_n",116]
+          });      
         </script>        
     </body>
           
