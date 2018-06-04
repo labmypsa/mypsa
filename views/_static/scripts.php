@@ -1,4 +1,4 @@
-        <script src="assets/js/jquery-2.2.3.min.js"></script>
+        <script src="assets/js/jquery-2.2.3.min.js"></script>        
         <script src="assets/js/bootstrap.min.js"></script>
         <!-- ChartJS 1.0.1 -->
         <script src="assets/plugins/chartjs/Chart-2.5.0.js"></script>        

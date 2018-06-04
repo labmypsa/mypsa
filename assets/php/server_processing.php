@@ -58,7 +58,7 @@ $condicion="";
     }
 /* #End vista de informes cliente #End */ 
 
-/* #Home #Home */
+/* #Home Reportes */
     if ($controller== "reportes") {  
         $data=json_decode($ext);    
         $table = 'view_'.$controller.$data[3]; // contiene la extension de la tabla a consultar 
@@ -71,7 +71,26 @@ $condicion="";
         }        
         $condicion= $query_condicion;             
     }
-/* #End #End */
+    if ($controller== "total_product") {  
+        $data=json_decode($ext);  //Año,mes,sucursal
+        $table = 'view_informes'.$data[3]; // contiene la extension de la tabla a consultar 
+        if ($data[0]=="compara" ) {
+            $query_condicion =" year(fecha_calibracion)='".$data[1]."' and month(fecha_calibracion) ='".$data[2]."'";
+            $query_condicion .= " and estado_calibracion=1";
+        }
+        else{
+            $query_condicion =" fecha_inicio between '".$data[1]."' and '".$data[2]."'";
+        }
+       
+        if ($data[4] != 0) { // Pregunta se existe cliente
+            $query_condicion .= " and plantas_id=".$data[4];
+        }
+         
+            
+        $condicion= $query_condicion;             
+    }
+
+/* #End Reportes */
 // Table's primary key
 
  

@@ -51,8 +51,8 @@
                                         </div>
                                         <div class="col-lg-6">                                            
                                             <div class="form-group">
-                                                <label>Cliente:</label>
-                                                  <select id="cliente_id" class="form-control select2" style="width: 100%;" name="cliente_id">
+                                                <label>Cliente:</label>                                                 
+                                                    <select id="cliente_id" class="form-control select2" data-placeholder="Seleccione una opción" style="width: 100%;" name="cliente_id">
                                                       <option value="">Seleccione una opción</option> 
                                                       <option value="0">Todos</option>
                                                       <?php
@@ -78,7 +78,7 @@
                                                       <option value="1">Equipos a vencer</option>
                                                       <option value="2">Equipos vencidos</option> 
                                                    	</select>
-                                            </div>                                             
+                                            </div>
                                         </div>
                                     </div>                                                                       
                                 </div> 
@@ -278,8 +278,11 @@
                   'daterange': $('#daterange-text').val(),
                   'nombre_suc': $("#nombre_suc").val(),
                   'cliente_id': $("#cliente_id").val(),
-                  'tipo_busqueda': $("#tipo_busqueda").val()
-                };                
+                  'tipo_busqueda': $("#tipo_busqueda").val(),
+                  'multiple_select':$("#multiple_select").val()
+                };    
+
+                console.log(parametro);            
                 if (validar_select(parametro)) {                                                      
                     $.ajax({
                       type: 'post',

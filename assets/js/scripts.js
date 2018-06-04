@@ -123,14 +123,15 @@
     }
 
 /* Buscar los técnicos de acuerdo a la sucursal  */
-    var sucursalxtec_ajax = function() {      
+    var sucursalxtec_ajax = function() {   
+        //console.log($(".select2").val());   
         $.ajax({
             url: "?c=reportes&a=ajax_load_tecnicos",
             dataType: "json",
             method: "POST",
             data: "sucursal=" + $(".select2").val()
         }).done(function(data) {
-            var datos = data;                        
+            var datos = data;         
             var select = $('#usuarios_calibracion_id');
             select.empty();
             select.append($("<option />").val('').text('Seleccione una opción'));
@@ -812,7 +813,7 @@
           $('#daterange-text span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
             }
         );
-
+       
         //iCheck for checkbox and radio inputs
         $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
             checkboxClass: 'icheckbox_minimal-blue',

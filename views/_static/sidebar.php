@@ -73,7 +73,7 @@
                         }
                          echo '<li><a href="?c=clienteinformes&a=recalibrar"><i class="fa fa-circle-o"></i>Equipos a vencer</a></li>';
                           echo '<li><a href="?c=clienteinformes&a=vencidos"><i class="fa fa-circle-o"></i>Equipos vencidos</a></li>';
-                           echo '<li><a href="#"><i class="fa fa-circle-o"></i>Cartas de trazabilidad</a></li>';
+                           //echo '<li><a href="#"><i class="fa fa-circle-o"></i>Cartas de trazabilidad</a></li>';
                            echo '</ul> </li>';
                     }
                 ?>              
@@ -85,8 +85,11 @@
                             <i class='fa fa-edit'></i> <span>Reportes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                         </a>
                         <ul class='treeview-menu'>                
-                            <li><a href='?c=reportes'><i class='fa fa-circle-o'></i>Productividad</a></li>               
-                            <li><a href='?c=reportes&a=cliente'><i class='fa fa-circle-o'></i>Clientes</a></li>                    
+                            <li><a href='?c=reportes'><i class='fa fa-circle-o'></i>Técnicos</a></li>               
+                            <li><a href='?c=reportes&a=cliente'><i class='fa fa-circle-o'></i>
+                            Clientes</a></li>
+                            <li><a href='?c=reportes&a=productividad'><i class='fa fa-circle-o'></i>
+                            Productividad</a></li>                  
                         </ul>
                         </li>";
                 }

@@ -9,21 +9,28 @@
             <?php importView('_static.sidebar'); ?>
             <div class="content-wrapper">
                 <section class="content-header">
-                    <h1><?php echo $this->title; ?><small><?php echo $this->subtitle; ?> Técnico</small></h1>
+                    <h1><?php echo $this->title; ?><small><?php echo $this->subtitle; ?> Total de producción</small></h1>
                 </section>
                 <section class="content">
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="box box-default">
                                 <div class="box-header">
-                                    <h3 class="box-title"> <?php echo $this->subtitle; ?> </h3>                                                                    
+                                    <h3 class="box-title"> 
+                                    <ol class="breadcrumb" style="background: white; padding-left:0px;">
+                                        <i class="fa fa-th-list" ></i>
+                                        <li class="active"> <?php echo '  '.strtoupper($_GET['var3']);?> </li>
+                                        <li class="active"><?php echo strtoupper($_GET['var1']);?></li>
+                                        <li ><?php echo strtoupper($_GET['var2']);?></li>
+                                    </ol>
+                                    </h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                     <table id="table_reportec" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+                                     <table id="table_totalproduct" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>                                                
-                                                <th >id</th>
+                                                <th>id</th>
                                                 <th>Id equipo</th>
                                                 <th>Descripción</th>
                                                 <th>Marca</th>
@@ -75,7 +82,7 @@
             <?php importView('_static.footer'); ?>
         </div>
         <script>          
-            var controller = '<?php echo $this->name.' '.$arreglo.' '; ?>';        
+            var controller = '<?php echo 'total_product'.' '.$arreglo.' '; ?>';        
         </script>
         <?php importView('_static.scripts'); ?>
     </body>
