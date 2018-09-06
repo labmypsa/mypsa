@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <?php importView('_static.head'); ?>
+        <?php importView('_static.head'); ?>       
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -73,8 +73,8 @@
                                                 <label>Tipo de busqueda:</label>
                                                   	<select id="tipo_busqueda" class="form-control select2" style="width: 100%;" name="tipo_busqueda">
                                                       <option value="">Seleccione una opción</option> 
-                                                      <option value="0">Comparación del cliente</option>
-                                                      <option value="1">Comparación de sucursales</option>
+                                                      <option value="0"> Productividad por cliente</option>
+                                                      <option value="1"> Productividad por sucursal</option>
                                                    	</select>
                                             </div>
                                         </div>
@@ -103,7 +103,7 @@
                               <h4 class="box-title" align="center">&nbsp; Rango de fechas <?php echo ": ".$data['fecha_home']." - ". $data['fecha_end']; ?> </h4>
                                
 
-                                <?php  foreach ( $table_totales as $sucursal => $procesos) {  ?>
+                                <?php  foreach ( $table_totales as $sucursal => $procesos) { ?>
                                 <?php $size= 12 / sizeof($table_totales);?>
                                 <div <?php echo "class='col-lg-". $size ."'" ?> >
                                   <h4 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h4> 
@@ -115,20 +115,28 @@
                                         <th>Porcentaje</th>
                                         <th style="width: 40px">Cantidad</th>
                                       </tr>
-                                      <?php $ids=0; foreach ( $procesos as $key => $value) { $entero= $procesos['Alta']; ?>
+                                      <?php $ids=0; foreach ( $procesos as $key => $value) { ?>
                                       <tr>                                        
-                                        <td><?php echo $ids= $ids +1; ?>.</td>
+                                        <td><?php echo $ids= $ids +1;
+                                          if ($ids < 4) { $entero= $procesos['Alta']; } 
+                                          else if ($ids == 4) { $entero= $procesos['Solo_clientes'];}
+                                          else if ($ids == 5) { $entero= $procesos['Solo_clientes'];}
+                                          else if ($ids == 6) { $entero= $procesos['Alta']; }
+                                          ?>.
+                                        </td>
                                         <td><?php echo $key; ?></td>
                                         <td>
-                                          <?php $bar= array('','danger','warning','info','primary','success');
-                                          $bg= array('','red','yellow','aqua','blue','green'); $x= round(($value*100)/$entero); ?>
+                                          <?php $bar= array('','danger','warning','info','primary','success','black');
+                                          $bg= array('','red','yellow','aqua','blue','green','black'); $x= round(($value*100)/$entero); ?>
                                           <div class="progress progress active">
                                              <?php echo "<div class=\"progress-bar progress-bar-".$bar[$ids]." progress-bar-striped\" style=\"width:".$x."%\">".$x."%</div>";?>
                                           </div>
                                         </td>
                                         <td><?php echo "<span class=\"badge bg-".$bg[$ids]."\"> ".$value."</span>"; ?> </td>
                                       </tr>
-                                      <?php } ?>                                
+                                      <?php  # Cierra if
+                                         
+                                      } ?>                                
                                     </tbody>
                                     <tfoot>
                                       <tr>
@@ -146,12 +154,13 @@
                           <div class="box-footer">
                             <div class="row">
                               <div class="col-lg-12">                                                
-                              <h4 class="box-title"> <i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp; Métricas</h4>
+                              <h4 class="box-title"> <i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp; Métricas  </h4>                              
                               <?php foreach ($table_totales as $sucursal => $procesos) {  ?>
                                 <?php $size= 12 / sizeof($table_data);?>
                                 <div <?php echo "class='col-lg-". $size ." border-right'" ?> >
-                                  <h4 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h4>
-                                <?php echo "<canvas id=\"pieChart-".$sucursal."\" class=\"chartjs\" width=\"538\" height=\"269\" style=\"display: block; width: 538px; height: 269px;\"></canvas>"; ?>     
+                                  <h4 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h4> 
+                                  <?php echo '<button  id="savepieChart-'.strtolower($sucursal).'" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button>'; ?>
+                                <?php echo "<canvas id=\"pieChart-".strtolower($sucursal)."\" class=\"chartjs\" width=\"538\" height=\"269\" style=\"display: block; width: 538px; height: 269px;\"></canvas>"; ?>     
                                 </div>                         
                               <?php } ?>                      
                             </div>
@@ -167,7 +176,7 @@
                       <div class="col-lg-12 col-md-12">
                         <div class="box box-info">
                           <div class="box-header with-border">
-                            <h3 class="box-title"> <i class="fa fa-list" aria-hidden="true"></i>&nbsp; Reporte</h3>
+                            <h3 class="box-title"> <i class="fa fa-list" aria-hidden="true"></i>&nbsp; Reporte de equipos calibrados</h3>
                               <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>                                                    
@@ -236,7 +245,8 @@
                                   <?php $size= 12 / sizeof($table_data);?>
                                   <div <?php echo "class='col-lg-". $size ." border-right'" ?> >
                                     <h3 class="box-title"><?php  echo ($data['tipo_busqueda']== 0) ? $cliente : strtoupper($sucursal); ; ?></h3>
-                                  <?php echo "<canvas id=\"chartjs-". $sucursal ."\" class=\"chartjs\" width=\"538\" height=\"269\" style=\"display: block; width: 538px; height: 269px;\"></canvas>"; ?>     
+                                    <?php echo '<button  id="savechartjs-'.strtolower($sucursal).'" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button>'; ?>
+                                  <?php echo "<canvas id=\"chartjs-". strtolower($sucursal) ."\" class=\"chartjs\" width=\"538\" height=\"269\" style=\"display: block; width: 538px; height: 269px;\"></canvas>"; ?>     
                                   </div>                         
                                 <?php } ?>
                               </div>                                                      
@@ -276,7 +286,7 @@
           $(document).ready(function() {                       
                 <?php
                   foreach ($table_data as $sucursal => $sucursal_anios) {
-                     echo 'var data'.$sucursal.'= [';
+                     echo 'var data'.strtolower($sucursal).'= [';
                     foreach ($sucursal_anios as $anio => $mes) {
                       // Año
                       echo '{';
@@ -292,24 +302,33 @@
                     }
                     echo '];';
                     echo "\n";
-                    echo 'var datatotal'.$sucursal.'={labels:[\'Enero\',\'Febrero\',\'Marzo\',\'Abril\',\'Mayo\',\'Junio\',\'Julio\',\'Agosto\',\'Septiembre\',\'Octubre\',\'Noviembre\',\'Diciembre\'],datasets:data'.$sucursal.'};';
-                    echo "\n";
-                    echo "var myChart =  new Chart(document.getElementById('chartjs-".$sucursal."'),{type:'line',data: datatotal".$sucursal.' });';
+                    echo 'var datatotal'.strtolower($sucursal).'={labels:[\'Enero\',\'Febrero\',\'Marzo\',\'Abril\',\'Mayo\',\'Junio\',\'Julio\',\'Agosto\',\'Septiembre\',\'Octubre\',\'Noviembre\',\'Diciembre\'], datasets: data'.strtolower($sucursal).'};';
+                    echo "\n";                    
+                    echo "var ctx = document.getElementById('chartjs-".strtolower($sucursal)."').getContext('2d'); \n";
+                    //echo "new Chart(document.getElementById('chartjs-".strtolower($sucursal)."'),{type:'line',data: datatotal".strtolower($sucursal).' });';
+
+                    echo  "new Chart(ctx,{ type:'line',data: datatotal".strtolower($sucursal).", \n";
+                    echo    "});\n";
+                     
+
                   }
                 ?>
-
                 <?php
                   $bg= array("rgb(229,40,0)","rgb(243,150,8)","rgb(8,205,243)","rgb(0,120,255)","rgb(54,177,50)");
                   foreach ($table_totales as $sucursal => $procesos) {
-                    echo "new Chart(document.getElementById('pieChart-".$sucursal."'),{'type':'doughnut','data':{'labels':[";
+                    echo "new Chart(document.getElementById('pieChart-".strtolower($sucursal)."'),{'type':'doughnut','data':{'labels':[";
                     foreach ( $procesos as $key => $value){ // $key = procesos =>  labels  |  $values = valores=> data
-                      echo "'".$key."',";
+                      if ($key != 'Solo_clientes'){
+                         echo "'".$key."',";
+                      }                     
                     }
                     echo "],";
-                    echo "'datasets':[{'label':'".$sucursal."',";
+                    echo "'datasets':[{'label':'".strtolower($sucursal)."',";
                     echo "'data':[";
                     foreach ( $procesos as $key => $value){ // $key = procesos =>  labels  |  $values = valores=> data
-                      echo "'".$value."',";
+                      if ($key != 'Solo_clientes'){
+                       echo "'".$value."',";
+                      }                      
                     }
                     echo "],";
                     echo "'backgroundColor': [";
@@ -321,6 +340,20 @@
                     echo "});";
                   }
                 ?>
+
+              
+                <?php  
+                foreach ($table_data as $sucursal => $sucursal_anios) { 
+                echo '$(\'#savepieChart-'.strtolower($sucursal).'\').click(function() { $(\'#pieChart-'. strtolower($sucursal).'\').get(0).toBlob(function(blob) {
+                  saveAs(blob, \'MetricaSucursal-'.strtolower($sucursal).'.png\');
+                }); });';
+                echo '$(\'#savechartjs-'.strtolower($sucursal).'\').click(function() { $(\'#chartjs-'. strtolower($sucursal).'\').get(0).toBlob(function(blob) {
+                  saveAs(blob, \'MetricaMensual-'.strtolower($sucursal).'.png\');
+                }); });';
+                }
+                ?>                            
+              
+
           });      
         </script>        
     </body>

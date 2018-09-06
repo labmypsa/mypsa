@@ -17,6 +17,8 @@
         <link rel="stylesheet" href="assets/plugins/datatables/dataTables.bootstrap.css">
 	    <link rel="stylesheet" href="assets/plugins/datatables/buttons.bootstrap.min.css">            
         <link rel="stylesheet" href="assets/plugins/datatables/fixedHeader.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css"/>
+        <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css" rel="stylesheet" />
         <link rel="stylesheet" href="assets/plugins/lightbox2/css/lightbox.min.css">        
         <link rel="stylesheet" type="text/css" href="assets/plugins/datatables/extensions/fixedColumns/css/dataTables.fixedColumns.css">
 
@@ -55,6 +57,12 @@
                 input[readonly] {
                     color: #999;
                 }
+        </style>
+        <style type="text/css">
+            /* Progress bar de color negro*/
+            .progress-bar-black {
+                background-color: #111;
+            }
         </style>
 
         

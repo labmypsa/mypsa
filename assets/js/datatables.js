@@ -680,7 +680,7 @@ $(document).ready(function () {
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
-            "lengthMenu": [[15, 20, ,50, 100, -1], [15, 20, 50, 100, "All"]],
+            "lengthMenu": [[15, 20, 50, 100, -1], [15, 20, 50, 100, "All"]],
             "autoWidth": true,
             "scrollX": true,            
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',           
@@ -700,22 +700,14 @@ $(document).ready(function () {
                 }                                        
               },
             "columnDefs": [                
-                { "targets":[6], "visible":false},
+                { "targets":[6,17], "visible":false},
                 {                                                   
                     "render": function(data,type, row){ 
-                        var suma= row[13] + row[14];
+                        var suma= row[14] + row[15];
                          return suma; 
                         },
-                        "targets": -2                                    
-                },
-                {                                                   
-                    "render": function(data,type, row){ 
-                        var proceso= ["","","Calibrado","Entregado","Terminado"];
-
-                         return proceso[row[15]]; 
-                        },
-                        "targets": -1                                    
-                }
+                        "targets": -3                                    
+                },                
             ],                      
             "language": { "url": "assets/json/datatables.spanish.json" }
         });

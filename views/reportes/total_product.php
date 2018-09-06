@@ -39,6 +39,7 @@
                                                 <th>activo</th>                                                
                                                 <th>Cliente</th>
                                                 <th>Tipo de calibración</th>
+                                                <th>Factura</th>
                                                 <th>Precio</th>
                                                 <th>Precio Extra</th>
                                                 <th>Moneda</th>
@@ -46,6 +47,7 @@
                                                 <th>Días antes de Cal:</th>
                                                 <th>Días despues de Cal:</th>
                                                 <th>Total de días:</th>
+                                                <th>id proceso</th>
                                                 <th>Proceso</th>
                                             </tr>
                                         </thead>
@@ -60,6 +62,7 @@
                                                 <th>activo</th>                                                
                                                 <th>Cliente</th>
                                                 <th>Tipo de calibración</th>
+                                                <th>Factura</th>
                                                 <th>Precio</th>
                                                 <th>Precio Extra</th>
                                                 <th>Moneda</th>
@@ -67,6 +70,7 @@
                                                 <th>Días antes de:</th>
                                                 <th>Días despues de:</th>
                                                 <th>Total de días:</th>
+                                                <th>id proceso</th>
                                                 <th>Proceso</th>
                                             </tr>
                                         </tfoot>

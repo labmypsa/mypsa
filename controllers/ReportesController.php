@@ -88,6 +88,8 @@ class ReportesController{
 
 	public function productividad(){
 		/* Lectura de los datos del formulario */
+		 $sucursal= array('nogales'=>'_n','hermosillo'=>'_h','guaymas'=>'_g');
+
 		if(isset($_POST['submit'])){
 			if ($_POST['tipo_busqueda']== 1) {
 				$_POST['cliente_id']=0;
@@ -107,8 +109,8 @@ class ReportesController{
 			$data['fecha_end']=$cadena[1];	
 			$table_data=$this->model['informes']->get_productividad($data);
 			
-			$table_totales=$this->model['informes']->get_totalprocesos($data);			
-					
+			$table_totales=$this->model['informes']->get_totalprocesos($data);						
+
 			if ($data['tipo_busqueda']== 0) {
 			$empresa= $this->model['planta']->find_by(['id'=>$data['cliente_id']],'view_plantas');                 
             $cliente = (trim(strtolower($empresa[0]['nombre']))=='planta1') ?  $empresa[0]['empresa']: $empresa[0]['empresa'].' ('.$empresa[0]['nombre'].')';

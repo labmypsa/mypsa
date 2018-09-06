@@ -47,7 +47,13 @@ class Informes extends Model {
         return $this->rows;
     }
     public function get_salida($id,$view){
-        $this->query= "SELECT id as id,numero_hoja_salida,usuario_id_hoja_salida as usuario_hoja_salida,fecha_hoja_salida as fecha,entrega_hoja_salida as fecha_entrega,comentarios,proceso,po_id  FROM ".$view." WHERE id = ". $id.";";
+        $this->query= "SELECT id as id,numero_hoja_salida,usuario_id_hoja_salida as usuario_hoja_salida,fecha_hoja_salida as fecha,entrega_hoja_salida as fecha_entrega,comentarios,proceso,po_id,cantidad  FROM ".$view." WHERE id = ". $id.";";
+        $this->get_results_from_query();       
+        return $this->rows;
+    }
+
+    public function get_countfactura($id,$view){
+        $this->query= "SELECT Count(factura) as total FROM ".$view." where po_id='". $id ."';";
         $this->get_results_from_query();       
         return $this->rows;
     }
@@ -136,14 +142,13 @@ class Informes extends Model {
         //Tipo de busqueda 0: 'comparacion del cliente',1:'comparacion de sucursales'      
         if ($data['tipo_busqueda']== 0) {// Cliente
             # code...
-            $condicion .=" and plantas_id=". $data['cliente_id'] ." and estado_calibracion=1";
+            $condicion .=" and plantas_id=". $data['cliente_id'] ." and estado_calibracion=1 ";
                 $suctemp= strtolower($data['nombre_suc'][0]);
                 $table=$sucursal[$suctemp];
 
-                $this->query =$select .$table .$condicion.$order;
+                $this->query =$select .$table .$condicion.$order;                
                 $this->get_results_from_query(); 
                 $result=$this->rows;             
-
                 $reporte= $this->_productividad($result);
                         
                 array_push($_totalsc[$data['cliente_id']]=$reporte); 
@@ -151,14 +156,14 @@ class Informes extends Model {
         else{//Sucursales
             if (count($data['nombre_suc'])>0) {
                 # code...  
-                $condicion .=" and estado_calibracion=1";                           
+                $condicion .=" and estado_calibracion=1 ";                           
                 for ($i=0; $i < count($data['nombre_suc']); $i++) { 
                     # code...
                     $this->query =$select;
                     $suctemp= strtolower($data['nombre_suc'][$i]);
-                    $table=$sucursal[$suctemp]; 
-
-                    $this->query .=$table .$condicion.$order;                
+                    $table=$sucursal[$suctemp];                     
+                    $this->query .=$table .$condicion.$order;
+                    //var_dump($this->query);                               
                     $this->get_results_from_query();
                     $result=$this->rows;                  
                     $reporte= $this->_productividad($result);
@@ -219,14 +224,22 @@ class Informes extends Model {
         }
         return $_data;
     }
+
     public function _totalprocesos($data,$nom_suc){
  
         $sucursal= array('nogales'=>'_n','hermosillo'=>'_h','guaymas'=>'_g');    
-        $procesos= array('Alta','Calibración','Entregados','Facturados','Pagados');
+        $procesos= array('Alta','Calibración','Entregados','Facturados','Pagados','Solo_clientes');
         //$fechas= array('fecha_inicio','fecha_calibracion','fecha_hoja_salida','fecha_final','fecha_final');
         //$fechas= array('fecha_inicio','fecha_inicio','fecha_inicio','fecha_inicio','fecha_inicio');
         $select="SELECT count(*) as total FROM view_informes";      
-        $and= array(""," and estado_calibracion=1",""," and factura !='no existe' and factura !='0' and factura!='No disponible'"," and precio !=0");       
+        $and= array(
+            "",
+            " and estado_calibracion=1",
+            " and hojas_salida_id is not null",
+            " and proceso > 3 and (calibraciones_id = 1  or calibraciones_id= 2 or  calibraciones_id= 6)",
+            " and estado_calibracion=1 and proceso > 3 and precio !=0 and (calibraciones_id = 1  or calibraciones_id= 2 or  calibraciones_id= 6)",
+            " and (calibraciones_id = 1  or calibraciones_id= 2 or  calibraciones_id= 6)"
+        );       
         $between=" between '".$data['fecha_home']."' and '".$data['fecha_end']."'";            
 
         $_data = array();
@@ -237,7 +250,8 @@ class Informes extends Model {
             $table= $sucursal[$nom_suc];
             $condicion=" where fecha_inicio".$between .$and[$i].$cliente;
             $order=" order by fecha_inicio asc;";
-            $this->query =$select.$table.$condicion.$order;            
+            $this->query =$select.$table.$condicion.$order;
+            //var_dump($this->query);
             $this->get_results_from_query();            
             $result=$this->rows;           
             array_push($_data[$procesos[$i]]=$result[0]['total']);
@@ -245,10 +259,11 @@ class Informes extends Model {
         return $_data;
     }
 
-    public function get_query_informe($data){
-        $this->query= $data;
+    public function get_query_informe($query){
+        $this->query= $query;
         $this->get_results_from_query();       
         return $this->rows;
     }
+
 
 }
