@@ -205,8 +205,7 @@ class UsuariosController {
             }
             else{
                 include view($this->name . '.password');
-            }
-       
+            }   
     }
 
     public function update_password() {
@@ -221,5 +220,7 @@ class UsuariosController {
             Flash::error(setError('002'));
         }
     }
+
+
 
 }

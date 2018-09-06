@@ -28,20 +28,14 @@
                 <ul class='treeview-menu'>
                  <?php
                     if(Session::has('rol',['Administrador','Ingenieros','Almacén','Técnicos','Calidad'])){
-                        if(Session::has('rol',['Técnicos'])){
+                        if(Session::has('rol',['Técnicos','Ingenieros'])){
                             echo "         
                                 <li><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                 
                                 <li><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Registrar equipo</a></li>
                                 <li><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>
                                 <li><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
                            ";
-                        }
-                        if(Session::has('rol',['Ingenieros'])){
-                            echo "         
-                                <li><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                 
-                                <li><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
-                           ";
-                        }
+                        }                        
                         if(Session::has('rol',['Administrador'])){
                             echo " <li><a href='?c=login&a=sucursal'><i class='fa fa-circle-o'></i>Sucursal</a></li> ";
                         } 

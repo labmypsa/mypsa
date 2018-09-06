@@ -21,11 +21,11 @@
                         <div class="col-xs-12">
                             <div class="box box-default">
                                 <div class="box-header">
-                                    <h3 class="box-title">Bitácora de informes en proceso</h3>                                                                    
+                                    <h3 class="box-title">Bitácora de informes en proceso</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                <!-- /* Agregar contenido */-->
+                                    <!-- /* Agregar contenido */-->
                                     <table id="table_proceso" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
                                         <thead >
                                             <tr>
@@ -60,8 +60,7 @@
                                                 <th>Comentarios</th>
                                                 <th>Estado</th>
                                                 <th>Proceso</th>                                                
-                                                <th>%</th>                                                
-                                                                                              
+                                                <th>%</th>
                                                 <th>Acción</th>
                                             </tr>
                                         </thead>
@@ -98,14 +97,12 @@
                                                 <th>Comentarios</th>
                                                 <th>Estado</th>
                                                 <th>Proceso</th>                                                
-                                                <th>%</th>                                                
-                                                                                                
+                                                <th>%</th>
                                                 <th>Acción</th>
                                             </tr>
                                         </tfoot>
                                     </table>
-
-                                <!-- /* Termina contenido*/-->
+                                    <!-- /* Termina contenido*/-->
                                 </div>
                             </div>
                         </div>
@@ -115,22 +112,15 @@
             <?php importView('_static.footer'); ?>
         </div>
         <script>
-        var controller = "<?php echo $this->name.' '.$this->ext.' '.'3 '.$usuario.' '.$rol.''; ?>";                            
+            var controller = "<?php echo $this->name.' '.$this->ext.' '.'3 '.$usuario.' '.$rol.''; ?>";
         </script>
         <?php importView('_static.scripts'); ?>    
         <script type="text/javascript">
-
-            
-
-
-
        $(window).load(function() {
             new $.fn.dataTable.FixedColumns( table_proceso ,{
                 leftColumns:1,
                 rightColumns:2
-            }); 
-
-                    
+            });
         } );         
         </script>    
     </body>

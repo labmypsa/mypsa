@@ -11,21 +11,22 @@ $columns = array(
     array('db' => 'modelo', 'dt' => 4),
     array('db' => 'serie', 'dt' => 5),
     array('db' => 'equipo_activo', 'dt' => 6),    
-    array('db' => 'planta', 'dt' => 7),
+    array('db' => 'empresa', 'dt' => 7),
     array('db' => 'calibracion', 'dt' => 8),
-    array('db' => 'precio', 'dt' => 9),        
-    array('db' => 'precio_extra', 'dt' => 10),
-    array('db' => 'moneda', 'dt' => 11),
+     array('db' => 'factura', 'dt' => 9),
+    array('db' => 'precio', 'dt' => 10),        
+    array('db' => 'precio_extra', 'dt' => 11),
+    array('db' => 'moneda', 'dt' => 12),
     array(
         'db' => 'fecha_calibracion',
-        'dt' => 12
+        'dt' => 13
          ),    
     array(
             'db' => 'fecha_inicio',
-            'dt' => 13,
+            'dt' => 14,
             'formatter'=> function( $d, $row ) { 
             $start= strtotime($d);              
-            $end= strtotime($row[12]);
+            $end= strtotime($row[13]);
             $count =0;
             while(date('Y-m-d',$start)< date('Y-m-d',$end))
             {
@@ -37,9 +38,9 @@ $columns = array(
         ),        
      array(
             'db' => 'fecha_hoja_salida',
-            'dt' => 14,
+            'dt' => 15,
             'formatter'=> function( $d, $row ) {                
-                $start= strtotime($row[12]);              
+                $start= strtotime($row[13]);              
                 $end= strtotime($d);
                 $count =0;
                 while(date('Y-m-d',$start)< date('Y-m-d',$end))
@@ -50,7 +51,10 @@ $columns = array(
                 return $count;
             }
         ),    
-    array('db' => 'proceso', 'dt' => 15),
+     array('db' => 'fecha_final', 'dt' => 16),
+    array('db' => 'proceso', 'dt' => 17),
+    array('db' => 'nombre_proceso', 'dt' => 18),
+   
 );
 
 ?>

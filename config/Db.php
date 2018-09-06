@@ -37,13 +37,13 @@ abstract class Db {
         return $this->rows;
     }
     public function like($str, $columns, $view = null) {
-         if ($view == null) {
-            $query = "SELECT * FROM " . $this->table . " WHERE (";
-            
-         } else{
-            $query = "SELECT * FROM " . $view . " WHERE (";
-         }
-         foreach ($columns as $column) {
+        if ($view == null) {
+        $query = "SELECT * FROM " . $this->table . " WHERE (";
+        
+        } else{
+        $query = "SELECT * FROM " . $view . " WHERE (";
+        }
+        foreach ($columns as $column) {
             $query .= $column . " like " . "'%".$str ."%')";
             $query .= ' OR (';
         }
@@ -123,7 +123,7 @@ abstract class Db {
         return $this->execute_single_query();
     }
 
-    public function edit($data) {          
+    public function edit($data) {
         $query = "UPDATE ";
         $query .= $this->table . " SET ";
         foreach ($data as $key => $value) {            

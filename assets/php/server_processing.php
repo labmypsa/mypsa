@@ -77,17 +77,17 @@ $condicion="";
         if ($data[0]=="compara" ) {
             $query_condicion =" year(fecha_calibracion)='".$data[1]."' and month(fecha_calibracion) ='".$data[2]."'";
             $query_condicion .= " and estado_calibracion=1";
+            //and (calibraciones_id = 1  or calibraciones_id= 2 or  calibraciones_id= 6)
         }
         else{
-            $query_condicion =" fecha_inicio between '".$data[1]."' and '".$data[2]."'";
+            $query_condicion =" fecha_inicio between '".$data[1]."' and '".$data[2]."' ";
         }
        
         if ($data[4] != 0) { // Pregunta se existe cliente
             $query_condicion .= " and plantas_id=".$data[4];
-        }
-         
-            
-        $condicion= $query_condicion;             
+        }                    
+        $condicion= $query_condicion;
+
     }
 
 /* #End Reportes */
@@ -121,8 +121,7 @@ $sql_details = array(
  * If you just want to use the basic configuration for DataTables with PHP
  * server-side, there is no need to edit below this line.
  */
-
-
+  
 require( "ssp.class.php" );
 echo json_encode(
     SSP::simple($_GET, $sql_details, $table, $primary_key, $columns,$condicion)    
