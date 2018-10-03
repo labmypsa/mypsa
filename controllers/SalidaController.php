@@ -27,7 +27,7 @@ class SalidaController {
         $data['equipo'] = $this->model['informes']->datos_equipo($id); 
         $data['cliente'] = $this->model['informes']->datos_cliente($id);      
         $data['get']=$this->model['informes']->get_salida($id, $view_informes);
-        $idpo= $data['get'][0]['po_id'];
+        $idpo= strtolower($data['get'][0]['po_id']);
         if($idpo == "pendiente" || $idpo == "n/a" || $idpo == "no existe" || $idpo == "sin orden")
         { 
         $totalfact=0;
@@ -164,58 +164,282 @@ class SalidaController {
   public function ajax_load_listequiPO(){
     $po = $_POST['po'];    
     $view="view_informes". $this->ext;
-    $query="SELECT id,id as pivote,alias,descripcion,marca,modelo,serie FROM ".$view." WHERE po_id='". $po ."' and proceso>1 and proceso<4;";                
+    $query="SELECT id,id as pivote,alias,descripcion,marca,modelo,serie FROM ".$view." WHERE po_id='". $po ."' and proceso>1 and proceso<4;";     
     $data= $this->model['informes']->get_query_informe($query);      
     echo json_encode($data);
   }
 
   public function _sendemail(){
-    // Multiple recipients
-    $to = 'sistemas@mypsa.com.mx'; // note the comma
+        // Message
+    $html ='<html>';
+        $html .='<head>';
+            $html .='<title>Correo para facturar</title>';
+            $html .='<style>';
+                $html .='html, body {';
+                    $html .='margin: 0 auto !important;';
+                    $html .='padding: 0 !important;';
+                    $html .='height: 100% !important;';
+                    $html .='width: 100% !important;';
+                    $html .='background-color: #ffffff;';
+                    $html .='transform: scale(1, 1);';
+                    $html .='zoom: 1;';
+                $html .='}';
 
-    // Subject
-    $subject = 'Birthday Reminders for August';
+                $html .='table {';
+                    $html .='width: 100%;';
+                $html .='}';
 
-    // Message
-    $message = '
-    <html>
-    <head>
-      <title>Birthday Reminders for August</title>
-    </head>
-    <body>
-      <p>Here are the birthdays upcoming in August!</p>
-      <table>
-        <tr>
-          <th>Person</th><th>Day</th><th>Month</th><th>Year</th>
-        </tr>
-        <tr>
-          <td>Johny</td><td>10th</td><td>August</td><td>1970</td>
-        </tr>
-        <tr>
-          <td>Sally</td><td>17th</td><td>August</td><td>1973</td>
-        </tr>
-      </table>
-    </body>
-    </html>
-    ';
+                $html .='table, th, td {';
+                    $html .='border: 1px;';
+                    $html .='border-collapse: collapse;';
+                $html .='}';
 
-    // To send HTML mail, the Content-type header must be set
-    $headers[] = 'MIME-Version: 1.0';
-    $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+                    $html .='table#t03 td {';
+                        $html .='text-align: center;';
+                        $html .='font-family: Times, Times New Roman, Georgia, serif;';
+                        $html .='font-size: 14px;';
+                        $html .='padding: 5px;';
+                        $html .='border-bottom: 1px solid #D6D6D6;';
+                        $html .='font-family: Helvetica,sans-serif;';
+                    $html .='}';
 
-    // Additional headers
-    $headers[] = 'To: sistemas@mypsa.com.mx';
-    $headers[] = 'From: it@mypsa.mx';
-    $headers[] = 'Cc: test@mypsa.com.mx';
-    //$headers[] = 'Bcc: ';
+                    $html .='table#t03 th {';
+                        $html .='background-color: #009AD6;';
+                        $html .='color: white;';
+                        $html .='text-align: center;';
+                        $html .='font-size: 16px;';
+                        $html .='padding: 5px;';
+                        $html .='border: 0px;';
+                        $html .='font-family: Helvetica,sans-serif;';
+                    $html .='}';
+            $html .='</style>';
+        $html .='</head>';
+        $html .='<body>';
+            $html .='<table class="wrapper" width="800" cellspacing="0" cellpadding="0" border="0" align="center" style="width: 800px;">';
+                $html .='<tbody>';
+                    $html .='<!--Home Separador-->';
+                    $html .='<tr>';
+                        $html .='<td style="margin:0;padding:0;" valign="top" align="center">';
+                            $html .='<table data-editable="text" class="text-block" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">';
+                                $html .='<tbody>';
+                                    $html .='<tr>';
+                                        $html .='<td valign="top" align="center" style="padding: 5px 0px 34px; margin: 0px; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.15;"><span style="font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:11px;font-weight:300;line-height:1.1;"></span></td>';
+                                    $html .='</tr>';
+                                $html .='</tbody>';
+                            $html .='</table>';
+                        $html .='</td>';
+                    $html .='</tr>';
+                    $html .='<!--End Separador-->';
 
-    // Mail it
-    mail($to, $subject, $message, implode("\r\n", $headers));
+                    $html .='<tr>';
+                        $html .='<td style="margin:0;padding:0;" valign="top" align="center">';
+                            $html .='<table style="width:100% ">';
+                                $html .='<tr>';
+                                    $html .='<td> <img src="http://mypsa.com.mx/logo.png" /> </td>';
+                                    $html .='<td style="text-align: right; font-family: Times, Times New Roman, Georgia, serif; font-size: 16px; color: #333399;">RFC: MPR990906AF4<br> Privada Tecnológico No. 25<br> Col. Granja Nogales Sonora, C.P. 84065<br> Tel: 631-314-6263, 631-314-6193</td>';
+                                $html .='</tr>';
+                            $html .='</table>';
+                        $html .='</td>';
+                    $html .='</tr>';
+
+                    $html .='<!--Home Separador-->';
+                    $html .='<tr>';
+                        $html .='<td style="margin:0;padding:0;" valign="top" align="center">';
+                            $html .='<table data-editable="text" class="text-block" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">';
+                                $html .='<tbody>';
+                                    $html .='<tr>';
+                                        $html .='<td valign="top" align="center" style="padding: 5px 0px 10px; margin: 0px; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.15;"><span style="font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:11px;font-weight:300;line-height:1.1;"></span></td>';
+                                    $html .='</tr>';
+                                $html .='</tbody>';
+                            $html .='</table>';
+                        $html .='</td>';
+                    $html .='</tr>';
+                    $html .='<!--End Separador-->';
+                    $html .='<tr>';
+                        $html .='<td style="padding:13px 20px;margin:0;" valign="top" bgcolor="#009AD6" align="left">';
+                            $html .='<table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">';
+                                $html .='<tbody>';
+                                    $html .='<tr style="text-align: center;">';
+                                        $html .='<td style="clear: none; padding: 0px; max-width: 100%; margin: 0px auto !important; min-width: 320px !important;" width="NaN%" valign="top" align="left" class="column" axis="col">';
+                                            $html .='<table data-editable="text" class="column-full-width" style="width: 100%;" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">';
+                                                $html .='<tbody>';
+                                                    $html .='<tr>';
+                                                        $html .='<td valign="top" align="left" style="padding: 10px 0px 7px; margin: 0px; background-color:#009AD6; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.15;">';
+                                                            $html .='<span style="font-family:Helvetica,Arial,sans-serif;font-size:18px;font-weight:300;color:#ffffff; line-height:1.1;">Favor de generar la factura con los siguientes datos. Gracias !</span>';
+                                                        $html .='</td>';
+                                                    $html .='</tr>';
+                                                $html .='</tbody>';
+                                            $html .='</table>';
+                                        $html .='</td>';
+                                    $html .='</tr>';
+                                $html .='</tbody>';
+                            $html .='</table>';
+                        $html .='</td>';
+                    $html .='</tr>';
+                    $html .='<!--Home Separador-->';
+                    $html .='<tr>';
+                        $html .='<td style="margin:0;padding:0;" valign="top" align="center">';
+                            $html .='<table data-editable="text" class="text-block" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">';
+                                $html .='<tbody>';
+                                    $html .='<tr>';
+                                        $html .='<td valign="top" align="center" style="padding: 5px 0px 10px; margin: 0px; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.15;"><span style="font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:11px;font-weight:300;line-height:1.1;"></span></td>';
+                                    $html .='</tr>';
+                                $html .='</tbody>';
+                            $html .='</table>';
+                        $html .='</td>';
+                    $html .='</tr>';
+                    $html .='<!--End Separador-->';
+                    $html .='<tr>';
+                        $html .='<td>';
+                            $html .='<table data-editable="text" class="text-block empty-class" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">';
+                                $html .='<tbody>';
+                                    $html .='<tr>';
+                                        $html .='<td  valign="top" align="left" style="padding: 5px 89px 10px 20px; margin: 0px; background-color: rgb(255, 255, 255); font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.35;">';
+                                            $html .='<table data-editable="image" style="margin: 0; padding: 0;" data-mobile-width="0" id="edir9bvr" cellspacing="0" cellpadding="0" border="0" align="left" width="76">';
+                                                $html .='<tbody>';
+                                                    $html .='<tr>';
+                                                        $html .='<td valign="top" align="left" style="padding: 12px 0px 15px 0px;; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;">';
+                                                            $html .='<span style="font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;"># PO:</span>';
+                                                        $html .='</td>';
+                                                        $html .='<td valign="top"  style="padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;">';
+                                                            $html .='<span style="font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;"> HGNAJ12334</span>';
+                                                        $html .='</td>';
+                                                    $html .='</tr>';
+                                                    $html .='<tr>';
+                                                        $html .='<td valign="top"align="left"  style="padding: 12px 0px 15px 0px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;">';
+                                                            $html .='<span style="font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;">Cliente:</span>';
+                                                        $html .='</td>';
+                                                        $html .='<td valign="top" style="padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;">';
+                                                            $html .='<span style="font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;"> Metrologia y pruebas S.A de C.V (Nogales)</span>';
+                                                        $html .='</td>';
+                                                    $html .='</tr>';
+                                                    $html .='<tr>';
+                                                        $html .='<td valign="top" align="left" style="padding: 12px 0px 15px 0px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;">';
+                                                            $html .='<span style="font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;">Comentarios:</span>';
+                                                        $html .='</td>';
+                                                        $html .='<td valign="top" style="padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;">';
+                                                            $html .='<span style="font-family:Helvetica,sans-serif;font-size:16px;font-weight:400;color:#161414;line-height:1.3;"> Se va a facturar con este nombre: Metrologia y Pruebas S.A de C.V. El cliente ha cambiado de razón social favor de modificarlo gracias! </span>';
+                                                        $html .='</td>';
+                                                    $html .='</tr>';
+
+                                                $html .='</tbody>';
+                                            $html .='</table>';
+
+                                        $html .='</td>';
+                                    $html .='</tr>';
+                                $html .='</tbody>';
+                            $html .='</table>';
+                        $html .='</td>';
+                    $html .='</tr>';
+
+                    $html .='<tr>';
+                        $html .='<td style="margin:0;padding:0;" valign="top" align="center">';
+                            $html .='<table style="width:100% ">';
+                                $html .='<tr>';
+                                    $html .='<td><p style="text-align: left; font-family: Times, Times New Roman, Georgia, serif; font-size: 20px; color: #333634;">Total :  3</p></td>';
+                                $html .='</tr>';
+                            $html .='</table>';
+                        $html .='</td>';
+                    $html .='</tr>';
+
+                    $html .='<tr>';
+                        $html .='<td style="margin:0;padding:0;" valign="top" align="center">';
+                            $html .='<table id="t03">';
+                                $html .='<tr>';
+                                    $html .='<th>#</th>';
+                                    $html .='<th># Informe</th>';
+                                    $html .='<th>Id equipo</th>';
+                                    $html .='<th>Equipo</th>';
+                                    $html .='<th>Precio</th>';
+                                    $html .='<th>Moneda</th>';                          
+                                $html .='</tr>';
+                                $html .='<tr style="background-color: #ffffff;">';
+                                    $html .='<td>1</td>';
+                                    $html .='<td>38467</td>';
+                                    $html .='<td>00359834</td>';
+                                    $html .='<td>Medidor de relación de transformación</td>';
+                                    $html .='<td>$200.00</td>';
+                                    $html .='<td>MXN</td>';
+                                $html .='</tr>';
+
+                                $html .='<tr style="background-color: #eeeeee ;">';
+                                    $html .='<td>2</td>';
+                                    $html .='<td>38777</td>';
+                                    $html .='<td>20000061</td>';
+                                    $html .='<td>Máquina de ensayos</td>';
+                                    $html .='<td>$100.10</td>';
+                                    $html .='<td>DLL</td>';
+                                $html .='</tr>';
+                                $html .='<tr style="background-color: #ffffff;">';
+                                    $html .='<td>3</td>';
+                                    $html .='<td>38778</td>';
+                                    $html .='<td>20000062</td>';
+                                    $html .='<td>Máquina de ensayos</td>';
+                                    $html .='<td>$920.50</td>';
+                                    $html .='<td>MXN</td>';
+                                $html .='</tr>';
+
+                            $html .='</table>';
+                        $html .='</td>';
+                    $html .='</tr>';
+                    $html .='<!--Home Separador-->';
+                    $html .='<tr>';
+                        $html .='<td style="margin:0;padding:0;" valign="top" align="center">';
+                            $html .='<table data-editable="text" class="text-block" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">';
+                                $html .='<tbody>';
+                                    $html .='<tr>';
+                                        $html .='<td valign="top" align="center" style="padding: 12px 0px 10px; margin: 0px; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.15;"><span style="font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:11px;font-weight:300;line-height:1.1;"></span></td>';
+                                    $html .='</tr>';
+                                $html .='</tbody>';
+                            $html .='</table>';
+                        $html .='</td>';
+                    $html .='</tr>';
+                    $html .='<!--End Separador-->';
+                    $html .='<tr>';
+                        $html .='<td style="padding:13px 30px;margin:0;"  valign="top" bgcolor="white" align="left">';
+                            $html .='<table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">';
+                                $html .='<tbody>';
+                                    $html .='<tr style="text-align: center;">';
+                                        $html .='<td style="clear: none; padding: 0px; max-width: 100%; margin: 0px auto !important; min-width: 280px !important;" width="NaN%" valign="top" align="left" class="column" axis="col">';
+                                            $html .='<table data-editable="text" class="column-full-width" style="width: 100%;" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">';
+                                                $html .='<tbody>';
+                                                    $html .='<tr>';
+                                                        $html .='<td valign="top" align="center" style="padding: 10px 0px 7px; margin: 0px; background-color:white; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.15;">';
+                                                            $html .='<span style="font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#8f8f8f; line-height:1.1;">Este correo se envia de manera automatica, si tiene una pregunta, favor de comunicarse con el departamento correspondiente. Estamos para servirle.</span>';
+                                                        $html .='</td>';
+                                                    $html .='</tr>';
+                                                $html .='</tbody>';
+                                            $html .='</table>';
+                                        $html .='</td>';
+                                    $html .='</tr>';
+                                $html .='</tbody>';
+                            $html .='</table>';
+                        $html .='</td>';
+                    $html .='</tr>';
+
+                    $html .='<tr><td></td></tr>';
+                $html .='</tbody>';
+            $html .='</table>';
+        $html .='</body>';
+    $html .='</html>';
+    
+    $to = "it@mypsa.mx";
+    $subject = "Correo Facturacion";
+    $txt .= $html;   
+    $headers  = 'From: laboratoriomypsa@gmail.com' . "\r\n" .
+            'MIME-Version: 1.0' . "\r\n" .
+            'Content-type: text/html; charset=utf-8';
+
+    if(mail($to,$subject,$txt,$headers))
+      echo json_encode("Mensaje enviado");
+    else
+      echo json_encode("Mensaje no enviado");   
+    
   }
 
   public function _scriptdata(){
-    $data = explode(",",$_POST['data']);
-    
-    echo json_encode($data);
+
+    $this->_sendemail();
+
   }
 }
