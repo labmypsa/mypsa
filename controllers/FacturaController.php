@@ -57,16 +57,18 @@ class FacturaController {
   }
 
   public function store(){
+
     $hoy = date("Y-m-d H:i:s");
     $data = validate($_POST, [
     'id' => 'toInt',
     'proceso' => 'toInt',
     'precio' => 'required',
     'precio_extra' => 'required',
-   // 'factura' => 'required|trimlower',
+    'factura' => 'trimlower',
     'monedas_id' => 'required|toInt',
     'comentarios' => 'ucname',    
     ]);
+
     $proceso_temp = $data['proceso'];
     if ($data['proceso'] == 3) {
         $data['proceso'] = intval('4');

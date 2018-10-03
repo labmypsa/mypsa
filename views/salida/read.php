@@ -156,21 +156,21 @@
                         </form>
 
                         <div class="col-lg-12">
-                            <!-- <div class="box box-default"> -->
-                                <!-- <div class="box-header with-border">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
                                     <h3 class="box-title">Datos de PO</h3>                                    
-                                </div> --> 
-                                <!-- <div class="box-body form-horizontal"> -->
+                                </div> 
+                                <div class="box-body form-horizontal">
                                   <?php
-                                    // if($countpototal > $cantidadpo){
-                                    // echo '<div class="alert alert-danger  alert-dismissible">';
-                                    // echo '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
-                                    // echo '<h4><i class="icon fa fa-ban"></i> Alerta!</h4>'; 
-                                    // echo '<p align="center"> La cantidad del PO registrado es diferente. ';
-                                    // echo 'Según los registros da un total de : <font size="5"><strong>'. $countpototal . '</strong> </font> equipos, favor de verificar y corregir.</p></div>';
-                                    // }
+                                    if($countpototal > $cantidadpo){
+                                    echo '<div class="alert alert-danger  alert-dismissible">';
+                                    echo '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
+                                    echo '<h4><i class="icon fa fa-ban"></i> Alerta!</h4>'; 
+                                    echo '<p align="center"> La cantidad del PO registrado es diferente. ';
+                                    echo 'Según los registros da un total de : <font size="5"><strong>'. $countpototal . '</strong> </font> equipos, favor de verificar y corregir.</p></div>';
+                                    }
                                   ?> 
-                                    <!-- <div class="table-responsive">
+                                    <div class="table-responsive">
                                       <table class="table table-bordered">
                                           <tbody>
                                           <tr>
@@ -191,17 +191,20 @@
                                             </td>                                                                          
                                             <td align="center"><span class="badge bg-red"> <?php echo $cantidadpo-$totalfact; ?></span></td>
                                             <td align="center">
-                                              <a id="buscar_equiPO" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" class="btn btn-app"><span class="badge bg-purple"><?php echo $countpolisto; ?></span>
-                                                  <i class="fa fa-list"></i> Ver lista
-                                              </a>
+                                              <?php   if($idpo == "pendiente" || $idpo == "n/a" || $idpo == "no existe" || $idpo == "sin orden"){
+                                              echo "<a  data-toggle=\"collapse\" aria-expanded=\"true\" class=\"btn btn-app\"><span class=\"badge bg-purple\">".$countpolisto."</span><i class=\"fa fa-list\"></i>Lista no disponible</a>"; 
+                                                } else {
+                                                  echo "<a id=\"buscar_equiPO\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOne\" aria-expanded=\"true\" class=\"btn btn-app\"><span class=\"badge bg-purple\">".$countpolisto."</span><i class=\"fa fa-list\"></i> Ver lista</a>";
+                                                }?>
+                                                  
                                             </td>
                                           </tr>                                      
                                         </tbody>
                                       </table>
-                                    </div> -->
+                                    </div>
 
 <!-- ************** ///////////////////////////////////////////////////////////////// ************************* -->
-                      <!-- <div class="panel box box-primary">
+                      <div class="panel box box-primary">
                         <div class="box-header with-border">
                           <h4 class="box-title">                      
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" class="">
@@ -240,17 +243,17 @@
                               </div> 
                               <p></p>
                               <label>Comentarios: </label>                      
-                              <textarea class="form-control" rows="4" name="comentarios" placeholder="Comentarios ..."></textarea>                                        
-                              <p>rows</p>
+                              <textarea id="nota" class="form-control" rows="4" name="nota" placeholder="Comentarios ..."></textarea>                                        
+                              <p>Informe(s) enviado(s)</p>
                               <pre id="example-console-rows"></pre>                              
                               <button>Submit</button>                                         
                             </form>
                           </div>
                         </div>
-                      </div> -->
+                      </div>
 <!-- ************** ///////////////////////////////////////////////////////////////// ************************* -->                
-                                <!-- </div>   -->                                   
-                            <!-- </div> -->
+                                </div>                                     
+                            </div>
                           </div>                       
                         </div>
 
@@ -375,6 +378,8 @@
         $('#frm-example').on('submit', function(e){
           var form = this;
           var rows_selected = table.column(0).checkboxes.selected();
+          var comentarios= document.getElementById("nota").value;
+          //console.log(comentarios);
           // Iterate over all selected checkboxes
           $.each(rows_selected, function(index, rowId){
              // Create a hidden element
@@ -398,7 +403,9 @@
           e.preventDefault();
             var parametro= {
                 "data":rows_selected.join(),
-              };          
+                "comentarios":comentarios
+              };
+
           $.ajax({
             type: 'post',
             url: "?c=salida&a=_scriptdata",                        
@@ -410,6 +417,7 @@
           }).fail(function(data) {}).always( function(data) {
             //console.log(data);
           });
+          
 
         });
 /* ////////////////////////////////////////////////////////////////////////////////////////////  */            
@@ -417,20 +425,20 @@
               var parametro= {
                 "po":<?php echo "'".$idpo."'"; ?>,
               }; 
-              //console.log(parametro['po']);
-              $.ajax({
-                type: 'post',
-                url: "?c=salida&a=ajax_load_listequiPO",                        
-                data: parametro
-              }).done(function(data) {
-                var datos = data;
-                //console.log(datos); 
-                var obj= JSON.parse(datos);
-                table.clear();
-                table.rows.add(obj).draw();
-              }).fail(function(data) {}).always( function(data) {
-                //console.log(data);
-              }); 
+              //console.log(parametro['po']);              
+                $.ajax({
+                  type: 'post',
+                  url: "?c=salida&a=ajax_load_listequiPO",                        
+                  data: parametro
+                }).done(function(data) {
+                  var datos = data;
+                  //console.log(datos); 
+                  var obj= JSON.parse(datos);
+                  table.clear();
+                  table.rows.add(obj).draw();
+                }).fail(function(data) {}).always( function(data) {
+                  //console.log(data);
+                });                        
             });
 /* ///////////////////////////////////////////////////////////////////////////////////////////*/                 
         });

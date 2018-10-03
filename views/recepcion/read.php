@@ -396,41 +396,7 @@
                                       <div class="col-sm-9">      
                                         <input type="number" class="form-control" id="cantidad" name="cantidad" min="0" placeholder="0" value="<?php echo isset($data['get'][0]['cantidad']) ? $data['get'][0]['cantidad'] : ''; ?>">
                                       </div>
-                                    </div>
-                                    <!-- <div class="form-group">
-                                      <label class="col-sm-3 control-label">Precio : $</label>
-                                      <div class="col-sm-9">
-                                        <?php
-                                          if(is_null($data['get'][0]['precio']) === false){
-                                            echo '<input type="number" class="form-control"  placeholder="0" name="precio" id="precio" value="'.$data['get'][0]['precio'].'" required min="0">';
-                                          }
-                                            else{echo '<input type="number" class="form-control"  placeholder="0" name="precio" id="precio" required min="0" value="0">';}
-                                        ?>
-                                      </div>
-                                    </div>
-                                    <div class="form-group">
-                                          <label class="col-sm-3 control-label">Moneda : </label>
-                                          <div class="col-sm-9">                                                                                        
-                                              <select class="form-control select2" style="width: 100%;" name="monedas_id" id="monedas_id" required>
-                                                <?php
-                                                  if(is_null($data['get'][0]['monedas_id'])=== false){
-                                                    if(intval($data['get'][0]['monedas_id']) === 1){
-                                                      echo '<option selected="selected" value="1">Pesos</option>';
-                                                      echo '<option value="2">Dolares</option>';
-                                                    }
-                                                    else{
-                                                      echo '<option value="1">Pesos</option>';
-                                                      echo '<option selected="selected" value="2">Dolares</option>';}
-                                                  }
-                                                    else{
-                                                      echo '<option selected="selected" value="1">Pesos</option>';
-                                                      echo '<option value="2">Dolares</option>';
-                                                    }
-                                                ?>
-
-                                              </select>                                           
-                                          </div>
-                                    </div> -->
+                                    </div>                                    
                                     <div class="form-group">
                                     <div class="col-sm-3"></div>
                                     <div class="col-sm-9">
