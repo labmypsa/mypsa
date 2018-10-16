@@ -41,8 +41,9 @@
                       </div>
                     <?php } ?>
                     <div class="row">
+                      <!-- ******** ////////////////////////////////////////////////////////////////// ******** -->
                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <form method="POST" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>&a=store" role="form" enctype="multipart/form-data">                 
+                        <form method="POST" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>&a=store" role="form" enctype="multipart/form-data">
                           <div class="col-lg-12">
                               <div class="box box-default">
                                   <div class="box-header with-border">
@@ -154,11 +155,118 @@
                               </div>
                           </div>
                         </form>
-
-                        <div class="col-lg-12">
+                        <?php
+ 
+                          if(Session::has('rol',['Administrador','Almacén'])){
+                          echo"<div class='col-lg-12'>
+                                <div class='box box-default'>
+                                  <div class='box-header with-border'>
+                                    <h3 class='box-title'>Datos de PO</h3>
+                                  </div>
+                                  <div class='box-body form-horizontal'>";         
+                                      if($countpototal > $cantidadpo){
+                          echo "<div class='alert alert-danger  alert-dismissible'>
+                                      <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
+                                      <h4><i class='icon fa fa-ban'></i> Alerta!</h4>
+                                      <p align='center'> La cantidad del PO registrado es diferente.
+                                      Según los registros da un total de : <font size='5'><strong>". $countpototal . "</strong> </font>equipos, favor de verificar y corregir.</p></div>";
+                                      }        
+                          echo     "<div class='table-responsive'>
+                                      <table class='table table-bordered'>
+                                        <tbody>
+                                          <tr>
+                                            <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Orden de compra.'>PO</th>
+                                            <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Total de equipos que corresponden al PO.'> Total </span></th>
+                                            <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Total de equipos que ya se ecuentran facturados.'> Facturados </span></th>
+                                            <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Son los equipos restantes por facturar, se calcula del total de equipos, menos los equipos ya facturados.'> No Facturados </span></th>
+                                            <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Son equipos que ya fueron calibrados, por lo tanto están disponibles para enviar a facturar.'> Pendientes </span></th>
+                                          </tr>
+                                          <tr>
+                                            <td align='center'><span class='badge bg-green'>". $idpo ."</span></td>
+                                            <td align='center'><span class='badge bg-green'>". $cantidadpo ."</span></td>
+                                            <td align='center'>";                  
+                                            $porcentaje = round(($totalfact * 100)/ $cantidadpo);
+                                            $pendientes=$cantidadpo-$totalfact;
+                          echo              "<div class='progress progress-striped active'><div class='progress-bar progress-bar-primary role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:". $porcentaje ."%; color:#000000'>". $totalfact ."</div></div>
+                                        </td>
+                                            <td align='center'><span class='badge bg-red'>". $pendientes ."</span></td>
+                                            <td align='center'>";
+                                              if($idpo == "pendiente" || $idpo == "n/a" || $idpo == "no existe" || $idpo == "sin orden"){
+                                                echo "<a  data-toggle='collapse' aria-expanded='true' class='btn btn-app'><span class='badge bg-purple'>".$countpolisto."</span><i class='fa fa-list'></i>Lista no disponible</a>";
+                                              } else {
+                                                echo "<a id='buscar_equiPO' data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' class='btn btn-app'><span class='badge bg-purple'>".$countpolisto."</span><i class='fa fa-list'></i> Ver lista</a>";
+                                              }                                                  
+                          echo             "</td>
+                                           </tr>                                     
+                                         </tbody>
+                                       </table>
+                                     </div>
+                                     <div class='panel box box-primary'>
+                                       <div class='box-header with-border'>
+                                         <h4 class='box-title'>
+                                             <a data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' class=''>Lista de equipos</a>
+                                         </h4>
+                                       </div>
+                                       <div id='collapseOne' class='panel-collapse collapse' aria-expanded='true' style=''>
+                                         <form role='form' id='frm-example'  method='POST' enctype='multipart/form-data'>
+                                           <div class='box-body'>
+                                               <div class='table-responsive no-padding'>
+                                                 <table id='example' class='table table-bordered' cellspacing='0' width='100%'>
+                                                   <thead>
+                                                     <tr>                                     
+                                                       <th><input name='select_all' value='1' type='checkbox'></th>
+                                                       <th>Informe</th>
+                                                       <th>Descripción</th>
+                                                       <th>Descripción</th>
+                                                       <th>Descripción</th>
+                                                      <th>Marca</th>
+                                                      <th>Modelo</th>
+                                                      <th>Serie</th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tfoot>
+                                                    <tr>                             
+                                                      <th></th>
+                                                      <th>Informe</th>
+                                                      <th>Id equipo</th>
+                                                      <th>Descripción</th>
+                                                      <th>Marca</th>
+                                                      <th>Modelo</th>
+                                                      <th>Serie</th>
+                                                    </tr>
+                                                  </tfoot>
+                                                </table>
+                                              </div>                                      
+                                              <br>
+                                              <label style='padding-bottom: 5px;'' ><input type='checkbox' class='minimal-red' id='check_urgente' name='check_urgente' value='1'>&nbsp; Factura Urgente</label> 
+                                              <br>                                               
+                                              <label style='margin-bottom: 15px;'>Comentarios: </label>
+                                              <textarea id='nota' class='form-control' rows='4' name='nota' placeholder='Comentarios ...'></textarea>                                        
+                                              <label style='padding-top: 10px;'' for='exampleInputFile'>PO.</label>
+                                              <input class='btn btn-block btn-default btn-sm' type='file' name='filepo' id='filepo'>                                                                
+                                              <label for='exampleInputFile'>Cot.</label>
+                                              <input class='btn btn-block btn-default btn-sm' type='file' name='filecot' id='filecot'>                                                          
+                                              <label for='exampleInputFile'>Pago.</label>
+                                              <input class='btn btn-block btn-default btn-sm' type='file' name='filepago' id='filepago'>
+                                              <p>Informe(s) enviado(s)</p>
+                                              <pre id='example-console-rows'></pre>
+                                              <button class='btn btn-info pull-right'>Enviar</button>
+                                            </div>                                          
+                                            <div class='box-footer'>                                            
+                                              <p id='alerta_send'></p>
+                                            </div>
+                                        </form>
+                                      </div>
+                                    </div>                
+                                  </div>                                    
+                              </div>
+                           </div>";
+                          }
+                        ?>           
+                        <!-- <div class="col-lg-12">
                             <div class="box box-default">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Datos de PO</h3>                                    
+                                  <h3 class="box-title">Datos de PO</h3>                                    
                                 </div> 
                                 <div class="box-body form-horizontal">
                                   <?php
@@ -170,93 +278,100 @@
                                     echo 'Según los registros da un total de : <font size="5"><strong>'. $countpototal . '</strong> </font> equipos, favor de verificar y corregir.</p></div>';
                                     }
                                   ?> 
-                                    <div class="table-responsive">
-                                      <table class="table table-bordered">
-                                          <tbody>
-                                          <tr>
-                                            <th style="width: 20%; text-align: center;"><span data-toggle="tooltip" title="" data-original-title="Orden de compra.">PO</th>
-                                            <th style="width: 20%; text-align: center;"><span data-toggle="tooltip" title="" data-original-title="Total de equipos que corresponden al PO."> Total </span></th>
-                                            <th style="width: 20%; text-align: center;"><span data-toggle="tooltip" title="" data-original-title="Total de equipos que ya se ecuentran facturados."> Facturados </span></th>
-                                            <th style="width: 20%; text-align: center;"><span data-toggle="tooltip" title="" data-original-title="Son los equipos restantes por facturar, se calcula del total de equipos, menos los equipos ya facturados."> No Facturados </span></th>
-                                            <th style="width: 20%; text-align: center;"><span data-toggle="tooltip" title="" data-original-title="Son equipos que ya fueron calibrados, por lo tanto están disponibles para enviar a facturar."> Pendientes </span></th>
-                                          </tr>
-                                          <tr>
-                                            <td align="center"><span class="badge bg-green"> <?php echo $idpo; ?></span></td>
-                                            <td align="center"><span class="badge bg-green"> <?php echo $cantidadpo; ?></span></td>
-                                            <td align="center">
-                                              <?php 
-                                               $porcentaje = round(($totalfact * 100)/ $cantidadpo);
-                                                echo "<div class='progress progress-striped active'><div class='progress-bar progress-bar-primary' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:". $porcentaje ."%; color:#000000'>". $totalfact ."</div></div>";
-                                              ?>
-                                            </td>                                                                          
-                                            <td align="center"><span class="badge bg-red"> <?php echo $cantidadpo-$totalfact; ?></span></td>
-                                            <td align="center">
-                                              <?php   if($idpo == "pendiente" || $idpo == "n/a" || $idpo == "no existe" || $idpo == "sin orden"){
-                                              echo "<a  data-toggle=\"collapse\" aria-expanded=\"true\" class=\"btn btn-app\"><span class=\"badge bg-purple\">".$countpolisto."</span><i class=\"fa fa-list\"></i>Lista no disponible</a>"; 
-                                                } else {
-                                                  echo "<a id=\"buscar_equiPO\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOne\" aria-expanded=\"true\" class=\"btn btn-app\"><span class=\"badge bg-purple\">".$countpolisto."</span><i class=\"fa fa-list\"></i> Ver lista</a>";
-                                                }?>
-                                                  
-                                            </td>
-                                          </tr>                                      
-                                        </tbody>
-                                      </table>
+                                  <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                      <tbody>
+                                        <tr>
+                                          <th style="width: 20%; text-align: center;"><span data-toggle="tooltip" title="" data-original-title="Orden de compra.">PO</th>
+                                          <th style="width: 20%; text-align: center;"><span data-toggle="tooltip" title="" data-original-title="Total de equipos que corresponden al PO."> Total </span></th>
+                                          <th style="width: 20%; text-align: center;"><span data-toggle="tooltip" title="" data-original-title="Total de equipos que ya se ecuentran facturados."> Facturados </span></th>
+                                          <th style="width: 20%; text-align: center;"><span data-toggle="tooltip" title="" data-original-title="Son los equipos restantes por facturar, se calcula del total de equipos, menos los equipos ya facturados."> No Facturados </span></th>
+                                          <th style="width: 20%; text-align: center;"><span data-toggle="tooltip" title="" data-original-title="Son equipos que ya fueron calibrados, por lo tanto están disponibles para enviar a facturar."> Pendientes </span></th>
+                                        </tr>
+                                        <tr>
+                                          <td align="center"><span class="badge bg-green"> <?php echo $idpo; ?></span></td>
+                                          <td align="center"><span class="badge bg-green"> <?php echo $cantidadpo; ?></span></td>
+                                          <td align="center">
+                                            <?php 
+                                             $porcentaje = round(($totalfact * 100)/ $cantidadpo);
+                                              echo "<div class='progress progress-striped active'><div class='progress-bar progress-bar-primary' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:". $porcentaje ."%; color:#000000'>". $totalfact ."</div></div>";
+                                            ?>
+                                          </td>                                                                          
+                                          <td align="center"><span class="badge bg-red"> <?php echo $cantidadpo-$totalfact; ?></span></td>
+                                          <td align="center">
+                                            <?php   if($idpo == "pendiente" || $idpo == "n/a" || $idpo == "no existe" || $idpo == "sin orden"){
+                                            echo "<a  data-toggle=\"collapse\" aria-expanded=\"true\" class=\"btn btn-app\"><span class=\"badge bg-purple\">".$countpolisto."</span><i class=\"fa fa-list\"></i>Lista no disponible</a>"; 
+                                              } else {
+                                                echo "<a id=\"buscar_equiPO\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOne\" aria-expanded=\"true\" class=\"btn btn-app\"><span class=\"badge bg-purple\">".$countpolisto."</span><i class=\"fa fa-list\"></i> Ver lista</a>";
+                                              }?>                                                  
+                                          </td>
+                                        </tr>                                      
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <div class="panel box box-primary">
+                                    <div class="box-header with-border">
+                                      <h4 class="box-title">
+                                          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" class="">
+                                            Lista de equipos
+                                          </a>                  
+                                      </h4>
                                     </div>
-
-<!-- ************** ///////////////////////////////////////////////////////////////// ************************* -->
-                      <div class="panel box box-primary">
-                        <div class="box-header with-border">
-                          <h4 class="box-title">                      
-                              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" class="">
-                                Lista de equipos
-                              </a>                  
-                          </h4>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse" aria-expanded="true" style="">
-                          <div class="box-body">
-                            <form id="frm-example" method="POST">                                     
-                              <div class="table-responsive">
-                                <table id="example" class="table table-bordered " cellspacing="0" width="100%">
-                                  <thead>
-                                    <tr>                                      
-                                      <th><input name="select_all" value="1" type="checkbox"></th>
-                                      <th>Informe</th>
-                                      <th>Id equipo</th>
-                                      <th>Descripción</th>
-                                      <th>Marca</th>
-                                      <th>Modelo</th>
-                                      <th>Serie</th>
-                                    </tr>
-                                  </thead>
-                                  <tfoot>
-                                    <tr>                                
-                                      <th></th>
-                                      <th>Informe</th>
-                                      <th>Id equipo</th>
-                                      <th>Descripción</th>
-                                      <th>Marca</th>
-                                      <th>Modelo</th>
-                                      <th>Serie</th>
-                                    </tr>
-                                  </tfoot>
-                                </table>
-                              </div> 
-                              <p></p>
-                              <label>Comentarios: </label>                      
-                              <textarea id="nota" class="form-control" rows="4" name="nota" placeholder="Comentarios ..."></textarea>                                        
-                              <p>Informe(s) enviado(s)</p>
-                              <pre id="example-console-rows"></pre>                              
-                              <button>Submit</button>                                         
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-<!-- ************** ///////////////////////////////////////////////////////////////// ************************* -->                
+                                    <div id="collapseOne" class="panel-collapse collapse" aria-expanded="true" style="">
+                                      <form role="form" id="frm-example"  method="POST" enctype="multipart/form-data">
+                                        <div class="box-body">
+                                            <div class="table-responsive no-padding">
+                                              <table id="example" class="table table-bordered " cellspacing="0" width="100%">
+                                                <thead>
+                                                  <tr>                                      
+                                                    <th><input name="select_all" value="1" type="checkbox"></th>
+                                                    <th>Informe</th>
+                                                    <th>Id equipo</th>
+                                                    <th>Descripción</th>
+                                                    <th>Marca</th>
+                                                    <th>Modelo</th>
+                                                    <th>Serie</th>
+                                                  </tr>
+                                                </thead>
+                                                <tfoot>
+                                                  <tr>                                
+                                                    <th></th>
+                                                    <th>Informe</th>
+                                                    <th>Id equipo</th>
+                                                    <th>Descripción</th>
+                                                    <th>Marca</th>
+                                                    <th>Modelo</th>
+                                                    <th>Serie</th>
+                                                  </tr>
+                                                </tfoot>
+                                              </table>
+                                            </div>                                            
+                                            <br>
+                                            <label style="padding-bottom: 5px;" ><input type="checkbox" class="minimal-red" id="check_urgente" name="check_urgente" value="1">&nbsp; Factura Urgente</label> 
+                                            <br>                                               
+                                            <label style="margin-bottom: 15px;">Comentarios: </label>
+                                            <textarea id="nota" class="form-control" rows="4" name="nota" placeholder="Comentarios ..."></textarea>                                         
+                                            <label style="padding-top: 10px;" for="exampleInputFile">PO.</label>
+                                            <input class="btn btn-block btn-default btn-sm" type="file" name="filepo" id="filepo">                                                                
+                                            <label for="exampleInputFile">Cot.</label>
+                                            <input class="btn btn-block btn-default btn-sm" type="file" name="filecot" id="filecot">                                                          
+                                            <label for="exampleInputFile">Pago.</label>
+                                            <input class="btn btn-block btn-default btn-sm" type="file" name="filepago" id="filepago">                               
+                                            <p>Informe(s) enviado(s)</p>
+                                            <pre id="example-console-rows"></pre>
+                                            <button class="btn btn-info pull-right">Enviar</button>
+                                          </div>                                          
+                                          <div class="box-footer">                                            
+                                            <p id="alerta_send"></p>
+                                          </div>
+                                      </form>
+                                    </div>
+                                  </div>                
                                 </div>                                     
                             </div>
-                          </div>                       
-                        </div>
-
+                        </div> -->  
+                      </div>
+                      <!-- ******** ////////////////////////////////////////////////////////////////// ******** -->
                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="col-lg-12">
                           <div class="box box-default"> <div class="box-header">
@@ -378,7 +493,8 @@
         $('#frm-example').on('submit', function(e){
           var form = this;
           var rows_selected = table.column(0).checkboxes.selected();
-          var comentarios= document.getElementById("nota").value;
+          var comentarios= document.getElementById("nota").value;         
+
           //console.log(comentarios);
           // Iterate over all selected checkboxes
           $.each(rows_selected, function(index, rowId){
@@ -401,23 +517,41 @@
           $('input[name="id\[\]"]', form).remove();           
           // Prevent actual form submission      
           e.preventDefault();
-            var parametro= {
-                "data":rows_selected.join(),
-                "comentarios":comentarios
-              };
+          var parametro = new FormData();
+
+          parametro.append("data",rows_selected.join());
+          parametro.append("comentarios",comentarios);
+          parametro.append("po", <?php echo "'".$idpo."'"; ?>);
+          parametro.append("cliente", <?php echo "'". $cliente ."'"; ?>);
+          parametro.append("contacto" , <?php echo "'".$data['cliente'][0]['contacto'] .",". $data['cliente'][0]['email'] . "'"; ?>);
+          parametro.append("filepo", $('input[name=filepo]')[0].files[0]);
+          parametro.append("filecot", $('input[name=filecot]')[0].files[0]);
+          parametro.append("filepago", $('input[name=filepago]')[0].files[0]);
+          parametro.append("check_urgente", $("input[name=check_urgente]").is(":checked") ? 1:0);
+
+          // for( var value of parametro.values()){
+          //   console.log(value);
+          // }                  
 
           $.ajax({
-            type: 'post',
-            url: "?c=salida&a=_scriptdata",                        
-            data: parametro,
-            dataType: 'json',
-          }).done(function(data) {
-            var datos = data;
-            console.log(datos);                 
-          }).fail(function(data) {}).always( function(data) {
-            //console.log(data);
-          });
-          
+              url: '?c=salida&a=_sendemail',
+              data: parametro,
+              processData: false,
+              contentType: false,
+              type: 'POST',
+              dataType:'json',
+              success: function(response){
+                var datos = response;
+                $("[name='alertas']").remove();  
+                //console.log(datos);
+                //load json data from server and output message    
+                if(datos != "error"){ //load json data from server and output message                                                       
+                  $("#alerta_send").before("<div  class='form-group' name='alertas'><div class='col-lg-12 col-md-6 col-sm-12 col-xs-12'><div class='alert alert-success alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-check'></i> Alerta!</h4> Envio de Correo Exitoso.</div></div></div>");
+                }else{                            
+                  $("#alerta_send").before("<div class='form-group' name='alertas'><div class='col-lg-12 col-md-6 col-sm-12 col-xs-12'><div class='alert alert-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-ban'></i> Alerta!</h4> Hubo un problema al enviar el correo, favor de verificar los datos e interlo una vez mas.</div></div></div>");                
+                }                
+              }
+            });          
 
         });
 /* ////////////////////////////////////////////////////////////////////////////////////////////  */            

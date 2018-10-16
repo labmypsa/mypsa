@@ -137,6 +137,7 @@
                             <ul class='treeview-menu'>
                                 <li><a href='?c=usuarios'><i class='fa fa-users'></i>Usuarios</a></li>
                                 <li><a href='?c=roles'><i class='fa fa-cogs'></i>Roles de usuarios</a></li>
+                                <li><a href='?c=usuarios&a=alta'><i class='fa fa-users'></i>Alta de Usuarios</a></li>
                             </ul>
                         </li>";
                     }           

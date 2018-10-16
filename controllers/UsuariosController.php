@@ -21,6 +21,10 @@ class UsuariosController {
         include view($this->name . '.read');
     }
 
+    public function alta() {
+        include view($this->name . '.alta');
+    }
+
     public function refresh() {
         Session::renew();
         redirect($_SERVER['HTTP_REFERER']);
@@ -51,7 +55,7 @@ class UsuariosController {
     }
 
     public function add() {
-            //var_dump(Session::get("rol")); //Administrador         
+        //var_dump(Session::get("rol")); //Administrador         
         $data['rol'] = $this->model['rol']->all();
         $data['empresa'] = $this->model['empresa']->all();
         include view($this->name . '.add');
