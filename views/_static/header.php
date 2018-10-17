@@ -30,9 +30,8 @@
    
             <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  -->
             <!--                                                   -->
-            <!--          Notificaciones para administradores      -->
-            <!--          | equipo listo para facturar |           -->
-            <!-- | Nueva cuenta solicitando acceso a mypsa online| -->
+            <!--          Notificaciones para administradores      -->            
+            <!--  Nueva cuenta solicitando acceso a mypsa online   -->
             <!--                                                   -->
             <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
 
@@ -40,12 +39,11 @@
                 <li class="dropdown messages-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       <i class="fa fa-users text-white"></i>
-                      <span class="label label-warning" id="notification_number_2">0</span>
+                      <span class="label label-warning" id="notification_number_2"></span>
                     </a>
                     <ul class="dropdown-menu">
                       <li class="header" id="notification_header_2">No hay usuarios pendientes</li>
-                      <li>
-                        <!-- inner menu: contains the actual data -->
+                      <li>                        
                         <ul class="menu" id="notification_menu_2">
                            
                         </ul>
