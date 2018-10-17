@@ -9,6 +9,7 @@
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+
             <?php if(Session::has('rol',['Técnicos'])){ ?>
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -25,7 +26,46 @@
                         <li class="footer"><a href="?c=informes&a=calibrar">Ver equipos a calibrar</a></li>
                     </ul>
                 </li>
-                <?php } ?>
+            <?php } ?>
+   
+            <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  -->
+            <!--                                                   -->
+            <!--          Notificaciones para administradores      -->
+            <!--          | equipo listo para facturar |           -->
+            <!-- | Nueva cuenta solicitando acceso a mypsa online| -->
+            <!--                                                   -->
+            <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+
+            <?php if(Session::has('rol',['Administrador','Ingenieros'])){ ?>
+                <li class="dropdown messages-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <i class="fa fa-users text-white"></i>
+                      <span class="label label-warning" id="notification_number_2">0</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li class="header" id="notification_header_2">No hay usuarios pendientes</li>
+                      <li>
+                        <!-- inner menu: contains the actual data -->
+                        <ul class="menu" id="notification_menu_2">
+                           
+                        </ul>
+                      </li>
+                      <li class="footer"><a href="?c=usuarios&a=alta">Ver lista completa</a></li>
+                    </ul>
+                </li>
+            <?php } ?>   
+            <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  -->
+            <!--                                                   -->
+            <!--             Notificaciones para PO                -->            
+            <!--                                                   -->
+            <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->               
+
+            <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  -->
+            <!--                                                   -->
+            <!--                  Menu de perfil                   -->           
+            <!--                                                   -->
+            <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="storage/avatares/<?php echo session::get('imagen'); ?>" class="user-image" alt="User Image">
@@ -61,6 +101,7 @@
                         </li>
                     </ul>
                 </li>
+
             </ul>
         </div>
     </nav>

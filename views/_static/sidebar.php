@@ -22,9 +22,13 @@
         <ul class="sidebar-menu">
             <li class="header">MENÚ DE NAVEGACIÓN</li>
             <li class='treeview'>
+                <?php
+                    if(Session::has('rol',['Administrador','Ingenieros','Almacén','Técnicos','Calidad'])){ 
+                echo "
                 <a href='#'>
                     <i class='fa fa-edit'></i> <span>Bitacora</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
-                </a>
+                </a>";
+                }?>
                 <ul class='treeview-menu'>
                  <?php
                     if(Session::has('rol',['Administrador','Ingenieros','Almacén','Técnicos','Calidad'])){

@@ -225,6 +225,9 @@ class UsuariosController {
         }
     }
 
+    public function get_usuario_alta(){
+        echo $data = json_encode($data['usuario'] = $this->model['usuario']->usuario_alta_notification());
+    }
 
 
 }

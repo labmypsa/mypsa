@@ -24,4 +24,12 @@ class Usuario extends Model {
         $this->get_results_from_query();
         return $this->rows;
     }
+
+    public function usuario_alta_notification(){
+        $this->query= "SELECT * FROM view_".$this->table."_alta order by id desc;";        
+        $this->get_results_from_query();
+        return $this->rows;
+    }
+
+
 }

@@ -90,6 +90,8 @@ $condicion="";
 
     }
 
+
+
 /* #End Reportes */
 // Table's primary key
 
@@ -120,8 +122,8 @@ $sql_details = array(
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * If you just want to use the basic configuration for DataTables with PHP
  * server-side, there is no need to edit below this line.
- */
-  
+ */  
+
 require( "ssp.class.php" );
 echo json_encode(
     SSP::simple($_GET, $sql_details, $table, $primary_key, $columns,$condicion)    
