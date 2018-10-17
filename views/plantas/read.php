@@ -35,6 +35,7 @@
                                                 <th>RFC</th>
                                                 <th>Razon Social</th>
                                                 <th>Comentarios</th>
+                                                <th>Mypsa Sucursal</th>
                                                 <th>Acción</th>
                                             </tr>
                                         </thead>
@@ -50,6 +51,7 @@
                                                 <th>RFC</th>
                                                 <th>Razon Social</th>
                                                 <th>Comentarios</th>
+                                                <th>Mypsa Sucursal</th>
                                                 <th>Acción</th>
                                             </tr>
                                         </tfoot>
