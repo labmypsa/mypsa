@@ -40,9 +40,9 @@ class InformesController
 		include view($this->name.'.calibrar');
 	}
 
-	public function verinforme(){				
-		 $usuario =Session::get('id');		 
-		 $rol =Session::get('roles_id');		 
+	public function verinforme(){
+		$usuario =Session::get('id');		 
+		$rol =Session::get('roles_id');		 
 		if (isset($_GET['p']) && ($rol !='10001' || $rol !='10004')) {
 		 	$numinforme=$_GET['p'];	
 		  	$temp = json_encode($data['informe'] = $this->model['informe']->get_comparar_cliente($numinforme),true);		
@@ -68,6 +68,7 @@ class InformesController
 			redirect('?c=error&a=error_412');
 		}
 	}
+	
 	public function get_a_calibrar(){
         echo $data = json_encode($data['informe'] = $this->model['informe']->equipos_calibrar_notification());
 	}

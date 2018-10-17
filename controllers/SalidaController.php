@@ -1,40 +1,44 @@
 <?php
 
+require 'config/Phpmailer.php';
+require 'config/Smtp.php';
+
 Session::logged();
 
 class SalidaController {
 
-	public function __construct() {
-		$this->name= "salida";
-		$this->title="Salida";
-		$this->subtitle="Bitácora";		
-		$this->model = [
-		'usuario'=> new Usuario(),
-		'informes'=> new Informes(),
+  public function __construct() {
+    $this->name= "salida";
+    $this->title="Salida";
+    $this->subtitle="Bitácora";   
+    $this->model = [
+    'usuario'=> new Usuario(),
+    'informes'=> new Informes(),
     'sucursal' => new Sucursal(),
     'po' => new PO(),
     'salida' => new Salida(),
     ];
     $this->ext=$this->model['sucursal']->extension();
     $this->sucursal= strtoupper(Session::get('sucursal'));
-	}
+  }
 
-	public function index(){
-     //&a=index&p=2 
+  public function index(){       
+      //var_dump(Session::get());
+      //&a=index&p=2 
       if (isset($_GET['p'])) {
         $id=$_GET['p'];
         $view_informes="view_informes". $this->ext; 
         $data['equipo'] = $this->model['informes']->datos_equipo($id); 
-        $data['cliente'] = $this->model['informes']->datos_cliente($id);      
+        $data['cliente'] = $this->model['informes']->datos_cliente($id); 
+        $cliente= Session::get('empresa') .', '. Session::get('planta');
         $data['get']=$this->model['informes']->get_salida($id, $view_informes);
         $idpo= strtolower($data['get'][0]['po_id']);
-        if($idpo == "pendiente" || $idpo == "n/a" || $idpo == "no existe" || $idpo == "sin orden")
-        { 
-        $totalfact=0;
-        $countfact=0;
-        $cantidadpo=0;
-        $countpototal=0;
-        $countpolisto=0;
+        if($idpo == "pendiente" || $idpo == "n/a" || $idpo == "no existe" || $idpo == "sin orden"){          
+          $totalfact=0;
+          $countfact=0;
+          $cantidadpo=0;
+          $countpototal=0;
+          $countpolisto=0;
         }
         else{       
           $cantidadpo= $data['get'][0]['cantidad'];
@@ -58,13 +62,14 @@ class SalidaController {
               }           
             include view($this->name.'.read');
         }
-        else{ redirect('?c=informes&a=proceso');}
-        }           
-        else{   
+        else{
           redirect('?c=informes&a=proceso');
-        }
+        } 
+      } 
+      else{       
+        redirect('?c=informes&a=proceso');
+      }
   } 
-
 
   public function store(){
     $hoy = date("Y-m-d");        
@@ -152,13 +157,13 @@ class SalidaController {
   }
 
   public function ajax_load_hoja_salida() {
-      $num_hojasalida = $_POST['hojas_salida_id'];
-      $data = json_encode($data['salida'] = $this->model['salida']->find_by(['numero' => $num_hojasalida]));
-      echo $data;
+    $num_hojasalida = $_POST['hojas_salida_id'];
+    $data = json_encode($data['salida'] = $this->model['salida']->find_by(['numero' => $num_hojasalida]));
+    echo $data;
   }
 
-  public function ajax_load_ultimo_hojasalida() {                                                
-      echo json_encode($numero=$this->model['salida']->numero_hojasalida());
+  public function ajax_load_ultimo_hojasalida() {
+    echo json_encode($numero=$this->model['salida']->numero_hojasalida());
   }
 
   public function ajax_load_listequiPO(){
@@ -169,11 +174,15 @@ class SalidaController {
     echo json_encode($data);
   }
 
-  public function _sendemail(){
-        // Message
+  private function _mailhtml($dataid,$po, $cliente,$contacto,$comentario,$urgente){
+
+    $query = "SELECT id,alias as idequipo,descripcion,precio , precio_extra, moneda FROM mypsa_bitacoramyp.view_informes_n where  id In (". $dataid .") order by id asc;";
+    $data= $this->model['informes']->get_query_informe($query);
+
+    //echo json_encode($data);
     $html ='<html>';
         $html .='<head>';
-            $html .='<title>Correo para facturar</title>';
+            $html .='<title>'. $urgente .'Solicitud de factura, PO : '. $po .'</title>';
             $html .='<style>';
                 $html .='html, body {';
                     $html .='margin: 0 auto !important;';
@@ -302,7 +311,7 @@ class SalidaController {
                                                             $html .='<span style="font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;"># PO:</span>';
                                                         $html .='</td>';
                                                         $html .='<td valign="top"  style="padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;">';
-                                                            $html .='<span style="font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;"> HGNAJ12334</span>';
+                                                            $html .='<span style="font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;"> '. $po .'</span>';
                                                         $html .='</td>';
                                                     $html .='</tr>';
                                                     $html .='<tr>';
@@ -310,7 +319,15 @@ class SalidaController {
                                                             $html .='<span style="font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;">Cliente:</span>';
                                                         $html .='</td>';
                                                         $html .='<td valign="top" style="padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;">';
-                                                            $html .='<span style="font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;"> Metrologia y pruebas S.A de C.V (Nogales)</span>';
+                                                            $html .='<span style="font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;">'. $cliente .' </span>';
+                                                        $html .='</td>';
+                                                    $html .='</tr>';
+                                                    $html .='<tr>';
+                                                        $html .='<td valign="top"align="left"  style="padding: 12px 0px 15px 0px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;">';
+                                                            $html .='<span style="font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;">Contacto:</span>';
+                                                        $html .='</td>';
+                                                        $html .='<td valign="top" style="padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;">';
+                                                            $html .='<span style="font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;">'. $contacto .'</span>';
                                                         $html .='</td>';
                                                     $html .='</tr>';
                                                     $html .='<tr>';
@@ -318,7 +335,7 @@ class SalidaController {
                                                             $html .='<span style="font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;">Comentarios:</span>';
                                                         $html .='</td>';
                                                         $html .='<td valign="top" style="padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;">';
-                                                            $html .='<span style="font-family:Helvetica,sans-serif;font-size:16px;font-weight:400;color:#161414;line-height:1.3;"> Se va a facturar con este nombre: Metrologia y Pruebas S.A de C.V. El cliente ha cambiado de razón social favor de modificarlo gracias! </span>';
+                                                            $html .='<span style="font-family:Helvetica,sans-serif;font-size:16px;font-weight:400;color:#161414;line-height:1.3;">'. $comentario .'</span>';
                                                         $html .='</td>';
                                                     $html .='</tr>';
 
@@ -336,7 +353,7 @@ class SalidaController {
                         $html .='<td style="margin:0;padding:0;" valign="top" align="center">';
                             $html .='<table style="width:100% ">';
                                 $html .='<tr>';
-                                    $html .='<td><p style="text-align: left; font-family: Times, Times New Roman, Georgia, serif; font-size: 20px; color: #333634;">Total :  3</p></td>';
+                                    $html .='<td><p style="text-align: left; font-family: Times, Times New Roman, Georgia, serif; font-size: 20px; color: #333634;">Total :'. count($data) .' </p></td>';
                                 $html .='</tr>';
                             $html .='</table>';
                         $html .='</td>';
@@ -353,32 +370,27 @@ class SalidaController {
                                     $html .='<th>Precio</th>';
                                     $html .='<th>Moneda</th>';                          
                                 $html .='</tr>';
-                                $html .='<tr style="background-color: #ffffff;">';
-                                    $html .='<td>1</td>';
-                                    $html .='<td>38467</td>';
-                                    $html .='<td>00359834</td>';
-                                    $html .='<td>Medidor de relación de transformación</td>';
-                                    $html .='<td>$200.00</td>';
-                                    $html .='<td>MXN</td>';
-                                $html .='</tr>';
+                                // vaciado de los datos 
+                                for ($i=0; $i < count($data); $i++) { 
 
-                                $html .='<tr style="background-color: #eeeeee ;">';
-                                    $html .='<td>2</td>';
-                                    $html .='<td>38777</td>';
-                                    $html .='<td>20000061</td>';
-                                    $html .='<td>Máquina de ensayos</td>';
-                                    $html .='<td>$100.10</td>';
-                                    $html .='<td>DLL</td>';
-                                $html .='</tr>';
-                                $html .='<tr style="background-color: #ffffff;">';
-                                    $html .='<td>3</td>';
-                                    $html .='<td>38778</td>';
-                                    $html .='<td>20000062</td>';
-                                    $html .='<td>Máquina de ensayos</td>';
-                                    $html .='<td>$920.50</td>';
-                                    $html .='<td>MXN</td>';
-                                $html .='</tr>';
+                                  if( $i%2 == 0){
+                                    $html .='<tr style="background-color: #ffffff;">';
+                                  }
+                                  else{
+                                    $html .='<tr style="background-color: #eeeeee;">';
+                                  }
+                                  $id= $i+1;
+                                  $html .='<td>'. $id .'</td>';
 
+                                  for ($j=0; $j < 1; $j++) { 
+                                    $html .='<td>'. $data[$i]['id'].'</td>';
+                                    $html .='<td>'. $data[$i]['idequipo'].'</td>';
+                                    $html .='<td>'. $data[$i]['descripcion'].'</td>';
+                                    $html .='<td>'. $data[$i]['precio'] + $data[$i]['precio_extra'].'</td>';
+                                    $html .='<td>'. $data[$i]['moneda'].'</td>';
+                                  }
+                                   $html .='</tr>';
+                                }                            
                             $html .='</table>';
                         $html .='</td>';
                     $html .='</tr>';
@@ -423,23 +435,79 @@ class SalidaController {
         $html .='</body>';
     $html .='</html>';
     
-    $to = "it@mypsa.mx";
-    $subject = "Correo Facturacion";
-    $txt .= $html;   
-    $headers  = 'From: laboratoriomypsa@gmail.com' . "\r\n" .
-            'MIME-Version: 1.0' . "\r\n" .
-            'Content-type: text/html; charset=utf-8';
+    return $html;   
+  }
+  
+  public function _sendemail(){
+    $dataid = $_POST['data'];
+    $po = $_POST['po'];
+    $comentario = $_POST['comentarios'];
+    $cliente = ($_POST['cliente']==",") ?  "": $_POST['cliente'];
+    $contacto = $_POST['contacto'];
+    $urgente = ($_POST['check_urgente']==1) ?  "URGENTE": " ";
+                            
+    // Datos de la cuenta de correo utilizada para enviar vía SMTP
+    $smtpHost = "mail.mypsa.com.mx";  // Dominio alternativo brindado en el email de alta 
+    $smtpUsuario = "noreply@mypsa.com.mx";  // Mi cuenta de correo
+    $smtpClave = "nog-n.r*123"; 
+  
+    $mail = new PHPMailer();
+    $mail->IsSMTP();
+    $mail->SMTPAuth = true;
+    $mail->Port = 587; 
+    $mail->IsHTML(true); 
+    $mail->CharSet = "utf-8";
+    $mail->Host = $smtpHost; 
+    $mail->Username = $smtpUsuario; 
+    $mail->Password = $smtpClave;    
+    $mail->WordWrap = 80;
 
-    if(mail($to,$subject,$txt,$headers))
-      echo json_encode("Mensaje enviado");
-    else
-      echo json_encode("Mensaje no enviado");   
+       
+    if(isset($_FILES["filepo"])) //check uploaded file
+    {     
+      $mail->AddAttachment($_FILES["filepo"]["tmp_name"], $_FILES["filepo"]["name"]);
+    }   
+    if(isset($_FILES["filecot"])) //check uploaded file
+    {      
+      $mail->AddAttachment($_FILES["filecot"]["tmp_name"], $_FILES["filecot"]["name"]);
+    }    
+    if(isset($_FILES["filepago"])) //check uploaded file
+    {      
+      $mail->AddAttachment($_FILES["filepago"]["tmp_name"], $_FILES["filepago"]["name"]);
+    }
+
+    $mail->From = $smtpUsuario; // Email desde donde envío el correo.
+    $mail->FromName ="Mypsa ";
+    //$mail->AddAddress("test@mypsa.com.mx","Sistemas");
+    $mail->AddAddress("facturacion@mypsa.mx","Facturacion"); // Esta es la dirección a donde enviamos los datos del formulario 
+    $email_envia= Session::get('email');
+    $usuario_envia= Session::get('nombre');
+    $mail->AddCC($email_envia,$usuario_envia); 
+    $mail->AddBCC("drodriguez@mypsa.mx","Dulce R.");
+    $mail->AddBCC("mvega@mypsa.mx","Mnauel V.");
+    $sucursal=Session::get('sucursal');
+    $mail->Subject = $urgente." Solicitud de factura, PO : {$po}. Sucursal: {$sucursal}"; // Este es el titulo del email.
     
+    $body= $this->_mailhtml($dataid,$po, $cliente,$contacto,$comentario,$urgente);
+    //$mail->Body = "Hola probando";
+
+    $mail->Body = $body;  
+        
+    $mail->SMTPOptions = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        )
+    );
+
+    $estadoEnvio = $mail->Send(); 
+    if($estadoEnvio){
+      Logs::this("Solicitud de factura", "PO: {$po}. Sucursal: {$sucursal}");
+        echo json_encode("exitoso");        
+    } else {
+        echo json_encode("error");   
+    }
   }
 
-  public function _scriptdata(){
-
-    $this->_sendemail();
-
-  }
 }

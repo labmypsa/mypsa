@@ -44,12 +44,10 @@
       )); 
       //usuarios predefinidos para la hoja de entrada dependiendo la sucursal      
     }
-      //var_dump(Session::get());  
+    //var_dump(Session::get());  
     $sucursal=strtolower(Session::get('sucursal'));
 
-      $data['empresa']=$this->model['empresa']->all();   
-      //echo json_encode(Session::get());
-
+      $data['empresa']=$this->model['empresa']->all();        
       //se hara la modificación para hermosillo y para guaymas que todos los tecnicos puedan estar en hoja de entrada
       $data['tecnico']= $this->model['usuario']->find_by(['activo'=>'1','plantas_id'=>Session::get('plantas_id')]);       
       //var_dump($data['tecnico']);
@@ -59,11 +57,10 @@
       else{        
         $data['registradopor']= $this->model['usuario']->find_by(['roles_id'=>'10006','plantas_id'=>Session::get('plantas_id')]);
       }
-
+         
+      //asignar en la hoja de entrada un usuario regitrado por, cuando es para registro, pondra al usuario que usa la cuenta, o si no se encuentra en la lista habra que eliegir una opcion.
       if (!isset($_GET['p'])) {
-      if( $sucursal == 'nogales'){ $data['get'][0]['usuarios_id']='113';}
-      if( $sucursal == 'hermosillo'){ $data['get'][0]['usuarios_id']='845';}
-      if( $sucursal == 'guaymas'){ $data['get'][0]['usuarios_id']='857';}
+       $data['get'][0]['usuarios_id']= Session::get('id');      
       }
 
       $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']);

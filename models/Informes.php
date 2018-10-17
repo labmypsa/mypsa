@@ -17,6 +17,13 @@ class Informes extends Model {
         return $this->rows;
     }
 
+    public function equipos_po_notification(){
+        $this->query= "SELECT id, CONCAT(descripcion, ' - ', marca) descripcion, prioridad FROM view_".$this->table." WHERE usuarios_calibracion_id = '".Session::get('id')."' AND proceso = 1;";        
+        $this->get_results_from_query();
+        return $this->rows;
+    }
+    
+
     public function datos_equipo($id){
         $this->query= "SELECT alias, marca, modelo, descripcion FROM view_".$this->table." where id=".$id."";
         $this->get_results_from_query();

@@ -68,7 +68,7 @@
         }
     }
 /* Consultar el último número de informe registrado */
-    var ultimo_numero_informe= function() {   
+    var ultimo_numero_informe = function() {   
     $.ajax({
         url: "?c=recepcion&a=ajax_load_ultimo_informe",
         dataType: "json",
@@ -568,7 +568,32 @@
             }).fail(function(data) {
 
             }).always(function(data) {
-        });        
+        });
+
+        $.ajax({
+            url: "?c=usuarios&a=get_usuario_alta",
+            dataType: "json",
+            method: "GET",
+            }).done(function(data) {
+            var count = data.length;
+            if(count >0){$('#notification_number_2').text(count);}
+            $.each(data, function(i, item) {
+                // var color;            
+                // if(item.prioridad == '0' || item.prioridad == null){
+                //     color = 'blue'
+                // } else{
+                //     color = 'red';
+                // }
+                var nombre= item.nombre +' '+ item.apellido;
+                $('#notification_header_2').text('Tienes '+count+' Usuarios para dar de alta');                
+                $('#notification_menu_2').append('<li><a href="?c=usuarios&a=edit&p='+item.id+'" title="'+nombre+'"><div class="pull-left"><img src="storage/avatares/default.png" class="img-circle" alt="User Image" width="20" height="20"></div><h4>'+ nombre +'<small><i class="fa fa-clock-o"></i> 5 mins</small></h4><p>'+ item.email +'</p></a></li>');
+                //.append('<li><a href="?c=usuarios&a=edit&p='+item.id+'" title="'+item.nombre+'"><i class="fa fa-user text-aqua"></i> ' + nombre + '</a></li>');                
+            });
+
+            }).fail(function(data) {
+
+            }).always(function(data) {
+        });       
     });
 
     $(document).ready(function() {
