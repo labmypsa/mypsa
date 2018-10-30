@@ -13,12 +13,14 @@ class LoginController {
     public function index() {
         include view('login.index');
     }
+
     public function lock(){
         if(!isset($_SESSION['lock']) && !isset($_COOKIE['lock'])){
             Session::lock();
         }
         include view('login.lockscreen');
     }
+    
     public function unlock(){
         if ($data = validate($_POST, [
             'password' => 'required|min:3',

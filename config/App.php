@@ -17,3 +17,12 @@ define("APP_PASS",      "kvkk4bn995");
 define("APP_DB",        "mypsa_bitacoramyp");
 error_reporting(0);
 ini_set('display_errors', 0);
+
+//Smtp Config
+define("APP_SMTPHOST","mail.mypsa.com.mx");
+define("APP_SMTPUSER","noreply@mypsa.com.mx");
+define("APP_SMTPPASS","nog-n.r*123");
+define("APP_SMTPAUTH",true);
+define("APP_SMTPPORT",587);
+
+        

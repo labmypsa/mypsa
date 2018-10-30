@@ -13,6 +13,7 @@ class Session {
             unset($_SESSION['session']);
         }
     }
+    
     public static function unlock(){
         if (isset($_COOKIE['lock'])) {
             $_SESSION['session'] = unserialize($_COOKIE['lock']);

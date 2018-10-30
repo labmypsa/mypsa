@@ -34,6 +34,10 @@ function setError($errorNum) {
             'id' => '008',
             'title' => 'Accion no permitida',
             'data' => array(['msg' => 'No se otorgaron los privilegios necesarios para la accion'])
+        ],[
+            'id' => '009',
+            'title' => 'Accion no realizada',
+            'data' => array(['msg' => 'Ha ocurrido un problema al enviar el correo, intentarlo más tarde o reportarlo al administrador'])
         ]
     );
     foreach ($dictionary as $error) {

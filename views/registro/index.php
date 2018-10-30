@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </form>
-                <a href="#">Olvide mi contraseña</a><br>
+                <a href="?c=registro&a=recuperar">Olvide mi contraseña</a><br>
                 <a href="index.php" class="text-center">Iniciar Sesion</a>
             </div>
         </div>

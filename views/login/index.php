@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 </form>
-                <a href="#">Olvide mi contraseña</a><br>
+                <a href="?c=registro&a=recuperar">Olvide mi contraseña</a><br>
                 <a href="?c=registro" class="text-center">Registrar nueva cuenta</a>
             </div>
         </div>

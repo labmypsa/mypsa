@@ -79,9 +79,9 @@ class PerfilController {
     }
 
     public function password() {
-        Session::logged([
-            'rol' => 'Servicios|allow',
-        ]);
+        // Session::logged([
+        //     'rol' => 'Servicios|allow',
+        // ]);
         include view($this->name . '.password');
     }
 
