@@ -1,8 +1,5 @@
 <?php
 
-require 'config/Phpmailer.php';
-require 'config/Smtp.php';
-
 Session::logged();
 
 class SalidaController {
@@ -22,7 +19,7 @@ class SalidaController {
     $this->sucursal= strtoupper(Session::get('sucursal'));
   }
 
-  public function index(){       
+  public function index(){
       //var_dump(Session::get());
       //&a=index&p=2 
       if (isset($_GET['p'])) {
@@ -30,7 +27,9 @@ class SalidaController {
         $view_informes="view_informes". $this->ext; 
         $data['equipo'] = $this->model['informes']->datos_equipo($id); 
         $data['cliente'] = $this->model['informes']->datos_cliente($id); 
-        $cliente= Session::get('empresa') .', '. Session::get('planta');
+        
+        $cliente= $data['cliente'][0]['cliente'];
+
         $data['get']=$this->model['informes']->get_salida($id, $view_informes);
         $idpo= strtolower($data['get'][0]['po_id']);
         if($idpo == "pendiente" || $idpo == "n/a" || $idpo == "no existe" || $idpo == "sin orden"){          
@@ -439,75 +438,54 @@ class SalidaController {
   }
   
   public function _sendemail(){
-    $dataid = $_POST['data'];
-    $po = $_POST['po'];
-    $comentario = $_POST['comentarios'];
-    $cliente = ($_POST['cliente']==",") ?  "": $_POST['cliente'];
-    $contacto = $_POST['contacto'];
-    $urgente = ($_POST['check_urgente']==1) ?  "URGENTE": " ";
-                            
-    // Datos de la cuenta de correo utilizada para enviar vía SMTP
-    $smtpHost = "mail.mypsa.com.mx";  // Dominio alternativo brindado en el email de alta 
-    $smtpUsuario = "noreply@mypsa.com.mx";  // Mi cuenta de correo
-    $smtpClave = "nog-n.r*123"; 
-  
-    $mail = new PHPMailer();
-    $mail->IsSMTP();
-    $mail->SMTPAuth = true;
-    $mail->Port = 587; 
-    $mail->IsHTML(true); 
-    $mail->CharSet = "utf-8";
-    $mail->Host = $smtpHost; 
-    $mail->Username = $smtpUsuario; 
-    $mail->Password = $smtpClave;    
-    $mail->WordWrap = 80;
 
-       
-    if(isset($_FILES["filepo"])) //check uploaded file
-    {     
-      $mail->AddAttachment($_FILES["filepo"]["tmp_name"], $_FILES["filepo"]["name"]);
-    }   
-    if(isset($_FILES["filecot"])) //check uploaded file
-    {      
-      $mail->AddAttachment($_FILES["filecot"]["tmp_name"], $_FILES["filecot"]["name"]);
-    }    
-    if(isset($_FILES["filepago"])) //check uploaded file
-    {      
-      $mail->AddAttachment($_FILES["filepago"]["tmp_name"], $_FILES["filepago"]["name"]);
-    }
+    $data = [
+          'po' => $_POST['po'],
+          'cliente' => ($_POST['cliente']==",") ?  "": $_POST['cliente'],
+          'contacto' => $_POST['contacto'],
+          'comentarios' => $_POST['comentarios'],
+          'dataid' => $_POST['data'],
+          'urgente' => ($_POST['check_urgente']==1) ?  "URGENTE": "",
+        ];    
 
-    $mail->From = $smtpUsuario; // Email desde donde envío el correo.
-    $mail->FromName ="Mypsa ";
-    //$mail->AddAddress("test@mypsa.com.mx","Sistemas");
-    $mail->AddAddress("facturacion@mypsa.mx","Facturacion"); // Esta es la dirección a donde enviamos los datos del formulario 
-    $email_envia= Session::get('email');
-    $usuario_envia= Session::get('nombre');
-    $mail->AddCC($email_envia,$usuario_envia); 
-    $mail->AddBCC("drodriguez@mypsa.mx","Dulce R.");
-    $mail->AddBCC("mvega@mypsa.mx","Mnauel V.");
-    $sucursal=Session::get('sucursal');
-    $mail->Subject = $urgente." Solicitud de factura, PO : {$po}. Sucursal: {$sucursal}"; // Este es el titulo del email.
-    
-    $body= $this->_mailhtml($dataid,$po, $cliente,$contacto,$comentario,$urgente);
-    //$mail->Body = "Hola probando";
+      $query = "SELECT id,alias as idequipo,descripcion,precio , precio_extra, moneda FROM mypsa_bitacoramyp.view_informes_n where  id In (". $data['dataid'] .") order by id asc;";
+      $data['tabla']= $this->model['informes']->get_query_informe($query);     
+          
+      $data['body']=EnvioCorreo::_bodyinvoice($data);            
+     
+      $data['email']= "facturacion@mypsa.mx";
+      //$data['email']= "test@mypsa.com.mx";
+      $data['nombre']= "Factura_Mypsa";
+      $data['cc'] = array(
+                        'email' => array(Session::get('email')), 
+                        'alias' => array(Session::get('nombre')),
+                    );
+      $sucursal=Session::get('sucursal');
+      $data['cco'] = array(
+                        'email' => array('drodriguez@mypsa.mx','mvega@mypsa.mx'), 
+                        'alias' => array('Dulce R.','Manuel V.'),                       
+                    );
 
-    $mail->Body = $body;  
-        
-    $mail->SMTPOptions = array(
-        'ssl' => array(
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => true
-        )
-    );
+      $data['asunto']= $data['urgente']." Solicitud de factura | PO : {$data['po']}. Sucursal: {$sucursal}";
 
-    $estadoEnvio = $mail->Send(); 
-    if($estadoEnvio){
-      Logs::this("Solicitud de factura", "PO: {$po}. Sucursal: {$sucursal}");
-        echo json_encode("exitoso");        
-    } else {
-        echo json_encode("error");   
-    }
+      $data['files'] = array();
+
+      if(isset($_FILES["filepo"])) //check uploaded file
+      {        
+        array_push($data['files'],$_FILES["filepo"]);
+      }   
+      if(isset($_FILES["filecot"])) //check uploaded file
+      {
+        array_push($data['files'],$_FILES["filecot"]);
+      }    
+      if(isset($_FILES["filepago"])) //check uploaded file
+      {
+        array_push($data['files'],$_FILES["filepago"]);
+      }      
+
+      $retorno=EnvioCorreo::_enviocorreo($data);
+
+      echo json_encode($retorno);                                          
   }
 
 }

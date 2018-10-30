@@ -38,7 +38,7 @@ function validate($data, $rules) {
                                     'rule' => $singleValue[0],
                                     'field' => $key,
                                     'value' => $data[$key],
-                                    'msg' => 'El campo ' . $data[$key] . ' ya se encuentra registrado en la base de datos'
+                                    'msg' => 'El campo ' . $data[$key] . ' ya se encuentra registrado en MyPSA'
                                 ]);
                             }
                         } break;
@@ -55,7 +55,7 @@ function validate($data, $rules) {
                                 'rule' => $singleValue[0],
                                 'field' => $key,
                                 'value' => $data[$key],
-                                'msg' => 'El campo ' . $data[$key] . ' ya se encuentra registrado en la base de datos'
+                                'msg' => 'El campo ' . $data[$key] . ' ya se encuentra registrado en MyPSA'
                             ]);
                         }
                         $result->close();
@@ -74,7 +74,7 @@ function validate($data, $rules) {
                                     'rule' => $singleValue[0],
                                     'field' => $key,
                                     'value' => $data[$key],
-                                    'msg' => 'El campo ' . $key . ' no se existe en la base de datos'
+                                    'msg' => 'El campo ' . $key . ' no existe en los registros de MyPSA'
                                 ]);
                             }
                             $result->close();
@@ -87,7 +87,7 @@ function validate($data, $rules) {
                                     'rule' => $singleValue[0],
                                     'field' => $key,
                                     'value' => $data[$key],
-                                    'msg' => 'El campo ' . $key . ' no se existe en la base de datos'
+                                    'msg' => 'El campo ' . $key . ' no existe en los registros de MyPSA'
                                 ]);
                             }
                             $result->close();

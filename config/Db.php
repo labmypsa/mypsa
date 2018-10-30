@@ -138,7 +138,7 @@ abstract class Db {
         }
         $query = substr($query, 0, - 1);
         $query .= " WHERE " . $this->primary_key . "='" . $data[$this->primary_key] . "';";  
-        $this->query = $query;            
+        $this->query = $query;        
         return $this->execute_single_query();
     }
 

@@ -1,5 +1,6 @@
 <?php
 class Storage{
+	
 	public static function upload($disk,$file){
 		move_uploaded_file($file['tmp_name'], 'storage/'.$disk.'/'. $file['name']);
 	}

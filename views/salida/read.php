@@ -542,13 +542,13 @@
               dataType:'json',
               success: function(response){
                 var datos = response;
-                $("[name='alertas']").remove();  
                 //console.log(datos);
+                $("[name='alertas']").remove();                  
                 //load json data from server and output message    
                 if(datos != "error"){ //load json data from server and output message                                                       
                   $("#alerta_send").before("<div  class='form-group' name='alertas'><div class='col-lg-12 col-md-6 col-sm-12 col-xs-12'><div class='alert alert-success alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-check'></i> Alerta!</h4> Envio de Correo Exitoso.</div></div></div>");
                 }else{                            
-                  $("#alerta_send").before("<div class='form-group' name='alertas'><div class='col-lg-12 col-md-6 col-sm-12 col-xs-12'><div class='alert alert-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-ban'></i> Alerta!</h4> Hubo un problema al enviar el correo, favor de verificar los datos e interlo una vez mas.</div></div></div>");                
+                  $("#alerta_send").before("<div class='form-group' name='alertas'><div class='col-lg-12 col-md-6 col-sm-12 col-xs-12'><div class='alert alert-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-ban'></i> Alerta!</h4> Hubo un problema al enviar el correo, favor de verificar los datos e interlo una vez mas.</div></div></div>");
                 }                
               }
             });          

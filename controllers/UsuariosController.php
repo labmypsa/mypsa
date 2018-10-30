@@ -141,14 +141,32 @@ class UsuariosController {
     }
 
     public function update() {
+        
         $data = validate($_POST, [
             'id' => 'required|exists:usuarios',
             'nombre' => 'required|ucwords',
             'apellido' => 'required|ucwords',
+            'email' => 'required|trimlower',
             'plantas_id' => 'required|trimlower|exists:plantas:id',
             'roles_id' => 'required|trimlower|exists:roles:id',
             'activo' => 'required|toInt',
         ]);
+        /* ..................................... */
+        /*      Envio de notificacion            */
+        /* ..................................... */
+        if (isset($_POST['check_email'])) {
+
+            $data['body']=EnvioCorreo::_bodyusernotificacion($data);            
+                         
+            $data['cco'] = array(
+                                'email' => array('it@mypsa.mx','mvega@mypsa.mx'), 
+                                'alias' => array('Sistema','Manuel V.'),                       
+                            );                                
+
+            $data['asunto']="Usuario de alta MyPSA";            
+            EnvioCorreo::_enviocorreo($data);            
+        } 
+
         $data["nombre"] = ucfirst($data["nombre"]);
         $data["apellido"] = ucfirst($data["apellido"]);
         if($_FILES['avatar']['size'] > 0){

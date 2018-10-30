@@ -16,7 +16,7 @@
                         <div class="col-xs-12">
                             <div class="box box-primary">
                                 <div class="box-header  with-border">
-                                    <h3 class="box-title">Editar listados de <?php echo $this->name; ?></h3>
+                                    <h3 class="box-title">Editar <?php echo $this->name; ?></h3>
                                 </div>
                                 <div class="box-body">
                                     <?php if ($error = Flash::hasError()) { ?>
@@ -115,12 +115,21 @@
                                                     ?>
                                                 </select>
                                             </div>
+                                            <?php if (isset($_GET['alta'])){
+                                                echo "<div class='form-group'>
+                                                <label>
+                                                  <input type='radio' name='check_email' class='flat-red' checked>
+                                                  &nbsp;Enviar correo de confirmación
+                                                </label>
+                                            </div>"; 
+                                                }                                                 
+                                            ?>                                            
                                           <div class="form-group">
                                              <label for="avatar">Imagen de perfil</label>
                                              <input type="file" id="avatar" accept="image/jpeg, image/jpg, image/png" name="avatar"/>
                                           </div>
                                         </div>
-                                        <div class="box-footer"><button type="submit" class="btn btn-primary btn-flat">Guardar cambios</button></div>
+                                        <div class="box-footer"><button type="submit" class="btn btn-primary btn-flat">Guardar cambios</button> </div>
                                     </form>
                                 </div>
                             </div>
