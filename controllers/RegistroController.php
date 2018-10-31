@@ -8,7 +8,7 @@ class RegistroController {
         ];            
     }
 
-    public function index() {     
+    public function index() {    
         include view('registro.index');
     }
     public function correcto(){
@@ -92,7 +92,7 @@ class RegistroController {
             $usuario= $this->model['usuario']->find_by(['email'=>$datatemp['email']]);
             $data['id']=$usuario[0]['id'];
 
-            if ($this->model['usuario']->update($data))            
+            if ($this->model['usuario']->update($data)){            
                 redirect('index.php');
             }else {
                 Flash::error(setError('002'));
