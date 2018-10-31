@@ -118,12 +118,14 @@
            $('#table_alta tbody').on('click', 'a', function () {
                var data = table.row($(this).parents('tr')).data();
                if ($(this).data("type") == "edit") {
-                   window.location.replace("?c=" + controller + "&a=edit&p=" + data[0]);
+                   window.location.replace("?c=" + controller + "&a=edit&p=" + data[0]+"&alta=true");
                } else if($(this).data("type") == "delete") {
                    window.location.replace("?c=" + controller + "&a=delete&p=" + data[0]);
-               } else if($(this).data("type") == "password") {
-                    window.location.replace("?c=" + controller + "&a=password&p=" + data[0]);
-               } else if($(this).data("type") == "turn_off") {
+               } 
+               // else if($(this).data("type") == "password") {
+               //      window.location.replace("?c=" + controller + "&a=password&p=" + data[0]);
+               // } 
+               else if($(this).data("type") == "turn_off") {
                     window.location.replace("?c=" + controller + "&a=turn_off&p=" + data[0]);
                }
            });
