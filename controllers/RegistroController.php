@@ -36,11 +36,6 @@ class RegistroController {
 
         $data['body']=EnvioCorreo::_bodynewuser($data);
 
-        // $data['cc'] = array(
-        //                 'email' => array('test@mypsa.com.mx'), 
-        //                 'alias' => array('test'),
-        //             );
-
         $data['cco'] = array(
                         'email' => array('it@mypsa.mx','mvega@mypsa.mx'), 
                         'alias' => array('it','Manuel V.'),
@@ -76,14 +71,12 @@ class RegistroController {
             /*|***************************************|*/
             /*|     Enviar correos electronicos       |*/
             /*|      Enviar a cliente y admins        |*/
-            /*|***************************************|*/
-            
+            /*|***************************************|*/            
             $dataemail['body']=EnvioCorreo::_bodyresetpass($datatemp);            
             $dataemail['cco'] = array(
                         'email' => array('it@mypsa.mx','mvega@mypsa.mx'), 
                         'alias' => array('it','Manuel V.'),
                     );
-
             $dataemail['asunto']="Actualizacion de contraseña MyPSA";
             $dataemail['email']=$datatemp['email'];
             EnvioCorreo::_enviocorreo($dataemail);
