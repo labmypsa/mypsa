@@ -79,13 +79,13 @@ class RegistroController {
             /*|***************************************|*/
             
             $dataemail['body']=EnvioCorreo::_bodyresetpass($datatemp);            
-            $data['cco'] = array(
+            $dataemail['cco'] = array(
                         'email' => array('it@mypsa.mx','mvega@mypsa.mx'), 
                         'alias' => array('it','Manuel V.'),
                     );
 
             $dataemail['asunto']="Actualizacion de contraseña MyPSA";
-            $dataemail['email']=$data['email'];
+            $dataemail['email']=$datatemp['email'];
             EnvioCorreo::_enviocorreo($dataemail);
 
             $data['password'] = Crypt::encrypt($datatemp['password']);
