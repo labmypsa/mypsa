@@ -8,8 +8,7 @@ class RegistroController {
         ];            
     }
 
-    public function index() {
-     
+    public function index() {    
         include view('registro.index');
     }
     public function correcto(){
@@ -69,26 +68,32 @@ class RegistroController {
     }  
 
     public function resetpass(){
-        if(validate($_POST, ['email'=>'required|trimlower|exists:usuarios'])){
-            $data['email']=$_POST['email'];
-            $data['password']=$this->generarPass();            
-            $dataemail['body']=EnvioCorreo::_bodyresetpass($data);            
 
+        if(validate($_POST, ['email'=>'required|trimlower|exists:usuarios'])){
+            $datatemp['email']=$_POST['email'];
+            $datatemp['password']=$this->generarPass();
+        
+            /*|***************************************|*/
+            /*|     Enviar correos electronicos       |*/
+            /*|      Enviar a cliente y admins        |*/
+            /*|***************************************|*/
+            
+            $dataemail['body']=EnvioCorreo::_bodyresetpass($datatemp);            
             $dataemail['cco'] = array(
-                            'email' => array('it@mypsa.mx','mvega@mypsa.mx'), 
-                            'alias' => array('it','Manuel V.'),
-                        );
+                        'email' => array('it@mypsa.mx','mvega@mypsa.mx'), 
+                        'alias' => array('it','Manuel V.'),
+                    );
 
             $dataemail['asunto']="Actualizacion de contraseña MyPSA";
-            $dataemail['email']=$data['email'];
-            EnvioCorreo::_enviocorreo($dataemail); 
+            $dataemail['email']=$datatemp['email'];
+            EnvioCorreo::_enviocorreo($dataemail);
 
-            $data['password'] = Crypt::encrypt($data['password']);
-            $usuario= $this->model['usuario']->find_by(['email'=>$data['email']]);
+            $data['password'] = Crypt::encrypt($datatemp['password']);
+            $usuario= $this->model['usuario']->find_by(['email'=>$datatemp['email']]);
             $data['id']=$usuario[0]['id'];
 
-            if ($this->model['usuario']->update($data)){                                        
-                 redirect('index.php');
+            if ($this->model['usuario']->update($data)){            
+                redirect('index.php');
             }else {
                 Flash::error(setError('002'));
             }

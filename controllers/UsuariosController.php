@@ -109,6 +109,7 @@ class UsuariosController {
             'roles_id' => 'required|trimlower|exists:roles:id',
             'activo' => 'required|toInt',
         ]);
+        
         $data["nombre"] = ucfirst($data["nombre"]);
         $data["apellido"] = ucfirst($data["apellido"]);
         $data["password"] = Crypt::encrypt($data["password"]);
@@ -156,17 +157,19 @@ class UsuariosController {
         /* ..................................... */
         if (isset($_POST['check_email'])) {
 
-            $data['body']=EnvioCorreo::_bodyusernotificacion($data);            
-                         
-            $data['cco'] = array(
+            $dataemail['nombre']=$data['nombre'];
+            $dataemail['apellido']=$data['apellido'];
+            $dataemail['email']=$data['email'];
+            $dataemail['body']=EnvioCorreo::_bodyusernotificacion($dataemail);                                     
+            $dataemail['cco'] = array(
                                 'email' => array('it@mypsa.mx','mvega@mypsa.mx'), 
                                 'alias' => array('Sistema','Manuel V.'),                       
                             );                                
 
-            $data['asunto']="Usuario de alta MyPSA";            
-            EnvioCorreo::_enviocorreo($data);            
+            $dataemail['asunto']="Usuario de alta MyPSA";            
+            EnvioCorreo::_enviocorreo($dataemail);            
         } 
-
+        unset($data['check_email']);
         $data["nombre"] = ucfirst($data["nombre"]);
         $data["apellido"] = ucfirst($data["apellido"]);
         if($_FILES['avatar']['size'] > 0){
@@ -191,7 +194,7 @@ class UsuariosController {
             } else{
                 Flash::error(setError('006'));
             }
-        } else{
+        } else{    
             if ($this->model['usuario']->update($data)) {
                 if(Session::get('id') == $data['id']){
                     Session::renew();

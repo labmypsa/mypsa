@@ -76,7 +76,7 @@
             "columnDefs": [{
                     "targets": -1,
                     "data": null,
-                    "defaultContent": "<a href='#' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='#' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a> <a href='#' data-type='password' class='btn btn-xs btn-warning btn-flat' title='Restablecer contraseña'><i class='fa fa-key' aria-hidden='true'></i></a> <a href='#' data-type='turn_off' class='btn btn-xs btn-default btn-flat' title='Suspender usuario'><i class='fa fa-power-off' aria-hidden='true'></i></a>"
+                    "defaultContent": "<a href='#' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='#' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a><a href='#' data-type='turn_off' class='btn btn-xs btn-default btn-flat' title='Suspender usuario'><i class='fa fa-power-off' aria-hidden='true'></i></a>"
                 }],
             "language": {
                 "sProcessing": "Procesando...",
@@ -121,10 +121,7 @@
                    window.location.replace("?c=" + controller + "&a=edit&p=" + data[0]+"&alta=true");
                } else if($(this).data("type") == "delete") {
                    window.location.replace("?c=" + controller + "&a=delete&p=" + data[0]);
-               } 
-               // else if($(this).data("type") == "password") {
-               //      window.location.replace("?c=" + controller + "&a=password&p=" + data[0]);
-               // } 
+               }               
                else if($(this).data("type") == "turn_off") {
                     window.location.replace("?c=" + controller + "&a=turn_off&p=" + data[0]);
                }
