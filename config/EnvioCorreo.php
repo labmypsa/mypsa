@@ -6,13 +6,13 @@ require 'Smtp.php';
 class EnvioCorreo{
 
 	public static function _enviocorreo($data){
-        $para=$data['email'];
+        //$para=$data['email'];
 		$alias= (isset($data['nombre'])) ? $data['nombre'] : '' ;		
 		$asunto=$data['asunto'];		
         $body=$data['body'];
 
 		/* ..................................... */
-		//$para="test@mypsa.com.mx";
+		$para="test@mypsa.com.mx";
 		//$alias="test";		
 		//$asunto="Mensaje de prueba";
 		//$body="<h1>Test 1 of PHPMailer html</h1><p>This is a test</p>";
