@@ -78,11 +78,11 @@ class EnvioCorreo{
 		if(!$mail->Send())
 		{
 		   //return "Error de envio: " . $mail->ErrorInfo;
-			return "error";
+			return false;
 		}
 		else
 		{
-		   return "exitoso";
+		   return true;
 		}      
 	}
 
