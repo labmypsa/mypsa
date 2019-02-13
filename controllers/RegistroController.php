@@ -49,7 +49,7 @@ class RegistroController {
 
         $data['asunto']="Registro de nuevo usuario";
                 
-        $retorno= true; //EnvioCorreo::_enviocorreo($data);                
+        $retorno=EnvioCorreo::_enviocorreo($data);                
         if ($retorno) {
             unset($data['empresa']);
             unset($data['sucursal']);
