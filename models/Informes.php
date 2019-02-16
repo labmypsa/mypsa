@@ -272,5 +272,7 @@ class Informes extends Model {
         return $this->rows;
     }
 
+    
+
 
 }

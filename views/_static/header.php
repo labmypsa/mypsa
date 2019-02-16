@@ -8,7 +8,7 @@
             <span class="sr-only">Toggle navigation</span>
         </a>
         <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav">            
 
             <?php if(Session::has('rol',['Técnicos'])){ ?>
                 <li class="dropdown notifications-menu">

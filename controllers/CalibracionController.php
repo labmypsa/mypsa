@@ -13,6 +13,7 @@ class CalibracionController {
         'acreditacion'=> new Acreditacion(),
         'informes'=> new Informes(),
         'sucursal' => new Sucursal(),
+        'periodo' => new Periodo(),
   		];
       $this->ext=$this->model['sucursal']->extension();    
       $this->sucursal= strtoupper(Session::get('sucursal')); 
@@ -30,6 +31,7 @@ class CalibracionController {
        if ($data['get'][0]['proceso']> 0) {
         $data['tecnico']= $this->model['usuario']->find_by(['activo'=>'1']);
         $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']); 
+        $data['periodo']=$this->model['periodo']->find_by();                      
         include view($this->name.'.read');
         }
         else{ redirect('?c=informes&a=proceso');}
@@ -48,7 +50,7 @@ class CalibracionController {
           'proceso' => 'toInt',
           'comentarios' => 'ucname',
           'calibrado' => 'toInt',
-          'acreditaciones_id' => 'toInt',
+          'acreditaciones_id' => 'toInt',          
           ]);
           $data['usuarios_calibracion_id'] = $_POST['usuarios_calibracion_id'];
           $data['usuarios_informe_id'] = $_POST['usuarios_calibracion_id'];
@@ -65,20 +67,30 @@ class CalibracionController {
               'fecha_calibracion' => 'required',
               'acreditaciones_id' => 'required|toInt',             
               'periodo_calibracion' => 'required|toInt',
+              'periodo_id'=>'toInt',
               'comentarios' => 'ucname',
             ]);
           $fechacal= $data['fecha_calibracion'];
-          $periodo= $data['periodo_calibracion'];
-          $data['fecha_vencimiento'] = date('Y-m-d', strtotime($fechacal . "+".$periodo." month"));           
-          $data['calibrado']= intval('1');
+          $periodocal= $data['periodo_calibracion'];
+          $periodo_id=$data['periodo_id'];
+          $dia_mes="";
 
-      }   
+          if ($periodo_id==1) {
+            $dia_mes="month";
+          }
+          else if ($periodo_id==2){
+            $dia_mes="days";
+          }          
+
+          $data['fecha_vencimiento'] = date('Y-m-d', strtotime($fechacal . "+".$periodocal." ".$dia_mes));           
+          $data['calibrado']= intval('1');
+      }     
       $proceso_temp = $data['proceso'];  
       if ($data['proceso'] === 1) {
         $data['proceso'] = intval('2');
         }
         
-         if ($this->model['informes']->find_by(['id' => $data['id']])){              
+         if ($this->model['informes']->find_by(['id' => $data['id']])){
               if ($this->model['informes']->update($data))  {
               // direccionarlo al siguiente proceso 
                 $roles_id= substr(Session::get('roles_id'),-1,1);                     

@@ -147,16 +147,47 @@
                                           </select>                                              
                                         </div>
                                       </div>
-                                      <div class="form-group">
+                                      <!-- <div class="form-group">
                                           <label class="col-sm-3 control-label">Vigencia:</label>
                                           <div class="col-sm-9">
-                                          <?php
-                                          if (strlen($data['get'][0]['periodo_calibracion']) > 0 ) {
-                                            echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" placeholder="0" min="0" value="'.$data['get'][0]['periodo_calibracion'] .'">';
-                                          }
-                                          else{ echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" placeholder="0" min="0">';}
+                                          <?php 
+                                          // if (strlen($data['get'][0]['periodo_calibracion']) > 0 ) {
+                                          //   echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" placeholder="0" min="0" value="'.$data['get'][0]['periodo_calibracion'] .'">';
+                                          // }
+                                          // else{ echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" placeholder="0" min="0">';}
                                           ?>
                                           </div>
+                                      </div> -->
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Vigencia (Mes/Día):</label>
+                                        <div class="col-sm-9">
+                                          <div class="input-group input">
+                                            <!-- /btn-group -->
+                                            <?php 
+                                              if (strlen($data['get'][0]['periodo_calibracion']) > 0 ) {
+                                                echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" placeholder="0" min="0" value="'.$data['get'][0]['periodo_calibracion'] .'">';
+                                              }
+                                              else{ echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" placeholder="0" min="0">';}
+                                            ?>
+
+                                            <div class="input-group-btn">
+                                              <?php 
+                                                echo  $data['periodo'];                                       
+                                                echo '<select name="periodo_id" id="periodo_id" class="form-control" style="width:100px">';
+                                                for ($i=0; $i < sizeof($data['periodo']); $i++) {
+                                                  $value=$data['periodo'][$i]['id'];
+                                                  if ($value === $data['get'][0]['periodo_id']) {
+                                                      echo '<option value="'. $data['periodo'][$i]['id'] .'" selected>'. $data['periodo'][$i]['nombre'] .'</option>';
+                                                  }
+                                                  else{
+                                                    echo '<option value="'. $data['periodo'][$i]['id'] .'">'. $data['periodo'][$i]['nombre'] .'</option>';
+                                                  }  
+                                                }                                              
+                                                echo '</select>';
+                                              ?>
+                                            </div>                                         
+                                          </div>
+                                        </div>  
                                       </div>                                                                        
                                       <div class="form-group">
                                         <label for="inputcomentario" class="col-sm-3 control-label">Comentarios :</label>
