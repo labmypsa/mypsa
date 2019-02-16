@@ -11,7 +11,7 @@
         <!-- iCheck for checkboxes and radio inputs -->
         <link rel="stylesheet" href="assets/plugins/iCheck/all.css">
         <link rel="stylesheet" href="assets/plugins/select2/select2.min.css"> 
-        <link rel="stylesheet" href="assets/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="assets/css/AdminLTE.min.css">        
         <link rel="stylesheet" href="assets/css/_all-skins.min.css">
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/plugins/datatables/dataTables.bootstrap.css">

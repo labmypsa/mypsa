@@ -4,7 +4,7 @@ class PO extends Model {
 
     function __construct() {    	   
         $this->primary_key  = 'id';
-         $this->model=[           
+        $this->model=[           
         'sucursal' => new Sucursal(),
         ];      
         $this->table = 'po'.$this->model['sucursal']->extension();

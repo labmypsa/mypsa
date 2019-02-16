@@ -11,22 +11,27 @@
                 <a href="#"><i class="fa fa-circle text-success"></i> En línea</a>
             </div>
         </div>
-<!--         <div class="sidebar-form">
-            <div class="input-group">
-                <input type="text" id="search" class="form-control" placeholder="Buscar..." required="" min="3">
-                <span class="input-group-btn">
+        <!-- <div class="sidebar-form">                             -->
+            <!-- <div class="input-group"> -->
+                <!-- <input type="text" id="search" class="form-control" placeholder="Buscar..." required="" min="3"> -->                
+                <!-- <span class="input-group-btn">
                     <a href="#" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></a>
-                </span>
-            </div>
-        </div> -->
+                </span> -->
+            <!-- </div> -->
+        <!-- </div> -->
         <ul class="sidebar-menu">
             <li class="header">MENÚ DE NAVEGACIÓN</li>
+            <li class="active treeview">
+                <a href='?c=reportes&a=pulso'>
+                   <i class="fa fa-dashboard"></i> <span>Pulso MyPSA</span>                    
+                </a>                
+            </li>
             <li class='treeview'>
                 <?php
                     if(Session::has('rol',['Administrador','Ingenieros','Almacén','Técnicos','Calidad'])){ 
                 echo "
                 <a href='#'>
-                    <i class='fa fa-edit'></i> <span>Bitacora</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                    <i class='fa fa-table'></i> <span>Bitacora</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                 </a>";
                 }?>
                 <ul class='treeview-menu'>
@@ -80,7 +85,7 @@
                 if(Session::has('rol',['Administrador','Ingenieros','Calidad']) || Session::has('email',['drodriguez@mypsa.com.mx'])){             
                     echo "<li class='treeview'>
                         <a href='#'>
-                            <i class='fa fa-edit'></i> <span>Reportes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                            <i class='fa fa-pie-chart'></i> <span>Reportes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                         </a>
                         <ul class='treeview-menu'>                
                             <li><a href='?c=reportes'><i class='fa fa-circle-o'></i>Técnicos</a></li>               

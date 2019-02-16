@@ -17,7 +17,8 @@
         <script src="assets/plugins/input-mask/jquery.inputmask.bundle.js"></script>
         <script src="assets/plugins/slimScroll/jquery.slimscroll.js"></script>
         <script src="assets/plugins/fastclick/fastclick.js"></script>
-        <script src="assets/js/app.js"></script>
+        <script src="assets/js/app.js"></script>        
+
         <script src="assets/js/demo.js"></script>
         <!-- Datatables -->
         <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>

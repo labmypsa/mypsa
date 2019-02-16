@@ -188,8 +188,7 @@ class ReportesController{
 		echo json_encode($table_rc);
     }  
 
-	public function get_url($data)
-	{
+	public function get_url($data){
 		$array = array(			
 			$data['calibraciones_id'],
 			$data['fecha_home'],
@@ -201,16 +200,14 @@ class ReportesController{
         return $tmp;
 	}
 
-	public function url_get($url_array)
-	{	
+	public function url_get($url_array){
 		$tmp = stripslashes($url_array);
 		$tmp = urldecode($tmp);
 		$tmp = unserialize($tmp);
 		return $tmp;
 	}
 
-	public function ajax_puente()
-	{
+	public function ajax_puente(){
 		$id= $_POST['var1'];
 		$url_array= $_POST['var2'];
 		$array = $this->url_get($url_array);
@@ -245,6 +242,9 @@ class ReportesController{
 	  	}			
 		include view($this->name.'.total_product');
 	}
-	
+
+	Public function pulso(){
+		include view($this->name.'.pulso');
+	}
 		
 }
